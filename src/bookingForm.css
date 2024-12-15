@@ -1,0 +1,102 @@
+/* Styling for the time slot container */
+.time-slot-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  margin: 10px;
+  gap: 10px; /* Optional: space between slots */
+}
+
+/* Wrapper to maintain consistent width */
+.time-slot-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%; /* Full width */
+}
+
+/* Styling for each time slot (both selected and unselected) */
+.time-slot-unselected,
+.time-slot-selected {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Set a fixed width for all time slots */
+  margin: 0 auto;
+  border-radius: 8px;
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.time-slot-unselected {
+  border: solid #3b82f6; /* Light blue border */
+  background-color: white;
+  border-width: 1px;
+}
+
+.time-slot-unselected:hover {
+  border-color: #3b82f6; /* Darker blue on hover */
+}
+
+/* Styling for the time text inside selected time slot */
+.time-box {
+  /* Gray background */
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+/* Styling for the next button */
+.next-button {
+  transform: translateX(100%); /* Start off-screen to the right */
+  opacity: 0; /* Initially invisible */
+  animation: slideIn 0.5s ease-in-out forwards; /* Slide in animation */
+  margin-left: 12px;
+}
+
+/* Keyframes for sliding in effect */
+@keyframes slideIn {
+  to {
+    transform: translateX(0); /* Final position */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+/* Styling for the "Next" button */
+.next-button button {
+  padding: 10px 28px;
+  font-size: 16px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  /* Adjust width for smaller screens */
+  .time-slot-unselected,
+  .time-slot-selected {
+    width: 100%; /* Full width for smaller screens */
+  }
+  .next-button button {
+    padding: 10px 28px;
+    font-size: 16px;
+    width: 100%;
+  }
+  .next-button {
+    width: 50%;
+  }
+
+  .time-box {
+    width: 50%;
+  }
+  .time-slot-wrapper {
+    flex-direction: column; /* Stack time slots vertically */
+  }
+}
+
+/* Larger screens (desktop) */
+@media (min-width: 768px) {
+  .time-slot-unselected,
+  .time-slot-selected {
+    width: 200px; /* Fixed width on larger screens */
+  }
+}
