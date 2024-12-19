@@ -335,32 +335,30 @@ export const Testing = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
-                  {availability[dayIndex].timeSlots.map(
-                    (slot: any, slotIndex) => (
-                      <div key={slotIndex} className="flex items-center gap-3">
-                        <div className="w-20 h-10   mt-4 text-center rounded-md font-light text-sm text-gray-600">
-                          <span className="font-bold text-gray-600 text-center">
-                            Unavailable
-                          </span>
-                        </div>
-                        <span className="font-bold text-gray-50 text-center">
-                          -
+                  {availability[dayIndex].timeSlots.map((_: any, slotIndex) => (
+                    <div key={slotIndex} className="flex items-center gap-3">
+                      {}
+                      <div className="w-20 h-10   mt-4 text-center rounded-md font-light text-sm text-gray-600">
+                        <span className="font-bold text-gray-600 text-center">
+                          Unavailable
                         </span>
-
-                        <div className="w-20 h-10 text-center rounded-md font-light text-sm text-gray-600"></div>
-
-                        {/* Remove button for non-first time slots */}
-                        {slotIndex > 0 && (
-                          <button
-                            className="text-gray-600 hover:text-red-700"
-                            onClick={() => removeTimeSlot(dayIndex, slotIndex)}
-                          >
-                            <XIcon size={16} />
-                          </button>
-                        )}
                       </div>
-                    )
-                  )}
+                      <span className="font-bold text-gray-50 text-center">
+                        -
+                      </span>
+                      <div className="w-20 h-10 text-center rounded-md font-light text-sm text-gray-600"></div>
+
+                      {/* Remove button for non-first time slots */}
+                      {slotIndex > 0 && (
+                        <button
+                          className="text-gray-600 hover:text-red-700"
+                          onClick={() => removeTimeSlot(dayIndex, slotIndex)}
+                        >
+                          <XIcon size={16} />
+                        </button>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
 
