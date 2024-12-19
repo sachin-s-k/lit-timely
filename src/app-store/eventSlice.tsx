@@ -10,7 +10,7 @@ const eventSlice = createSlice({
     addEventData: (state, action) => {
       state.eventData = action.payload;
     },
-    clearEventData: (state, action) => {
+    clearEventData: (state, action: any) => {
       console.log("called");
       state.eventData = [];
     },

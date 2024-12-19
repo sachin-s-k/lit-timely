@@ -6,12 +6,12 @@ const AuthSlice = createSlice({
     userData: null,
   },
   reducers: {
-    addUserData: (state, action) => {
+    addUserData: (state, action: any) => {
       console.log("called");
 
       state.userData = action.payload;
     },
-    clearUserData: (state, action) => {
+    clearUserData: (state, action: any) => {
       state.userData = null;
     },
   },

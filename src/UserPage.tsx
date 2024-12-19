@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "./components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import axios from "axios";
+
 import { axiosInstance } from "./config/http";
 import EventCard from "./EventCard";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Header from "./Header";
-import { addEventData } from "./app-store/eventSlice";
 
 const UserPage = () => {
   const [events, setEvents] = useState([]); // State to store events

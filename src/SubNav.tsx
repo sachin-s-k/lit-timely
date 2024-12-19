@@ -48,8 +48,8 @@ const SubNav = () => {
     Cookies.remove("authToken");
 
     // Clear user data from Redux
-    dispatch(clearUserData(null));
-    dispatch(clearEventData(null));
+    dispatch(clearUserData(null as any));
+    dispatch(clearEventData(null as any));
     // Redirect to the login page
     navigate("/");
   };
