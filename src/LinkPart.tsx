@@ -14,16 +14,17 @@ const LinkPart = () => {
             </div>
             <div className="">
               <div>
-                <span className="text-gray-600 text-md font-semibold">
-                  Your URL
+                <span className="text-gray-600 text-sm font-light font-sans">
+                  {userData.firstName + " " + userData.lastName}
                 </span>
               </div>
               <div>
                 <a
-                  href="https://calendly.com/sacghib"
+                  href={`/${userData?.personalUrl}`}
                   className="text-blue-500 text-sm underline"
+                  target="_blank"
                 >
-                  {`${API_URL}/${userData?.personalUrl}`}
+                  {`http://localhost:5173/${userData?.personalUrl}`}
                 </a>
               </div>
             </div>

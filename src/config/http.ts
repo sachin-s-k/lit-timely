@@ -11,6 +11,8 @@ axiosInstance.interceptors.request.use(
 
     // Fetch the token from cookies
     const authToken = Cookies.get("authToken");
+    console.log(authToken, "authhhh");
+
     if (authToken) {
       if (config.headers) {
         config.headers.token = authToken; // Attach the token to the headers

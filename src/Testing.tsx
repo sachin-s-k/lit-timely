@@ -253,6 +253,7 @@
 // export default Testing
 import { Copy, Plus, XIcon } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import { axiosInstance } from "./config/http";
 
 // Regular expression for time validation (12-hour format without space between time and am/pm)
 const timeFormatRegex = /^(0?[1-9]|1[0-2]):([0-5][0-9])(am|pm)$/;
@@ -362,7 +363,7 @@ export const Testing = () => {
       .fill(null)
       .map(() => ({
         isAvailable: true,
-        timeSlots: [{ start: "", end: "" }],
+        timeSlots: [{ start: "9:00am", end: "5:00pm" }],
         errors: { start: "", end: "" }, // Track errors for each day's time slots
       }))
   );
@@ -455,9 +456,22 @@ export const Testing = () => {
     setAvailability(updatedAvailability); // Update state
   };
 
+  const createAvailavility = async () => {
+    console.log("availa");
+
+    const response = await axiosInstance.post("/events/availability", {
+      availability: availability,
+    });
+    if (response.data.status) {
+      console.log("updated  successfully");
+    } else {
+      console.log("there is an error in updation");
+    }
+  };
+
   useEffect(() => {
     console.log(availability);
-  }, [availability]);
+  }, []);
 
   return (
     <>
@@ -623,6 +637,18 @@ export const Testing = () => {
             </div>
           </div>
         ))}
+        <div className="ml-40">
+          <div>
+            <button
+              onClick={() => {
+                createAvailavility();
+              }}
+              className="px-12 bg-blue-500 rounded-md py-2 text-white hover:bg-blue-600"
+            >
+              Update
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );

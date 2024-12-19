@@ -30,15 +30,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearUserData } from "./app-store/registerSlice";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { clearEventData } from "./app-store/eventSlice";
 
 const SubNav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const userData = useSelector((state: any) => state.registration.userData);
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleLogOut = () => {
@@ -47,7 +49,7 @@ const SubNav = () => {
 
     // Clear user data from Redux
     dispatch(clearUserData(null));
-
+    dispatch(clearEventData(null));
     // Redirect to the login page
     navigate("/");
   };
@@ -56,7 +58,9 @@ const SubNav = () => {
       <div className="flex gap-2 items-center ">
         <div></div>
         <div className="w-10 h-10 flex justify-center items-center  rounded-full bg-gray-300">
-          <span className="text-gray-700 font-medium">S</span>
+          <span className="text-gray-700 font-medium">
+            {userData?.firstName?.charAt(0).toUpperCase()}
+          </span>
         </div>
 
         <DropdownMenu>

@@ -68,10 +68,13 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/booking-page" element={<EventDetails />} />
-          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/:id/:eventName" element={<EventDetails />} />
+          <Route path="/:id/:eventName/booking" element={<BookingPage />} />
+
           <Route path="/test" element={<TestForm />} />
-          <Route path="/user" element={<UserPage />} />
+          <Route path="/:id" element={<UserPage />} />
+          <Route path="/auth/:id" element={<GoogleOAuthPage />} />
+          <Route path="/events-page/success" element={<Success />} />
           {/*
           <Route path="/Sign-up" element={<SignUp />} />
          

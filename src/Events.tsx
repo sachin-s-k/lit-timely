@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import SubNav from "./SubNav";
 import LinkPart from "./LinkPart";
 import EventCard from "./EventCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "./config/http";
 import { Plus } from "lucide-react";
+import { effectAdd } from "./app-store/eventSlice";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +17,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Label } from "./components/ui/label";
 import { Button } from "./components/ui/button";
 import * as Yup from "yup";
+import { addEventData } from "./app-store/eventSlice";
 
 // Yup Validation Schema
 const validationSchema = Yup.object({
@@ -33,13 +35,51 @@ const validationSchema = Yup.object({
     .required("Event Privacy is required"),
 });
 const Events = () => {
+  const effectData = useSelector((state: any) => state.event.effectState);
+  const dispatch = useDispatch();
   const userData = useSelector((state: any) => state.registration.userData);
+  const eventData = useSelector((state: any) => state.event.eventData);
+  console.log(eventData, "event");
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
+  const [isSubmittings, setIsSubmitting] = useState(false);
   const [events, setEvents] = useState([]); // State to store events
 
+  const handleSubmit = async (values: any) => {
+    dispatch(effectAdd(false));
+    setIsSubmitting(true);
+    try {
+      // Send data to backend using Axios
+      const response = await axiosInstance.post("/events", values);
+      console.log("Event created successfully:", response.data.data);
+      //dispatch(addEventData(response.data.data));
+      // Close the modal after successful creation
+      setIsModalOpen(false);
+      setErrorMessage(null);
+      setIsSubmitting(false);
+      dispatch(effectAdd(true));
+
+      // Clear error message if event creation was successful
+    } catch (error) {
+      console.error("Error creating event:", error);
+      setIsSubmitting(false);
+      // Set the error message to be displayed in the modal
+      setErrorMessage(
+        "An error occurred while creating the event. Please try again."
+      );
+    }
+  };
+
   useEffect(() => {
+    console.log("called");
+
     const fetchEvents = async () => {
       try {
-        const response = await axiosInstance.post("/events");
+        const response = await axiosInstance.get(
+          `/events/${userData.personalUrl}`
+        );
+        dispatch(addEventData(response.data.data));
+
         //setEvents(response.data); // Assuming the response contains event data
         console.log(response, "eree");
       } catch (error) {
@@ -47,11 +87,11 @@ const Events = () => {
       }
     };
     fetchEvents();
-  }, []);
+  }, [effectData]);
 
   return (
     <div>
-      {events.length === 0 ? (
+      {eventData.length === 0 ? (
         // Centered content when no events exist
         <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] text-center">
           <img
@@ -70,7 +110,7 @@ const Events = () => {
             customer calls, office hours, and more.
           </p>
 
-          <Dialog>
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogTrigger asChild>
               <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500">
                 <span className="flex gap-1 text-sm">
@@ -93,6 +133,7 @@ const Events = () => {
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
                   console.log(values);
+                  handleSubmit(values);
                 }}
               >
                 {({ setFieldValue, errors, touched, isSubmitting }) => (
@@ -199,24 +240,26 @@ const Events = () => {
       ) : (
         // Main content if events exist
         <>
-          <div className="flex justify-between">
-            <header className="flex justify-between items-center mb-6">
-              <h1 className="text-3xl font-bold text-gray-800">
-                Welcome, {userData?.firstName}
-              </h1>
-            </header>
-          </div>
-          <div>
-            {/* Add your main content here */}
-            <p className="text-gray-700 font-extrabold text-lg">
-              Create your events,
-            </p>
-          </div>
-          <LinkPart />
-          <div className="grid md:grid-cols-3 gap-3">
-            {events?.map((event, index) => (
-              <EventCard key={index} event={event} />
-            ))}
+          <div className="mt-16">
+            <div className="flex justify-between">
+              <header className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl font-bold text-gray-800">
+                  Welcome, {userData?.firstName}
+                </h1>
+              </header>
+            </div>
+            <div>
+              {/* Add your main content here */}
+              <p className="text-gray-500 font-semibold text-lg">
+                Create your events,
+              </p>
+            </div>
+            <LinkPart />
+            <div className="grid md:grid-cols-3 gap-3">
+              {eventData?.map((event, index) => (
+                <EventCard key={index} event={event} isPublicPage={false} />
+              ))}
+            </div>
           </div>
         </>
       )}

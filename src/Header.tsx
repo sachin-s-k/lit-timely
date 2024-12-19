@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Cookies from "js-cookie";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button } from "../src/components/ui/button";
 import {
   Dialog,
@@ -15,28 +13,19 @@ import * as Yup from "yup";
 import { Label } from "./components/ui/label";
 import { Mail, Lock, Phone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "./constants";
 import { axiosInstance } from "./config/http";
 import { addUserData } from "./app-store/registerSlice";
+import Cookies from "js-cookie";
 
 // Function to evaluate password strength
-const evaluatePasswordStrength = (password) => {
+const evaluatePasswordStrength = (password: string): number => {
   let strength = 0;
 
-  // Check length
   if (password.length >= 6) strength++;
   if (password.length >= 8) strength++;
-
-  // Check for lowercase letters
   if (/[a-z]/.test(password)) strength++;
-
-  // Check for uppercase letters
   if (/[A-Z]/.test(password)) strength++;
-
-  // Check for numbers
   if (/\d/.test(password)) strength++;
-
-  // Check for special characters
   if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
 
   return strength;
@@ -48,28 +37,45 @@ const Header = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
-
-  const handleSubmit = async (values: any) => {
+  const validateEmailWithServer = async (email: string) => {
     try {
-      // dispatch(addUserData(values));
-      // navigate("/events");
+      const response = await axiosInstance.post("/check", { email });
+      return response.data.isValid; // Expecting `isValid` in the response
+    } catch (error) {
+      console.error("Error validating email:", error);
+      return false;
+    }
+  };
+
+  const handleSubmit = async (values: any, { setErrors }: any) => {
+    try {
       const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
       const response = await axiosInstance.post(endpoint, values);
 
       if (response.data) {
-        console.log(response.data.userData, "userrrrrrrDataaatat");
-
-        localStorage.setItem("authToken", response.data.data.token);
-        Cookies.set("authToken", response.data.data.token, { expires: 1 / 12 });
-        console.log("Token stored:", response.data);
+        Cookies.set("authToken", response.data.data.token);
         dispatch(addUserData(response.data.data.userData));
-
         navigate("/events/user");
-      } else {
-        console.error("No token received:", response.data);
+
+        //navigate("/events/user");
       }
-    } catch (error) {
-      console.error("Error during authentication:", error);
+    } catch (error: any) {
+      if (error.response) {
+        if (error.response.data.message === "Invalid credentials") {
+          setErrors({
+            email: "This email is not registered with us.",
+            password: "Password is incorrect.",
+          });
+        } else {
+          setErrors({
+            email: "An error occurred. Please try again.",
+          });
+        }
+      } else {
+        setErrors({
+          email: "An error occurred. Please try again.",
+        });
+      }
     }
   };
 
@@ -125,7 +131,6 @@ const Header = () => {
                   mobile: "",
                 }}
                 validationSchema={Yup.object({
-                  // Conditionally apply validation based on the isSignUp state
                   firstName: isSignUp
                     ? Yup.string().required("First Name is required")
                     : Yup.string(),
@@ -153,18 +158,12 @@ const Header = () => {
                         .oneOf([Yup.ref("password")], "Passwords must match")
                         .required("Confirm Password is required")
                     : Yup.string(),
-                  mobile: isSignUp
-                    ? Yup.string()
-                        .matches(/^[0-9]{10}$/, "Invalid mobile number")
-                        .required("Mobile number is required")
-                    : Yup.string(),
                 })}
                 onSubmit={handleSubmit}
               >
                 {({ errors, touched, isSubmitting, setFieldValue }) => (
                   <Form>
                     <div className="space-y-3 py-4">
-                      {/* First Name and Last Name */}
                       {isSignUp && (
                         <div className="grid grid-cols-2 gap-4">
                           <div>
@@ -198,7 +197,6 @@ const Header = () => {
                         </div>
                       )}
 
-                      {/* Email */}
                       <div className="relative flex items-center">
                         <Mail className="absolute left-3 w-5 h-5 text-gray-500" />
                         <Field
@@ -207,18 +205,39 @@ const Header = () => {
                           type="email"
                           placeholder="Email"
                           className="pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
-                        />
-                      </div>
-                      <div>
-                        <ErrorMessage
-                          name="email"
-                          component="div"
-                          className="text-red-500 text-xs "
-                        />
-                      </div>
+                          onBlur={async (e: any) => {
+                            const email = e.target.value;
 
-                      {/* Mobile Number (only for Sign-Up) */}
-                      {isSignUp && (
+                            // Check domain with regex
+                            if (
+                              !/^[a-zA-Z0-9._%+-]+@litschool\.in$/.test(email)
+                            ) {
+                              alert(
+                                "Sorry, this mail is not registered with us."
+                              );
+
+                              return;
+                            }
+
+                            // Validate with the server
+                            const isValid = await validateEmailWithServer(
+                              email
+                            );
+                            if (!isValid) {
+                              // alert(
+                              //   "This email does not exist in our records."
+                              // );
+                            }
+                          }}
+                        />
+                      </div>
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-red-500 text-xs"
+                      />
+
+                      {/* {isSignUp && (
                         <>
                           <div className="relative flex items-center">
                             <Phone className="absolute left-3 w-5 h-5 text-gray-500" />
@@ -238,9 +257,8 @@ const Header = () => {
                             />
                           </div>
                         </>
-                      )}
+                      )} */}
 
-                      {/* Password */}
                       <div className="relative flex items-center">
                         <Lock className="absolute left-3 w-5 h-5 text-gray-500" />
                         <Field
@@ -249,23 +267,21 @@ const Header = () => {
                           type="password"
                           placeholder="Password"
                           className="pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
-                          onChange={(e) => {
-                            const password = e.target.value;
-                            setFieldValue("password", password);
+                          onChange={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setFieldValue("password", e.target.value);
                             setPasswordStrength(
-                              evaluatePasswordStrength(password)
-                            ); // Update password strength
+                              evaluatePasswordStrength(e.target.value)
+                            );
                           }}
                         />
                       </div>
-
-                      <div>
-                        <ErrorMessage
-                          name="password"
-                          component="div"
-                          className="text-red-500 text-xs "
-                        />
-                      </div>
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="text-red-500 text-xs"
+                      />
 
                       {/* Password Strength Indicator */}
                       {passwordStrength >= 1 && isSignUp && (
@@ -288,9 +304,7 @@ const Header = () => {
                           ></div>
                           {passwordStrength >= 1 && (
                             <div className="text-xs text-gray-500 mt-1">
-                              {passwordStrength === 0
-                                ? ""
-                                : passwordStrength <= 1
+                              {passwordStrength <= 1
                                 ? "Weak"
                                 : passwordStrength === 3
                                 ? "Medium"
@@ -302,7 +316,6 @@ const Header = () => {
                         </div>
                       )}
 
-                      {/* Confirm Password (only for Sign-Up) */}
                       {isSignUp && (
                         <>
                           <div className="relative flex items-center">
@@ -319,14 +332,13 @@ const Header = () => {
                             <ErrorMessage
                               name="confirmPassword"
                               component="div"
-                              className="text-red-500 text-xs "
+                              className="text-red-500 text-xs"
                             />
                           </div>
                         </>
                       )}
                     </div>
 
-                    {/* Submit Button */}
                     <DialogFooter className="flex items-center justify-center py-4">
                       <Button
                         type="submit"

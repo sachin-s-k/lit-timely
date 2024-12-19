@@ -4,7 +4,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { combineReducers } from "redux";
 import registerSlice from "./registerSlice";
-import eventSlice from "./evntSlice";
+import eventSlice from "./eventSlice";
 //import itemReducer from "./itemSlice";
 
 // 1. Configure the persist config for your reducers
