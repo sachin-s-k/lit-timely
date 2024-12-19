@@ -546,7 +546,7 @@
 
 // export default BookingPage;
 import { ThreeDots } from "react-loader-spinner";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ArrowLeft, Calendar, Clock, Globe2 } from "lucide-react";
@@ -561,17 +561,17 @@ const BookingPage = () => {
   const [searchParams] = useSearchParams();
   console.log(searchParams, "searchParms");
 
-  const { id, eventName } = useParams();
+  const { id } = useParams();
   const eventId = searchParams.get("eventId");
   const userId = searchParams.get("userId");
 
-  const [eventData, setEventData] = useState({});
-  const [userData, setUserData] = useState({});
+  const [eventData, setEventData] = useState({} as any);
+  const [userData, setUserData] = useState({} as any);
 
   const startTime = searchParams.get("startTime");
   const endTime = searchParams.get("endTime");
   const date = searchParams.get("date");
-  const parsedDate = new Date(date);
+  const parsedDate = new Date(date as any);
   const fullDate = format(parsedDate, "EEEE, MMMM dd, yyyy");
 
   useEffect(() => {

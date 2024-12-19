@@ -11,7 +11,7 @@ import {
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Label } from "./components/ui/label";
-import { Mail, Lock, Phone } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "./config/http";
 import { addUserData } from "./app-store/registerSlice";
@@ -161,7 +161,7 @@ const Header = () => {
                 })}
                 onSubmit={handleSubmit}
               >
-                {({ errors, touched, isSubmitting, setFieldValue }) => (
+                {({ isSubmitting, setFieldValue }) => (
                   <Form>
                     <div className="space-y-3 py-4">
                       {isSignUp && (

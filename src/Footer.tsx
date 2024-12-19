@@ -81,7 +81,7 @@ const Footer = () => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
-                  class="social__links--icon"
+                  className="social__links--icon"
                   data-v-db4b02a6=""
                 >
                   <path

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import SubNav from "./SubNav";
+import { useEffect, useState } from "react";
 import LinkPart from "./LinkPart";
 import EventCard from "./EventCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,7 +42,8 @@ const Events = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
   const [isSubmittings, setIsSubmitting] = useState(false);
-  const [events, setEvents] = useState([]); // State to store events
+  //const [events, setEvents] = useState([]); // State to store events
+  console.log(errorMessage, isSubmittings);
 
   const handleSubmit = async (values: any) => {
     dispatch(effectAdd(false));
@@ -136,7 +136,7 @@ const Events = () => {
                   handleSubmit(values);
                 }}
               >
-                {({ setFieldValue, errors, touched, isSubmitting }) => (
+                {({ isSubmitting }: any) => (
                   <Form>
                     <div className="grid gap-4 py-4">
                       {/* Event Title */}
@@ -256,7 +256,7 @@ const Events = () => {
             </div>
             <LinkPart />
             <div className="grid md:grid-cols-3 gap-3">
-              {eventData?.map((event, index) => (
+              {eventData?.map((event: any, index: any) => (
                 <EventCard key={index} event={event} isPublicPage={false} />
               ))}
             </div>

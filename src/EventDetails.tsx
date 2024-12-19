@@ -1,4 +1,4 @@
-import { Calendar, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { Avatar, AvatarImage } from "./components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 
@@ -14,12 +14,12 @@ const EventDetails = () => {
 
   console.log(searchParams, "sear");
   const [availability, setAvailability] = useState([]);
-  const email = searchParams.get("email");
-  const userId = searchParams.get("userId");
-  const name = searchParams.get("name");
+  // const email = searchParams.get("email");
+  // const userId = searchParams.get("userId");
+  // const name = searchParams.get("name");
   const eventId = searchParams.get("eventId");
-  const [eventData, setEventData] = useState({});
-  const [userData, setUserData] = useState({});
+  const [eventData, setEventData] = useState({} as any);
+  const [userData, setUserData] = useState({} as any);
   const navigate = useNavigate();
   useEffect(() => {
     const fetchEventData = async () => {
@@ -38,9 +38,9 @@ const EventDetails = () => {
     fetchEventData();
   }, []);
 
-  const handlingTimeEvents = (selectedDate, startTime) => {
+  const handlingTimeEvents = (selectedDate: any, startTime: any) => {
     console.log("callled time page");
-    function calculateEndTime(dateString, startTime, duration) {
+    function calculateEndTime(dateString: any, startTime: any, duration: any) {
       // Parse the start date and time
       const startDateTime = parse(startTime, "hh:mm a", new Date(dateString));
 

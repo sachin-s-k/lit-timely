@@ -1,26 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import "./BookingForm.css"; // Include the custom CSS for animations
-import { useNavigate } from "react-router-dom";
-import {
-  addDays,
-  addMinutes,
-  endOfDay,
-  format,
-  isBefore,
-  parseISO,
-  startOfDay,
-} from "date-fns";
 
-export const BookingForm = ({ handlingTimeEvents, availabilityArray }) => {
+import { format } from "date-fns";
+
+export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
-  const [click, setClick] = useState(false);
+  // const [click, setClick] = useState(false);
 
-  const startDate = startOfDay(new Date());
-  const endDate = addDays(startDate, 30);
-  const availability: any = [];
+  // const startDate:any = startOfDay(new Date());
+  // const endDate:any = addDays(startDate, 30);
+  // const availability: any = [];
 
   // const availableDates = [];
   // for (let date = startDate; date <= endDate; date = addDays(startDate, 1)) {
@@ -445,28 +437,28 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }) => {
   // ];
   const availabilities = availabilityArray;
 
-  const availableDays = availabilities.map((day) => new Date(day.date));
+  const availableDays = availabilities.map((day: any) => new Date(day.date));
 
   const timeSlots = selectedDate
     ? availabilities.find(
-        (day) => day.date === format(selectedDate, "yyyy-MM-dd")
+        (day: any) => day.date === format(selectedDate, "yyyy-MM-dd")
       )?.slots || []
     : [];
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   {
     console.log(
       selectedDate,
       "selectedDate",
-      format(selectedDate, "yyyy-MM-dd")
+      format(selectedDate as any, "yyyy-MM-dd")
     );
   }
   return (
     <div className="border rounded-r-lg  overflow-y-scroll h-screen">
       <div
         className="m-4 mb-2 ml-2"
-        onClick={() => {
-          setClick(true);
-        }}
+        // onClick={() => {
+        //   setClick(true);
+        // }}
       >
         <span className="font-bold text-gray-600 text-lg">
           Select Date & Time
@@ -487,9 +479,9 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }) => {
               selected: "rounded-full text-blue-600 bg-blue-800",
               today: "text-blue-600 rounded-full",
             }}
-            selected={selectedDate}
+            selected={selectedDate as any}
             onSelect={(date) => {
-              setSelectedDate(date);
+              setSelectedDate(date as any);
               setSelectedTime(null); // Reset selected time when date changes
             }}
             disabled={[{ before: new Date() }]}
@@ -511,7 +503,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }) => {
             <div className="p-4">
               <span className="font-semibold text-gray-600">
                 {selectedDate
-                  ? selectedDate.toLocaleDateString("en-US", {
+                  ? (selectedDate as any).toLocaleDateString("en-US", {
                       weekday: "long",
                       month: "long",
                       day: "numeric",
@@ -522,7 +514,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }) => {
 
             {/* Scrollable Time Slot Container */}
             <div className="time-slot-list">
-              {timeSlots.map((time, index) => (
+              {timeSlots.map((time: any, index: any) => (
                 <div key={index} className="time-slot-wrapper">
                   {selectedTime === time ? (
                     // Render the selected time slot with "Next" button

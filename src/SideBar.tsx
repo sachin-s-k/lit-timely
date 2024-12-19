@@ -1,30 +1,14 @@
 import { Calendar, Clock, Link } from "lucide-react";
-import { Plus } from "lucide-react";
-import EventCard from "./EventCard";
-import LinkPart from "./LinkPart";
-import SubNav from "./SubNav";
-import { DropDown } from "./DropDown";
-import CreateEvent from "./CreateEvent";
-import { Button } from "./components/ui/button";
-import axios from "axios";
 
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import SubNav from "./SubNav";
+
+import { Button } from "./components/ui/button";
 
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
@@ -49,15 +33,14 @@ const validationSchema = Yup.object({
 
 import { Label } from "./components/ui/label";
 import Events from "./Events";
-import Availabilty from "./Availabilty";
-import Test from "./Test";
+
 import Testing from "./Testing";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Check } from "./check";
+import { useState } from "react";
+
 import { axiosInstance } from "./config/http";
 import { useDispatch } from "react-redux";
-import { addEventData, effectAdd } from "./app-store/eventSlice";
+import { effectAdd } from "./app-store/eventSlice";
 
 // Navigation items for sidebar
 const navItems = [
@@ -87,10 +70,10 @@ const SideBar = () => {
       setTabItem(tab);
     }
   };
-  const [effect, setEffect] = useState(false);
-  useEffect(() => {
-    console.log("set effectttt");
-  }, [effect]);
+  //const [effect, setEffect] = useState(false);
+  // useEffect(() => {
+  //   console.log("set effectttt");
+  // }, [effect]);
 
   const handleSubmit = async (values: any) => {
     dispatch(effectAdd(false));

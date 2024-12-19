@@ -8,28 +8,23 @@ import {
 } from "../src/components/ui/card";
 import { Button } from "../src/components/ui/button";
 import { Link, Trash2 } from "lucide-react";
-import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from "../src/components/ui/avatar";
 
 // Assuming you have an Avatar component
-const bookedPersons = [
-  { name: "Alice", avatar: "https://i.pravatar.cc/150?img=1" },
-  { name: "Bob", avatar: "https://i.pravatar.cc/150?img=2" },
-  { name: "Charlie", avatar: "https://i.pravatar.cc/150?img=3" },
-  { name: "Daisy", avatar: "https://i.pravatar.cc/150?img=4" },
-  { name: "Eve", avatar: "https://i.pravatar.cc/150?img=5" },
-];
+// const bookedPersons = [
+//   { name: "Alice", avatar: "https://i.pravatar.cc/150?img=1" },
+//   { name: "Bob", avatar: "https://i.pravatar.cc/150?img=2" },
+//   { name: "Charlie", avatar: "https://i.pravatar.cc/150?img=3" },
+//   { name: "Daisy", avatar: "https://i.pravatar.cc/150?img=4" },
+//   { name: "Eve", avatar: "https://i.pravatar.cc/150?img=5" },
+// ];
 
 const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
   console.log(event, "evntt");
 
-  const bookingPercentage = Math.min(
-    (event?.bookings / event.maxBookings) * 100,
-    100
-  );
+  // const bookingPercentage = Math.min(
+  //   (event?.bookings / event.maxBookings) * 100,
+  //   100
+  // );
 
   return (
     <Card

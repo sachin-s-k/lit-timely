@@ -15,7 +15,6 @@ import {
   Users,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,7 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function DropDown({ isOpen, onClose }) {
+export function DropDown({ isOpen, onClose }: any) {
   return (
     <DropdownMenu open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DropdownMenuTrigger asChild></DropdownMenuTrigger>
