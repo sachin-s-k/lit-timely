@@ -12,7 +12,7 @@ const eventSlice = createSlice({
     },
     clearEventData: (state, action: any) => {
       console.log("called");
-      state.eventData = [];
+      state.eventData = action.payload;
     },
     effectAdd: (state, action) => {
       state.effectState = action.payload;

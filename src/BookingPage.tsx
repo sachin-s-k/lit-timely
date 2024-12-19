@@ -79,33 +79,33 @@ const BookingPage = () => {
 
       const handlingSlotBooking = async () => {
         setIsSubmitting(true);
-        // try {
-        //   const response = await axiosInstance.post("/events/booking-slot", {
-        //     ...values,
-        //     eventId,
-        //     startTime,
-        //     endTime,
-        //     id,
-        //     date,
-        //     userId,
-        //   });
-        //   console.log(response.data, "sucessspage respose");
-        //   navigate(
-        //     `/events-page/success?startTime=${
-        //       response.data.booking.startTime
-        //     }&endTime=${response.data.booking.endTime}&date=${
-        //       response.data.booking.date
-        //     }&eventName=${response.data.booking.eventName}&fullname=${
-        //       response.data.booking.ownerfirstName +
-        //       " " +
-        //       response.data.booking.ownerlastName
-        //     }`
-        //   );
-        // } catch (error) {
-        //   console.error("Error booking slot", error);
-        // } finally {
-        //   setIsSubmitting(false);
-        // }
+        try {
+          const response = await axiosInstance.post("/events/booking-slot", {
+            ...values,
+            eventId,
+            startTime,
+            endTime,
+            id,
+            date,
+            userId,
+          });
+          console.log(response.data, "sucessspage respose");
+          navigate(
+            `/events-page/success?startTime=${
+              response.data.booking.startTime
+            }&endTime=${response.data.booking.endTime}&date=${
+              response.data.booking.date
+            }&eventName=${response.data.booking.eventName}&fullname=${
+              response.data.booking.ownerfirstName +
+              " " +
+              response.data.booking.ownerlastName
+            }`
+          );
+        } catch (error) {
+          console.error("Error booking slot", error);
+        } finally {
+          setIsSubmitting(false);
+        }
       };
 
       handlingSlotBooking();

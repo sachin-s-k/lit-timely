@@ -42,6 +42,7 @@ const SubNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const userData = useSelector((state: any) => state.registration.userData);
   const toggleDropdown = () => setIsOpen((prev) => !prev);
+  console.log(isOpen);
 
   const handleLogOut = () => {
     // Clear the authentication cookie

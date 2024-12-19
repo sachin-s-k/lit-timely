@@ -12,7 +12,7 @@ const AuthSlice = createSlice({
       state.userData = action.payload;
     },
     clearUserData: (state, action: any) => {
-      state.userData = null;
+      state.userData = action.payload;
     },
   },
 });
