@@ -101,7 +101,7 @@ const TimeSelector = () => {
   ];
   const [selectedTime, setSelectedTime] = useState("");
 
-  const handleTimeSlotClick = (time) => {
+  const handleTimeSlotClick = (time: any) => {
     setSelectedTime(time);
   };
 

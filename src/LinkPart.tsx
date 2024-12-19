@@ -1,6 +1,6 @@
 import { Plus, Settings } from "lucide-react";
 import { useSelector } from "react-redux";
-import { API_URL } from "./constants";
+
 const LinkPart = () => {
   const userData = useSelector((state: any) => state.registration.userData);
   return (

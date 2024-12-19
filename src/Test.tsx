@@ -440,107 +440,107 @@
 
 // export default Test;
 import { Copy, Plus, XIcon } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export const Test = () => {
-  const timeSlots: any = [
-    "12:00 AM",
-    "12:15 AM",
-    "12:30 AM",
-    "12:45 AM",
-    "01:00 AM",
-    "01:15 AM",
-    "01:30 AM",
-    "01:45 AM",
-    "02:00 AM",
-    "02:15 AM",
-    "02:30 AM",
-    "02:45 AM",
-    "03:00 AM",
-    "03:15 AM",
-    "03:30 AM",
-    "03:45 AM",
-    "04:00 AM",
-    "04:15 AM",
-    "04:30 AM",
-    "04:45 AM",
-    "05:00 AM",
-    "05:15 AM",
-    "05:30 AM",
-    "05:45 AM",
-    "06:00 AM",
-    "06:15 AM",
-    "06:30 AM",
-    "06:45 AM",
-    "07:00 AM",
-    "07:15 AM",
-    "07:30 AM",
-    "07:45 AM",
-    "08:00 AM",
-    "08:15 AM",
-    "08:30 AM",
-    "08:45 AM",
-    "09:00 AM",
-    "09:15 AM",
-    "09:30 AM",
-    "09:45 AM",
-    "10:00 AM",
-    "10:15 AM",
-    "10:30 AM",
-    "10:45 AM",
-    "11:00 AM",
-    "11:15 AM",
-    "11:30 AM",
-    "11:45 AM",
-    "12:00 PM",
-    "12:15 PM",
-    "12:30 PM",
-    "12:45 PM",
-    "01:00 PM",
-    "01:15 PM",
-    "01:30 PM",
-    "01:45 PM",
-    "02:00 PM",
-    "02:15 PM",
-    "02:30 PM",
-    "02:45 PM",
-    "03:00 PM",
-    "03:15 PM",
-    "03:30 PM",
-    "03:45 PM",
-    "04:00 PM",
-    "04:15 PM",
-    "04:30 PM",
-    "04:45 PM",
-    "05:00 PM",
-    "05:15 PM",
-    "05:30 PM",
-    "05:45 PM",
-    "06:00 PM",
-    "06:15 PM",
-    "06:30 PM",
-    "06:45 PM",
-    "07:00 PM",
-    "07:15 PM",
-    "07:30 PM",
-    "07:45 PM",
-    "08:00 PM",
-    "08:15 PM",
-    "08:30 PM",
-    "08:45 PM",
-    "09:00 PM",
-    "09:15 PM",
-    "09:30 PM",
-    "09:45 PM",
-    "10:00 PM",
-    "10:15 PM",
-    "10:30 PM",
-    "10:45 PM",
-    "11:00 PM",
-    "11:15 PM",
-    "11:30 PM",
-    "11:45 PM",
-  ];
+  // const timeSlots: any = [
+  //   "12:00 AM",
+  //   "12:15 AM",
+  //   "12:30 AM",
+  //   "12:45 AM",
+  //   "01:00 AM",
+  //   "01:15 AM",
+  //   "01:30 AM",
+  //   "01:45 AM",
+  //   "02:00 AM",
+  //   "02:15 AM",
+  //   "02:30 AM",
+  //   "02:45 AM",
+  //   "03:00 AM",
+  //   "03:15 AM",
+  //   "03:30 AM",
+  //   "03:45 AM",
+  //   "04:00 AM",
+  //   "04:15 AM",
+  //   "04:30 AM",
+  //   "04:45 AM",
+  //   "05:00 AM",
+  //   "05:15 AM",
+  //   "05:30 AM",
+  //   "05:45 AM",
+  //   "06:00 AM",
+  //   "06:15 AM",
+  //   "06:30 AM",
+  //   "06:45 AM",
+  //   "07:00 AM",
+  //   "07:15 AM",
+  //   "07:30 AM",
+  //   "07:45 AM",
+  //   "08:00 AM",
+  //   "08:15 AM",
+  //   "08:30 AM",
+  //   "08:45 AM",
+  //   "09:00 AM",
+  //   "09:15 AM",
+  //   "09:30 AM",
+  //   "09:45 AM",
+  //   "10:00 AM",
+  //   "10:15 AM",
+  //   "10:30 AM",
+  //   "10:45 AM",
+  //   "11:00 AM",
+  //   "11:15 AM",
+  //   "11:30 AM",
+  //   "11:45 AM",
+  //   "12:00 PM",
+  //   "12:15 PM",
+  //   "12:30 PM",
+  //   "12:45 PM",
+  //   "01:00 PM",
+  //   "01:15 PM",
+  //   "01:30 PM",
+  //   "01:45 PM",
+  //   "02:00 PM",
+  //   "02:15 PM",
+  //   "02:30 PM",
+  //   "02:45 PM",
+  //   "03:00 PM",
+  //   "03:15 PM",
+  //   "03:30 PM",
+  //   "03:45 PM",
+  //   "04:00 PM",
+  //   "04:15 PM",
+  //   "04:30 PM",
+  //   "04:45 PM",
+  //   "05:00 PM",
+  //   "05:15 PM",
+  //   "05:30 PM",
+  //   "05:45 PM",
+  //   "06:00 PM",
+  //   "06:15 PM",
+  //   "06:30 PM",
+  //   "06:45 PM",
+  //   "07:00 PM",
+  //   "07:15 PM",
+  //   "07:30 PM",
+  //   "07:45 PM",
+  //   "08:00 PM",
+  //   "08:15 PM",
+  //   "08:30 PM",
+  //   "08:45 PM",
+  //   "09:00 PM",
+  //   "09:15 PM",
+  //   "09:30 PM",
+  //   "09:45 PM",
+  //   "10:00 PM",
+  //   "10:15 PM",
+  //   "10:30 PM",
+  //   "10:45 PM",
+  //   "11:00 PM",
+  //   "11:15 PM",
+  //   "11:30 PM",
+  //   "11:45 PM",
+  // ];
 
   const [availability, setAvailability] = useState(
     Array(7).fill({
@@ -650,48 +650,50 @@ export const Test = () => {
               </div>
 
               {availability[dayIndex].isAvailable &&
-                availability[dayIndex].timeSlots.map((slot, slotIndex) => (
-                  <div key={slotIndex} className="flex items-center gap-3">
-                    <input
-                      type="text"
-                      placeholder="Start"
-                      value={slot.start}
-                      onChange={(e) =>
-                        handleTimeChange(
-                          dayIndex,
-                          slotIndex,
-                          "start",
-                          e.target.value
-                        )
-                      }
-                      className="w-20 h-10 border border-gray-300 rounded-md text-center font-light text-sm text-gray-600"
-                    />
-                    <span className="font-bold text-gray-600">-</span>
-                    <input
-                      type="text"
-                      placeholder="End"
-                      value={slot.end}
-                      onChange={(e) =>
-                        handleTimeChange(
-                          dayIndex,
-                          slotIndex,
-                          "end",
-                          e.target.value
-                        )
-                      }
-                      className="w-20 h-10 border border-gray-300 rounded-md text-center font-light text-sm text-gray-600"
-                    />
+                availability[dayIndex].timeSlots.map(
+                  (slot: any, slotIndex: any) => (
+                    <div key={slotIndex} className="flex items-center gap-3">
+                      <input
+                        type="text"
+                        placeholder="Start"
+                        value={slot.start}
+                        onChange={(e) =>
+                          handleTimeChange(
+                            dayIndex,
+                            slotIndex,
+                            "start",
+                            e.target.value
+                          )
+                        }
+                        className="w-20 h-10 border border-gray-300 rounded-md text-center font-light text-sm text-gray-600"
+                      />
+                      <span className="font-bold text-gray-600">-</span>
+                      <input
+                        type="text"
+                        placeholder="End"
+                        value={slot.end}
+                        onChange={(e) =>
+                          handleTimeChange(
+                            dayIndex,
+                            slotIndex,
+                            "end",
+                            e.target.value
+                          )
+                        }
+                        className="w-20 h-10 border border-gray-300 rounded-md text-center font-light text-sm text-gray-600"
+                      />
 
-                    {slotIndex > 0 && (
-                      <button
-                        className="text-gray-600 hover:text-red-700"
-                        onClick={() => removeTimeSlot(dayIndex, slotIndex)}
-                      >
-                        <XIcon size={16} />
-                      </button>
-                    )}
-                  </div>
-                ))}
+                      {slotIndex > 0 && (
+                        <button
+                          className="text-gray-600 hover:text-red-700"
+                          onClick={() => removeTimeSlot(dayIndex, slotIndex)}
+                        >
+                          <XIcon size={16} />
+                        </button>
+                      )}
+                    </div>
+                  )
+                )}
 
               <div className="flex gap-4">
                 <button
