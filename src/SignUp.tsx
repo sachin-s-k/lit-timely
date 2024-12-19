@@ -79,13 +79,15 @@ const SignUp = () => {
                     .oneOf([Yup.ref("password")], "Passwords must match")
                     .required("Confirm Password is required");
                 }
+                // When not signing up, return a schema that doesn't require the field.
+                return Yup.string().notRequired();
               }),
             })}
             onSubmit={(values) => {
               console.log(isSignUp ? "Sign Up" : "Login", values);
             }}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {({ isSubmitting }) => (
               <Form>
                 <div className="grid gap-4 py-4">
                   {/* Email */}
