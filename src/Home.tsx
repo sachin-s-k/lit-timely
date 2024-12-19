@@ -9,18 +9,14 @@ import "@fontsource/inter/700.css";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../src/components/ui/card";
 import Header from "./Header";
 import TestimonialsCarousel from "./Testimonials";
-import { DialogDemo } from "./DialogDemo";
-import Component from "./Login";
+
 import Footer from "./Footer";
-import { DropdownMenu } from "./components/ui/dropdown-menu";
-import { DropDown } from "./DropDown";
+
 //import TestimonialsCarousel from "../components/testimonials";
 
 const features = [
