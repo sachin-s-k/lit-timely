@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LinkPart from "./LinkPart";
+
 import EventCard from "./EventCard";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "./config/http";
@@ -91,7 +91,7 @@ const Events = () => {
 
   return (
     <div>
-      {eventData.length === 0 ? (
+      {eventData?.length === 0 ? (
         // Centered content when no events exist
         <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] text-center">
           <img
@@ -240,21 +240,7 @@ const Events = () => {
       ) : (
         // Main content if events exist
         <>
-          <div className="mt-16">
-            <div className="flex justify-between">
-              <header className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">
-                  Welcome, {userData?.firstName}
-                </h1>
-              </header>
-            </div>
-            <div>
-              {/* Add your main content here */}
-              <p className="text-gray-500 font-semibold text-lg">
-                Create your events,
-              </p>
-            </div>
-            <LinkPart />
+          <div>
             <div className="grid md:grid-cols-3 gap-3">
               {eventData?.map((event: any, index: any) => (
                 <EventCard key={index} event={event} isPublicPage={false} />

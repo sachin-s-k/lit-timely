@@ -1,11 +1,10 @@
-import { Plus, Settings } from "lucide-react";
 import { useSelector } from "react-redux";
 
 const LinkPart = () => {
   const userData = useSelector((state: any) => state.registration.userData);
   return (
     <>
-      <div className=" mb-6 mt-10">
+      <div className=" mb-6 mt-4">
         {/* Avatar and Name */}
         <div className="flex justify-between">
           <div className="mb-2 flex items-center gap-3">
@@ -29,7 +28,7 @@ const LinkPart = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 items-center">
+          {/* <div className="flex gap-2 items-center">
             <div>
               <div className="border-gray-300 border-1 hover:bg-blue-100 w-28 h-7 flex justify-center items-center border-2 rounded-full mx-auto cursor-pointer">
                 <div className="flex items-center gap-2   text-black  font-light ">
@@ -41,7 +40,7 @@ const LinkPart = () => {
             <div className="cursor-pointer">
               <Settings size={21} color="gray" />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Divider */}

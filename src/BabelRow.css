@@ -1,0 +1,59 @@
+.babel-row {
+  margin: 10px 0;
+
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.babel-row-main {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  /* background-color: #f9f9f9; */
+  background-color: #e5e7eb;
+}
+
+.row-time {
+  display: flex;
+  align-items: center;
+}
+
+.row-time .event-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.row-details {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.expand-icon {
+  display: flex;
+  align-items: center;
+}
+
+.babel-row-expanded {
+  padding: 10px;
+  background-color: #fff;
+}
+
+.expanded-controls button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.expanded-controls button:hover {
+  background-color: #0056b3;
+}
+
+.expanded-details div {
+  margin: 5px 0;
+}

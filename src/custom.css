@@ -1,0 +1,22 @@
+/* Increase the cell width and height */
+.rdp-day {
+  width: 6rem; /* Default: 2.25rem */
+  height: 4rem; /* Default: 2.25rem */
+}
+
+/* Optional: Adjust font size and alignment */
+.rdp-day {
+  font-size: 1rem; /* Adjust text size */
+
+  align-items: center;
+  justify-content: center;
+}
+.rdp {
+  gap: 2rem; /* Add space between cells */
+}
+.rdp-day {
+  width: 3rem; /* Control individual day cell width */
+  height: 3rem; /* Control individual day cell height */
+}
+
+/* Adjust the overall table if needed */

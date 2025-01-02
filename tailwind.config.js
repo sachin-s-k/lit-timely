@@ -7,10 +7,18 @@ export default {
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      spacing: {
+        128: "32rem", // 512px
+        144: "36rem", // 576px
+        160: "40rem", // 640px
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      width: {
+        86: "90px", // Add a custom width
       },
       colors: {
         background: "hsl(var(--background))",
@@ -66,5 +74,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 };
