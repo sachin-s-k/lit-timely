@@ -1,5 +1,5 @@
 import "react-day-picker/dist/style.css";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 import { ThreeDots } from "react-loader-spinner";
 import { ChevronLeft, Clock, FileText, Globe2Icon } from "lucide-react";
 import { DayPicker } from "react-day-picker";
@@ -11,8 +11,157 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const EventScheduler = () => {
+  console.log("rendering");
+
+  const [eventDuration, setEventDuration] = useState("");
+  const [isSlotLoading, setSlotIsLoading] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isPreview, setIsPreview] = useState(false);
+  const [orgSelectedDate, setOrgSelectedDate] = useState<Date | null>(null);
+  const [slots, setSlots] = useState([]);
+  const [orgData, setOrgData] = useState([] as any);
+  // const handleSlots = () => {
+  //   console.log("enterrrr{{{{{{{");
+
+  //   const timeSlots = selectedDate
+  //     ? orgData.find(
+  //         (day: any) => day.eventDate === format(selectedDate, "yyyy-MM-dd")
+  //       )?.slots || []
+  //     : [];
+
+  //   setSlots(timeSlots);
+  //   setOrgSelectedDate(selectedDate);
+  //   setIsPreview(true);
+  // };
+
+  // const handleSlots = (clickedDate?: Date) => {
+  //   console.log("Fetching slots for:handleSLots", clickedDate);
+  //   console.log(orgData, "or");
+
+  //   const timeSlots = clickedDate
+  //     ? orgData.find((day: any) => {
+  //         day.eventDate === format(clickedDate, "yyyy-MM-dd");
+  //       })?.slots || []
+  //     : [];
+  //   // setSlots(timeSlots);
+  //   // setSlotIsLoading(false);
+
+  //   // setOrgSelectedDate(clickedDate || selectedDate);
+  //   // setIsPreview(true);
+  //   setTimeout(() => {
+  //     setSlotIsLoading(false); // Stop loading
+  //     setSlots(timeSlots); // Update slots
+  //     setOrgSelectedDate(clickedDate || selectedDate);
+  //     setIsPreview(true);
+  //   }, 5000);
+  // };
+  const handleSlots = (clickedDate?: Date) => {
+    // console.log("Fetching slots for:", clickedDate);
+    // console.log(orgData, "orgData=======>");
+    // if (!orgData || orgData.length === 0) {
+    //   console.log("Waiting for orgData to be loaded...");
+    //   return; // Prevent further execution if orgData is not loaded
+    // }
+    const timeSlots = clickedDate
+      ? orgData.find(
+          (day: any) => day.eventDate === format(clickedDate, "yyyy-MM-dd")
+        )?.slots || []
+      : [];
+
+    // setSlotIsLoading(false); // Start the loading indicator
+
+    // Simulating the loading delay and then updating the state
+    // setTimeout(() => {
+    //   setSlotIsLoading(false); // Stop the loader
+    //   setSlots(timeSlots); // Update the slots
+    //   setOrgSelectedDate(clickedDate || selectedDate);
+    //   setIsPreview(true);
+    // }, 2000);
+
+    setSlotIsLoading(false); // Stop the loader
+    setSlots(timeSlots); // Update the slots
+    setOrgSelectedDate(clickedDate || selectedDate);
+    setIsPreview(true);
+  };
+
+  // let eventData = [
+  //   {
+  //     isAvailable: true,
+  //     timeSlots: [
+  //       {
+  //         start: "",
+  //         end: "",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     isAvailable: false,
+  //     timeSlots: [
+  //       {
+  //         start: "9:00am",
+  //         end: "5:00pm",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     isAvailable: false,
+  //     timeSlots: [
+  //       {
+  //         start: "9:00am",
+  //         end: "5:00pm",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     isAvailable: true,
+  //     timeSlots: [
+  //       {
+  //         start: "9:00am",
+  //         end: "5:00pm",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     isAvailable: true,
+  //     timeSlots: [
+  //       {
+  //         start: "9:00am",
+  //         end: "5:00pm",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     isAvailable: false,
+  //     timeSlots: [
+  //       {
+  //         start: "",
+  //         end: "",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     isAvailable: true,
+  //     timeSlots: [
+  //       {
+  //         start: "9:00am",
+  //         end: "5:00pm",
+  //         error: "",
+  //       },
+  //     ],
+  //   },
+  // ];
+  // const slots = ["dd"];
+
+  // const [eventData, setEventData] = useState([]);
   const [searchParams] = useSearchParams();
   const eventId = searchParams.get("eventId");
+  //const [editEventDays, setEditEventDays] = useState();
   console.log(eventId);
   //const [eventData, setEventData] = useState([] as any);
   //let eventData;
@@ -26,10 +175,12 @@ const EventScheduler = () => {
       setEventDuration(editEventdata.data.data.eventDuration);
       setDescription(editEventdata.data.data.eventDescription);
       // setEventData(editEventdata.data.data.availability);
-
+      //setEditEventDays(editEventdata.data.data.availability);
       console.log(editEventdata.data.data.availability, "eee&&&");
-
+      // eventData = editEventdata.data.data.availability;
+      //setEventData(editEventdata.data.data.availability);
       //eventData = editEventdata.data.data.availability;
+      console.log(eventData, "here");
     };
 
     fetchingEditData();
@@ -44,14 +195,14 @@ const EventScheduler = () => {
 
   // };
 
-  const eventData = [
+  let eventData = [
     {
       isAvailable: false,
       timeSlots: [
         {
           start: "",
           end: "",
-          error: "",
+          error: "startTime and endTime are requiredsss",
         },
       ],
     },
@@ -116,26 +267,17 @@ const EventScheduler = () => {
       ],
     },
   ];
-  const slots = [
-    "9:00am",
-    "10:00am",
-    "11:00am",
-    "12:00am",
-    "1:00am",
-    "2:00am",
-    "2:30am",
-  ];
+
   const [availableDays, setAvailableDays] = useState([]);
   const [next30AvailableDays, setNext30AvailableDays] = useState([]);
   const [eventDatas, setEventDatas] = useState(eventData);
 
   // Function to update eventDatas and reflect changes on the calendar
   const setEventDays = (updatedEventData: any) => {
+    setOrgSelectedDate(null);
     setEventDatas([]);
     setLoading(true); // Show loader
     setTimeout(() => {
-      console.log(updatedEventData, "updated eventData====");
-
       // Simulate a delay
       setEventDatas(updatedEventData); // Update calendar data
       setLoading(false); // Hide loader
@@ -148,7 +290,7 @@ const EventScheduler = () => {
       .map((event, index) => (event.isAvailable ? index : null))
       .filter((day) => day !== null); // Remove nulls
     setAvailableDays(daysMapping as any);
-  }, [eventDatas]);
+  }, [eventDatas, eventDuration]);
 
   // Calculate the next 30 available days
   useEffect(() => {
@@ -203,7 +345,7 @@ const EventScheduler = () => {
   // fotrm
 
   const [eventName, setEventName] = useState("");
-  const [eventDuration, setEventDuration] = useState("");
+
   const [description, setDescription] = useState("");
   //const [eventDays, setEventDays] = useState([]);
   const [errors, setErrors] = useState({
@@ -227,7 +369,9 @@ const EventScheduler = () => {
     }
 
     // Validate Event Duration
-    if (!eventDuration.trim()) {
+    console.log(eventDuration, "eve");
+
+    if (!eventDuration) {
       newErrors.eventDuration = "Event Duration is required";
       valid = false;
     } else if (isNaN(eventDuration as any)) {
@@ -236,7 +380,7 @@ const EventScheduler = () => {
     }
 
     // Validate Description
-    if (!description.trim()) {
+    if (!description) {
       newErrors.description = "Description is required";
       valid = false;
     }
@@ -316,8 +460,8 @@ const EventScheduler = () => {
       if (!day.isAvailable) return; // Skip unavailable days
 
       day.timeSlots.forEach((slot: any, _slotIndex: any) => {
-        const startMinutes = timeToMinutes(slot.start);
-        const endMinutes = timeToMinutes(slot.end);
+        const startMinutes: any = timeToMinutes(slot.start);
+        const endMinutes: any = timeToMinutes(slot.end);
 
         if (endMinutes - startMinutes < duration) {
           isValid = false;
@@ -335,73 +479,145 @@ const EventScheduler = () => {
 
   // Utility function to convert time to total minutes
   const timeToMinutes = (time: any) => {
-    const [_, hours, minutes, meridian] = time.match(
-      /(\d{1,2}):(\d{2})(am|pm)/
-    );
-    let totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
-    if (meridian.toLowerCase() === "pm" && hours !== "12") {
-      totalMinutes += 12 * 60;
-    } else if (meridian.toLowerCase() === "am" && hours === "12") {
-      totalMinutes -= 12 * 60;
+    console.log(time, "+++++++");
+
+    if (time) {
+      const [_, hours, minutes, meridian] = time.match(
+        /(\d{1,2}):(\d{2})(am|pm)/
+      );
+      let totalMinutes = parseInt(hours, 10) * 60 + parseInt(minutes, 10);
+      if (meridian.toLowerCase() === "pm" && hours !== "12") {
+        totalMinutes += 12 * 60;
+      } else if (meridian.toLowerCase() === "am" && hours === "12") {
+        totalMinutes -= 12 * 60;
+      }
+      return totalMinutes;
     }
-    return totalMinutes;
   };
 
   const [validationErrors, setValidationErrors] = useState([]);
 
   const handleValidation = () => {
-    console.log("called");
-
     const { isValid, errors } = validateEventData(eventDatas, eventDuration);
+
     setValidationErrors(errors);
     return isValid; // Return true if valid, false otherwise
   };
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
+  // const handleSubmit = async (edit: boolean) => {
+  //   // e.preventDefault();
 
+  //   if (validateForm()) {
+  //     if (globalErrors.length == 0) {
+  //       console.log(otherErrors, "otherrrr");
+
+  //       if (otherErrors.length == 0) {
+  //         console.log("other");
+
+  //         if (handleValidation()) {
+  //           console.log("hanedl validationnnnnns");
+
+  //           console.log("Form submitted", {
+  //             eventName,
+  //             eventDuration,
+  //             description,
+  //             eventDatas,
+  //           });
+
+  //           try {
+  //             toast.loading("Your Event is Creating....");
+  //             console.log("data");
+
+  //             const response = await axiosInstance.post(
+  //               "/events?preview=true",
+  //               {
+  //                 eventName,
+  //                 eventDuration,
+  //                 eventDescription: description,
+  //                 eventDatas,
+  //               }
+  //             );
+
+  //             if (response.data.success) {
+  //               console.log(response.data, "xxxxxxxxxxxx");
+
+  //               if (edit) {
+  //                 handleSlots();
+  //                 setOrgData(response.data.data);
+  //               }
+
+  //               toast.dismiss();
+  //               toast.success("Your event was created successfully !", {});
+  //               //navigate("/events/user");
+  //             } else {
+  //               toast.dismiss();
+  //               setTimeout(() => {
+  //                 toast.error("There is an error!", {});
+  //               }, 2000);
+  //             }
+  //           } catch (error: any) {}
+  //         }
+  //       }
+  //     }
+  //     // Submit form data
+  //   }
+  // };
+
+  const handleSubmit = async (edit: boolean, clickedDate?: Date) => {
     if (validateForm()) {
-      if (globalErrors.length == 0) {
-        console.log(otherErrors, "otherrrr");
+      if (globalErrors.length === 0 && otherErrors.length === 0) {
+        if (handleValidation()) {
+          console.log("Form submitted", {
+            eventName,
+            eventDuration,
+            description,
+            eventDatas,
+          });
 
-        if (otherErrors.length == 0) {
-          console.log("other");
+          try {
+            toast.loading("Your Event is Creating....");
 
-          if (handleValidation()) {
-            console.log("Form submitted", {
+            const response = await axiosInstance.post("/events?preview=true", {
               eventName,
               eventDuration,
-              description,
+              eventDescription: description,
               eventDatas,
             });
 
-            try {
-              toast.loading("Your Event is Creating....");
+            if (response.data.success) {
+              console.log(response.data);
 
-              const response = await axiosInstance.post("/events/", {
-                eventName,
-                eventDuration,
-                eventDescription: description,
-                availability: eventDatas,
-              });
-
-              if (response.data.success) {
-                toast.dismiss();
-                toast.success("Your event was created successfully!", {});
-                navigate("/events/user");
-              } else {
-                toast.dismiss();
-                setTimeout(() => {
-                  toast.error("There is an error!", {});
-                }, 2000);
+              if (edit) {
+                setOrgSelectedDate(clickedDate as any);
+                // Pass the date directly
+                setOrgData(response.data.data);
+                // setTimeout(() => {
+                //   handleSlots(clickedDate);
+                // }, 2000);
               }
-            } catch (error: any) {}
+
+              toast.dismiss();
+              toast.success("Your event was created successfully!");
+            } else {
+              toast.dismiss();
+              setTimeout(() => {
+                toast.error("There is an error!");
+              }, 2000);
+            }
+          } catch (error: any) {
+            // console.error("Error:", error);
           }
         }
       }
-      // Submit form data
     }
   };
+  useEffect(() => {
+    // This useEffect will monitor changes in orgData and selectedDate
+    if (orgData && orgData.length > 0) {
+      handleSlots(selectedDate as any); // Call handleSlots once orgData and selectedDate are available
+    }
+  }, [orgData]);
+
   return (
     <>
       <div
@@ -489,8 +705,9 @@ const EventScheduler = () => {
                 Select Weekdays
               </h3>
               <Testing
+                eventId={eventId}
                 update={false}
-                eventDays={eventDatas}
+                eventDays={eventData}
                 setEventDays={setEventDays}
                 onError={handleErrors}
               />
@@ -523,7 +740,9 @@ const EventScheduler = () => {
               Cancel
             </button>
             <button
-              onClick={handleSubmit}
+              onClick={() => {
+                handleSubmit(false);
+              }}
               className="bg-blue-600 text-white py-2 px-8 rounded-full shadow-md hover:bg-blue-700 transition duration-200 w-full"
             >
               Save and Close
@@ -592,11 +811,67 @@ const EventScheduler = () => {
             {/* Calendar Component */}
             <div className="flex">
               <div>
+                {/* <DayPicker
+                  modifiers={modifiers}
+                  modifiersStyles={modifiersStyles}
+                  styles={styles}
+                  disabled={[
+                    { before: new Date() },
+                    (date) => {
+                      const targetDate = new Date(date).setHours(0, 0, 0, 0);
+                      return !next30AvailableDays.some(
+                        (availableDate: any) =>
+                          new Date(availableDate).setHours(0, 0, 0, 0) ===
+                          targetDate
+                      );
+                    },
+                  ]}
+                  onSelect={(date: Date | undefined) => {
+                    setSelectedDate(date);
+                    if (!isPreview) {
+                      console.log("is previewwwwwww");
+
+                      handleSubmit(true);
+                    } else {
+                      console.log("handleeeee");
+
+                      handleSlots();
+                    }
+
+                    console.log("Selected Date:", date);
+                  }}
+                  mode="single"
+                  selected={selectedDate as any}
+                /> */}
                 <DayPicker
                   modifiers={modifiers}
                   modifiersStyles={modifiersStyles}
                   styles={styles}
+                  disabled={[
+                    { before: new Date() },
+                    (date) => {
+                      const targetDate = new Date(date).setHours(0, 0, 0, 0);
+                      return !next30AvailableDays.some(
+                        (availableDate: any) =>
+                          new Date(availableDate).setHours(0, 0, 0, 0) ===
+                          targetDate
+                      );
+                    },
+                  ]}
+                  onSelect={(date: Date | undefined) => {
+                    if (!date) return;
+                    setSelectedDate(date); // Update the selected date
+                    if (!isPreview) {
+                      setSlotIsLoading(true);
+                      handleSubmit(true, date); // Pass the clicked date to handleSubmit
+                    } else {
+                      handleSlots(date); // Pass the clicked date to handleSlots
+                    }
+                  }}
+                  mode="single"
+                  selected={selectedDate as any}
                 />
+
                 <div className="mt-6">
                   <div>
                     <span className="font-bold text-md">Time zone</span>
@@ -613,27 +888,42 @@ const EventScheduler = () => {
               </div>
 
               {/* Slots Section */}
-              {slots && slots.length > 0 && (
+              {orgSelectedDate && (
                 <div className="m-3 flex-grow overflow-y-auto max-h-[calc(100vh-12rem)]">
                   {/* Add scroll and limit height */}
                   <div>
-                    <span className="font-2xl text-gray-700">
-                      Tuesday, December 14
+                    <span className="font-3xl font-bold text-gray-700">
+                      {orgSelectedDate.toLocaleDateString("en-US", {
+                        weekday: "long", // Full weekday name (e.g., "Thursday")
+                        month: "long", // Full month name (e.g., "January")
+                        day: "numeric", // Day of the month (e.g., "9")
+                      })}
                     </span>
                   </div>
-                  {slots.map((slot, index) => {
-                    return (
+
+                  {/* Display loader or slots */}
+                  {isSlotLoading ? (
+                    <div className="flex justify-center items-center mt-4">
+                      <ThreeDots
+                        height="80"
+                        width="80"
+                        radius="40"
+                        color="blue"
+                        ariaLabel="three-dots-loading"
+                      />
+                    </div>
+                  ) : (
+                    slots?.map((slot: any, index: any) => (
                       <div key={index} className="ml-1 w-44 mb-2 mr-4">
-                        {" "}
-                        {/* Added right margin */}
+                        {/* Slot Card */}
                         <div className="border border-blue-500 px-10 py-3 mt-4 flex flex-col items-center justify-center rounded-sm">
                           <div className="text-blue-600 font-semibold">
                             {slot}
                           </div>
                         </div>
                       </div>
-                    );
-                  })}
+                    ))
+                  )}
                 </div>
               )}
             </div>

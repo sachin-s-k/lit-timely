@@ -27,7 +27,7 @@ const EventDetails = () => {
         const response = await axiosInstance.get(
           `/events/booking/${id}?eventId=${eventId}`
         );
-        console.log(response);
+        console.log(response, "response=====>");
         setUserData(response.data.userData);
         setEventData(response.data.eventData);
         setAvailability(response.data.availability);

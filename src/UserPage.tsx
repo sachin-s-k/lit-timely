@@ -46,7 +46,6 @@ const UserPage = () => {
   };
   return (
     <>
-      <Header />
       <div className="container mx-auto px-4 py-10 ">
         <div className="flex flex-col items-center mb-8">
           <Avatar className="w-24 h-24 mb-4">
@@ -85,6 +84,3 @@ const UserPage = () => {
 };
 
 export default UserPage;
-// function dispatch(arg0: any) {
-//   throw new Error("Function not implemented.");
-// }

@@ -49,9 +49,11 @@ const BabelRow = ({ event }: any) => {
       {/* Expanded Row */}
       {isExpanded && (
         <div className="babel-row-expanded">
-          <div className="expanded-controls">
-            <button>Reschedule</button>
-            <button>Cancel</button>
+          <div className="expanded-controls flex gap-4">
+            <button className="border rounded-md px-4 py-1 bg-blue-500 text-white">
+              Reschedule
+            </button>
+            <button className="border rounded-md px-4 py-1">Cancel</button>
           </div>
           <div className="expanded-details">
             <div>

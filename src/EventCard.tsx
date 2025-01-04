@@ -12,6 +12,7 @@ import DeleteModal from "./DeleteModal";
 import { useState } from "react";
 import { axiosInstance } from "./config/http";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // Assuming you have an Avatar component
 // const bookedPersons = [
@@ -22,7 +23,18 @@ import { useNavigate } from "react-router-dom";
 //   { name: "Eve", avatar: "https://i.pravatar.cc/150?img=5" },
 // ];
 
-const EventCard = ({ event, isPublicPage }: any) => {
+const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
+  const userData = useSelector((state: any) => state.registration.userData);
+
+  const [copied, setCopied] = useState(false);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `${window.location.origin}/${userData.personalUrl}?eventId=${event._id}`
+      );
+      setCopied(true);
+    } catch (error: any) {}
+  };
   const navigate = useNavigate();
   console.log(event, "evntt");
   const [isModalOpen, setModalOpen] = useState(false);
@@ -44,9 +56,9 @@ const EventCard = ({ event, isPublicPage }: any) => {
   return (
     <>
       <Card
-        // onClick={() => {
-        //   handleEventPage(event._id, event.eventName);
-        // }}
+        onClick={() => {
+          handleEventPage(event._id, event.eventName);
+        }}
         className="border border-gray-200 cursor-pointer rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-t-gray-400 m-1"
       >
         <CardHeader className="p-4">
@@ -68,7 +80,7 @@ const EventCard = ({ event, isPublicPage }: any) => {
           {/* Description */}
           <CardDescription className="flex justify-between text-sm text-gray-500 mt-2">
             <span>{event.eventDuration} mins</span>
-            {!isPublicPage && <span>{event.Bookings.length} Bookings</span>}
+            {!isPublicPage && <span>{event?.Bookings?.length} Bookings</span>}
           </CardDescription>
         </CardHeader>
 
@@ -122,8 +134,10 @@ const EventCard = ({ event, isPublicPage }: any) => {
             <Button
               variant="outline"
               className="flex items-center gap-2 text-blue-60 hover:bg-blue-50"
+              onClick={handleCopy}
             >
-              <Link className="w-4 h-4" /> Copy
+              <Link className="w-4 h-4" />
+              {copied ? "Copied" : "Copy"}
             </Button>
             <Button variant="destructive" className="flex items-center gap-2">
               <Trash2

@@ -437,11 +437,13 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
   // ];
   const availabilities = availabilityArray;
 
-  const availableDays = availabilities.map((day: any) => new Date(day.date));
+  const availableDays = availabilities.map(
+    (day: any) => new Date(day.eventDate)
+  );
 
   const timeSlots = selectedDate
     ? availabilities.find(
-        (day: any) => day.date === format(selectedDate, "yyyy-MM-dd")
+        (day: any) => day.eventDate === format(selectedDate, "yyyy-MM-dd")
       )?.slots || []
     : [];
   //const navigate = useNavigate();

@@ -35,7 +35,7 @@ const AppointmentTypesList: React.FC = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="m-8 mt-6 mb-1 flex cursor-pointer">
+      <div className="m-8 mt-24 mb-1 flex cursor-pointer">
         <ChevronLeft color="#3b82f6" size={17} className="mt-1" />
         <span
           className="font-semibold text-blue-500"

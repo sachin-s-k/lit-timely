@@ -34,7 +34,6 @@ const evaluatePasswordStrength = (password: string): number => {
 const Header = () => {
   const dispatch = useDispatch();
 
-  const [isSignUp, setIsSignUp] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
   const validateEmailWithServer = async (email: string) => {
@@ -84,43 +83,10 @@ const Header = () => {
       <nav className="mx-auto py-1 px-6 flex justify-between items-center shadow-md border-b-2">
         <img src="" alt="Logo" className="w-16 h-16" />
         <div className="flex items-center gap-2">
-          <Button className="bg-blue-500 hover:bg-blue-400">Get Started</Button>
           <Dialog>
-            <DialogTrigger asChild>
-              <Button
-                variant="outline"
-                className="bg-gray-200 hover:bg-gray-300 text-black"
-              >
-                LogIn
-              </Button>
-            </DialogTrigger>
+            <DialogTrigger asChild></DialogTrigger>
             <DialogContent className="sm:max-w-[425px] lg:w-2/5">
-              <DialogHeader>
-                <div className="flex justify-center gap-4 py-4">
-                  <button
-                    type="button"
-                    className={`px-4 py-2 transition-all duration-300 ${
-                      isSignUp
-                        ? "text-gray-400"
-                        : "text-blue-600 border-b-2 border-blue-600"
-                    }`}
-                    onClick={() => setIsSignUp(false)}
-                  >
-                    Login
-                  </button>
-                  <button
-                    type="button"
-                    className={`px-4 py-2 transition-all duration-300 ${
-                      isSignUp
-                        ? "text-blue-600 border-b-2 border-blue-600"
-                        : "text-gray-400"
-                    }`}
-                    onClick={() => setIsSignUp(true)}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              </DialogHeader>
+              <DialogHeader></DialogHeader>
               <Formik
                 initialValues={{
                   firstName: "",

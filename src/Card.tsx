@@ -237,6 +237,7 @@
 
 // export default App;
 import { useState } from "react";
+import Header from "./Header";
 
 const owners = [
   { id: 1, name: "John Doe", bio: "Managing 10+ events across departments." },
@@ -382,20 +383,20 @@ const OwnersPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white p-6">
-      <h2 className="text-3xl font-bold text-blue-500 text-center mb-8">
-        Interviewer's List
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {owners.map((owner) => (
-          <OwnerCard
-            key={owner.id}
-            owner={owner}
-            onClick={setSelectedOwnerId}
-          />
-        ))}
+    <>
+      <Header />
+      <div className="min-h-screen bg-white p-6 mt-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {owners.map((owner) => (
+            <OwnerCard
+              key={owner.id}
+              owner={owner}
+              onClick={setSelectedOwnerId}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
