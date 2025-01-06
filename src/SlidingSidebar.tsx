@@ -1,6 +1,6 @@
 import "react-day-picker/dist/style.css";
 import { addDays, format } from "date-fns";
-import { ThreeDots } from "react-loader-spinner";
+import { ColorRing, ThreeDots } from "react-loader-spinner";
 import { ChevronLeft, Clock, FileText, Globe2Icon } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { useEffect, useState } from "react";
@@ -274,6 +274,9 @@ const EventScheduler = () => {
 
   // Function to update eventDatas and reflect changes on the calendar
   const setEventDays = (updatedEventData: any) => {
+    setSlots([]);
+    setSlotIsLoading(false);
+    setIsPreview(false);
     setOrgSelectedDate(null);
     setEventDatas([]);
     setLoading(true); // Show loader
@@ -366,6 +369,7 @@ const EventScheduler = () => {
     if (!eventName.trim()) {
       newErrors.eventName = "Event Name is required";
       valid = false;
+      setIsPreview(false);
     }
 
     // Validate Event Duration
@@ -377,12 +381,14 @@ const EventScheduler = () => {
     } else if (isNaN(eventDuration as any)) {
       newErrors.eventDuration = "Event Duration must be a valid number";
       valid = false;
+      setIsPreview(false);
     }
 
     // Validate Description
     if (!description) {
       newErrors.description = "Description is required";
       valid = false;
+      setIsPreview(false);
     }
 
     // Validate Weekdays
@@ -452,24 +458,109 @@ const EventScheduler = () => {
 
   // validation errors duration and availabilty
 
-  const validateEventData = (data: any, duration: any) => {
-    let errors: any = [];
+  // const validateEventData = (data: any, duration: any) => {
+  //   console.log("calledddd");
+
+  //   let errors: any = [];
+  //   let isValid = true;
+
+  //   data.forEach((day: any, dayIndex: any) => {
+  //     if (!day.isAvailable) return; // Skip unavailable days
+
+  //     day.timeSlots.forEach((slot: any, _slotIndex: any) => {
+  //       const startMinutes: any = timeToMinutes(slot.start);
+  //       const endMinutes: any = timeToMinutes(slot.end);
+  //       console.log(startMinutes, endMinutes);
+
+  //       console.log(endMinutes - startMinutes < duration, "conditionnnnnn");
+
+  //       if (endMinutes - startMinutes < duration) {
+  //         isValid = false;
+  //         errors.push(
+  //           `Error: Slot from ${slot.start} to ${slot.end} on day ${
+  //             dayIndex + 1
+  //           } must be at least ${duration} minutes.`
+  //         );
+  //       }
+  //     });
+  //   });
+
+  //   return { isValid, errors };
+  // };
+
+  const validateEventData = (eventData: any, requiredDuration: any) => {
     let isValid = true;
+    const errors: string[] = [];
 
-    data.forEach((day: any, dayIndex: any) => {
-      if (!day.isAvailable) return; // Skip unavailable days
+    eventData.forEach((day: any, dayIndex: number) => {
+      if (!day.isAvailable) {
+        return; // Skip unavailable days
+      }
 
-      day.timeSlots.forEach((slot: any, _slotIndex: any) => {
+      day.timeSlots.forEach((slot: any, slotIndex: number) => {
         const startMinutes: any = timeToMinutes(slot.start);
         const endMinutes: any = timeToMinutes(slot.end);
 
-        if (endMinutes - startMinutes < duration) {
+        // Check if start or end times are empty
+        if (!slot.start || !slot.end) {
+          isValid = false;
+          errors.push(
+            `Error: Missing start or end time for slot ${
+              slotIndex + 1
+            } on day ${dayIndex + 1}.`
+          );
+          slot.error = "Start and end times are required.";
+          return;
+        }
+
+        // Validate start time within 12:00am to 11:59pm range
+        if (startMinutes < 0 || startMinutes >= 1440) {
+          isValid = false;
+          errors.push(
+            `Error: Start time ${slot.start} for slot ${slotIndex + 1} on day ${
+              dayIndex + 1
+            } is out of bounds.`
+          );
+          slot.error = "Start time must be between 12:00am and 11:59pm.";
+        }
+
+        // Validate end time within 12:00am to 12:00am of the next day
+        if (endMinutes <= 0 || endMinutes > 1440) {
+          isValid = false;
+          errors.push(
+            `Error: End time ${slot.end} for slot ${slotIndex + 1} on day ${
+              dayIndex + 1
+            } is out of bounds.`
+          );
+          slot.error = "End time must be between 12:00am and 11:59pm.";
+        }
+
+        // Ensure end time is after start time
+        if (endMinutes <= startMinutes) {
+          isValid = false;
+          errors.push(
+            `Error: End time ${slot.end} must be greater than start time ${
+              slot.start
+            } for slot ${slotIndex + 1} on day ${dayIndex + 1}.`
+          );
+          slot.error = "End time must be greater than start time.";
+        }
+
+        // Check if the slot duration meets the required duration
+        const slotDuration = endMinutes - startMinutes;
+        if (slotDuration < requiredDuration) {
           isValid = false;
           errors.push(
             `Error: Slot from ${slot.start} to ${slot.end} on day ${
               dayIndex + 1
-            } must be at least ${duration} minutes.`
+            } must be at least ${requiredDuration} minutes.`
           );
+          slot.error = `Slot duration is less than ${requiredDuration} minutes.`;
+        }
+
+        // Clear the error if the slot is valid
+        if (isValid) {
+          slot.error = "";
         }
       });
     });
@@ -498,7 +589,12 @@ const EventScheduler = () => {
   const [validationErrors, setValidationErrors] = useState([]);
 
   const handleValidation = () => {
-    const { isValid, errors } = validateEventData(eventDatas, eventDuration);
+    console.log("handlevaliation");
+
+    const { isValid, errors }: any = validateEventData(
+      eventDatas,
+      eventDuration
+    );
 
     setValidationErrors(errors);
     return isValid; // Return true if valid, false otherwise
@@ -564,6 +660,8 @@ const EventScheduler = () => {
   // };
 
   const handleSubmit = async (edit: boolean, clickedDate?: Date) => {
+    console.log("handle submit");
+
     if (validateForm()) {
       if (globalErrors.length === 0 && otherErrors.length === 0) {
         if (handleValidation()) {
@@ -588,6 +686,7 @@ const EventScheduler = () => {
               console.log(response.data);
 
               if (edit) {
+                setSlotIsLoading(true);
                 setOrgSelectedDate(clickedDate as any);
                 // Pass the date directly
                 setOrgData(response.data.data);
@@ -614,7 +713,9 @@ const EventScheduler = () => {
   useEffect(() => {
     // This useEffect will monitor changes in orgData and selectedDate
     if (orgData && orgData.length > 0) {
-      handleSlots(selectedDate as any); // Call handleSlots once orgData and selectedDate are available
+      setTimeout(() => {
+        handleSlots(selectedDate as any);
+      }, 3000); // Call handleSlots once orgData and selectedDate are available
     }
   }, [orgData]);
 
@@ -622,7 +723,7 @@ const EventScheduler = () => {
     <>
       <div
         className={`flex bg-gray-100  ${
-          slots && slots.length > 0 ? "" : "justify-between gap-40"
+          orgSelectedDate ? "" : "justify-between gap-40"
         }`}
       >
         {/* Sidebar with Fixed Width */}
@@ -763,7 +864,7 @@ const EventScheduler = () => {
             </h3>
             <div className="mb-4 flex items-start">
               <h3 className="text-3xl font-semibold text-gray-700  break-words max-w-[360px]">
-                {eventName || "Event Name here"}
+                {eventName || "Event Name "}
               </h3>
             </div>
             <p className="mb-2 flex items-start">
@@ -862,6 +963,8 @@ const EventScheduler = () => {
                     if (!date) return;
                     setSelectedDate(date); // Update the selected date
                     if (!isPreview) {
+                      console.log("callleeeddddd");
+
                       setSlotIsLoading(true);
                       handleSubmit(true, date); // Pass the clicked date to handleSubmit
                     } else {
@@ -903,14 +1006,31 @@ const EventScheduler = () => {
 
                   {/* Display loader or slots */}
                   {isSlotLoading ? (
-                    <div className="flex justify-center items-center mt-4">
-                      <ThreeDots
-                        height="80"
-                        width="80"
-                        radius="40"
-                        color="blue"
-                        ariaLabel="three-dots-loading"
-                      />
+                    // <div className="flex justify-center items-center mt-8">
+
+                    // </div>
+
+                    <div className="ml-1 w-44 mb-2 mr-4">
+                      {/* Slot Card */}
+                      <div className="  px-10 py-3 mt-4 flex flex-col items-center justify-center rounded-sm">
+                        <div className="text-blue-600 font-semibold">
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="color-ring-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="color-ring-wrapper"
+                            colors={[
+                              "#3b82f6",
+                              "#3b82f6",
+                              "#3b82f6",
+                              "#3b82f6",
+                              "#3b82f6",
+                            ]}
+                          />
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     slots?.map((slot: any, index: any) => (

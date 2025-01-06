@@ -34,7 +34,7 @@ export const Testing = ({
             {
               start: "",
               end: "",
-              error: "startTime and endTime are required",
+              error: "startTime and endTime are requiredddd",
             },
           ],
         },
@@ -99,8 +99,10 @@ export const Testing = ({
           ],
         },
       ];
-      if (eventId) {
+      if (!eventId) {
         setAvailability(eventData);
+      } else {
+        setAvailability(editEventdata.data.data.availability);
       }
     };
 
