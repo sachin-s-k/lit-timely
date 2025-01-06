@@ -246,6 +246,8 @@ export const Testing = ({
   };
 
   useEffect(() => {
+    console.log("hello");
+
     if (!update) {
       setEventDays(availability);
     }
