@@ -5,7 +5,6 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import { axiosInstance } from "./config/http";
 import EventCard from "./EventCard";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import Header from "./Header";
 
 const UserPage = () => {
   const [events, setEvents] = useState([]); // State to store events

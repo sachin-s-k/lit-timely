@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import EventCard from "./EventCard";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "./config/http";
 import { Plus } from "lucide-react";
-import { effectAdd } from "./app-store/eventSlice";
 
 import { addEventData } from "./app-store/eventSlice";
 import { useNavigate } from "react-router-dom";
@@ -18,35 +17,35 @@ const Events = () => {
   const userData = useSelector((state: any) => state.registration.userData);
   const eventData = useSelector((state: any) => state.event.eventData);
   console.log(eventData, "event");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
-  const [isSubmittings, setIsSubmitting] = useState(false);
+  // const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
+  // const [isSubmittings, setIsSubmitting] = useState(false);
   //const [events, setEvents] = useState([]); // State to store events
-  console.log(errorMessage, isSubmittings);
+  // console.log(errorMessage, isSubmittings);
 
-  const handleSubmit = async (values: any) => {
-    dispatch(effectAdd(false));
-    setIsSubmitting(true);
-    try {
-      // Send data to backend using Axios
-      const response = await axiosInstance.post("/events", values);
-      console.log("Event created successfully:", response.data.data);
-      //dispatch(addEventData(response.data.data));
-      // Close the modal after successful creation
+  // const handleSubmit = async (values: any) => {
+  //   dispatch(effectAdd(false));
+  //   setIsSubmitting(true);
+  //   try {
+  //     // Send data to backend using Axios
+  //     const response = await axiosInstance.post("/events", values);
+  //     console.log("Event created successfully:", response.data.data);
+  //     //dispatch(addEventData(response.data.data));
+  //     // Close the modal after successful creation
 
-      setErrorMessage(null);
-      setIsSubmitting(false);
-      dispatch(effectAdd(true));
+  //     setErrorMessage(null);
+  //     setIsSubmitting(false);
+  //     dispatch(effectAdd(true));
 
-      // Clear error message if event creation was successful
-    } catch (error) {
-      console.error("Error creating event:", error);
-      setIsSubmitting(false);
-      // Set the error message to be displayed in the modal
-      setErrorMessage(
-        "An error occurred while creating the event. Please try again."
-      );
-    }
-  };
+  //     // Clear error message if event creation was successful
+  //   } catch (error) {
+  //     console.error("Error creating event:", error);
+  //     setIsSubmitting(false);
+  //     // Set the error message to be displayed in the modal
+  //     setErrorMessage(
+  //       "An error occurred while creating the event. Please try again."
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
     console.log("called");

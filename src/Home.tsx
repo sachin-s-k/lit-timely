@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../src/components/ui/card";
-import Header from "./Header";
 import TestimonialsCarousel from "./Testimonials";
 
 import Footer from "./Footer";
@@ -56,7 +55,6 @@ function Home() {
   return (
     <>
       <main style={{ fontFamily: "'Inter', sans-serif" }}>
-        <Header />
         <div className="min-h-screen bg-gradient-to-b from-[#f8f9fb] to-white">
           <main className="container mx-auto px-4 py-16">
             {/* Hero Section */}
