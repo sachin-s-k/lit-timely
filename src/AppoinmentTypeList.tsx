@@ -2,7 +2,8 @@ import React from "react";
 import AppointmentTypeCard from "./AppoinmentTypeCard";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { addActiveNavState } from "./app-store/gloabalSlice";
 const appointmentTypes = [
   {
     title: "One-on-One",
@@ -32,7 +33,12 @@ const appointmentTypes = [
 ];
 
 const AppointmentTypesList: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const handleNavigation = (index: any) => {
+    navigate("/events/user/");
+    dispatch(addActiveNavState(index));
+  };
   return (
     <>
       <div className="m-8 mt-24 mb-1 flex cursor-pointer">
@@ -40,7 +46,7 @@ const AppointmentTypesList: React.FC = () => {
         <span
           className="font-semibold text-blue-500"
           onClick={() => {
-            navigate("/events/user/");
+            handleNavigation(0);
           }}
         >
           {" "}

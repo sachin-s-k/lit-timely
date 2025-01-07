@@ -57,7 +57,7 @@ const SideBar = () => {
     } else if (index === 2) {
       navigate("/availability/user");
     } else if (index === 3) {
-      // navigate("/tab/user");
+      navigate("/events/types_list");
 
       dispatch(addActiveNavState(index));
     }

@@ -93,7 +93,7 @@ const App = () => {
           <Route path="/auth/:id" element={<GoogleOAuthPage />} />
           <Route path="/events-page/success" element={<Success />} />
           {/* <Route path="/events-page/List" element={<AppointmentTypesList />} /> */}
-          <Route path="/event-types/list" element={<SideBar />} />
+          <Route path="/events/types_list" element={<SideBar />} />
           <Route path="/create/new-events" element={<SlidingSidebar />} />
           <Route path="/create/card" element={<Card />} />
 

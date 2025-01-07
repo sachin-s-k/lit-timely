@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 
 import { addEventData } from "./app-store/eventSlice";
 import { useNavigate } from "react-router-dom";
+import { addActiveNavState } from "./app-store/gloabalSlice";
 
 // Yup Validation Schema
 
@@ -65,6 +66,13 @@ const Events = () => {
     };
     fetchEvents();
   }, [effectData]);
+  const handleSideBarNavigation = (index: any) => {
+    // Dispatch the active navigation change
+    if (index === 3) {
+      dispatch(addActiveNavState(index));
+      navigate("/events/types_list");
+    }
+  };
 
   return (
     <div>
@@ -90,7 +98,7 @@ const Events = () => {
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500"
             onClick={() => {
-              navigate("/create/new-events");
+              handleSideBarNavigation(3);
             }}
           >
             <span className="flex gap-1 text-sm">
