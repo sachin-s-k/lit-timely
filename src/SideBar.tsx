@@ -23,13 +23,15 @@ import Events from "./Events";
 
 import Testing from "./Testing";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LinkPart from "./LinkPart";
 import Meeting from "./Meeting";
 import AppointmentTypesList from "./AppoinmentTypeList";
-
+import { addActiveNavState } from "./app-store/gloabalSlice";
+import Cookies from "js-cookie";
+import { clearUserData } from "./app-store/registerSlice";
+import { clearEventData } from "./app-store/eventSlice";
 // Navigation items for sidebar
 const navItems = [
   { href: "/events", label: "My Events", icon: Folder },
@@ -39,38 +41,70 @@ const navItems = [
 ];
 
 const SideBar = () => {
+  const dispatch = useDispatch();
+  const activeNav = useSelector((state: any) => state.global.activeNav);
+
+  const handleSideBarNavigation = (index: any) => {
+    // Dispatch the active navigation change
+    if (index === 0) {
+      navigate("/events/user");
+
+      dispatch(addActiveNavState(index));
+    } else if (index === 1) {
+      navigate("/meetings/user");
+
+      dispatch(addActiveNavState(index));
+    } else if (index === 2) {
+      navigate("/availability/user");
+    } else if (index === 3) {
+      // navigate("/tab/user");
+
+      dispatch(addActiveNavState(index));
+    }
+  };
   const eventData = useSelector((state: any) => state.event.eventData);
   const userData = useSelector((state: any) => state.registration.userData);
 
   const navigate = useNavigate();
-  const [tabItem, setTabItem] = useState(0);
+
   // const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
   // const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error message state
   // const [isSubmittings, setIsSubmitting] = useState(false);
-  const handleNavigation = (tab: number) => {
-    console.log(tab, "tabbbbbbb");
+  // const handleNavigation = (tab: number) => {
+  //   console.log(tab, "tabbbbbbb");
 
-    if (tab === 0) {
-      navigate("/events/user");
-      setTabItem(tab);
-    } else if (tab === 1) {
-      navigate("/meetings/user");
-      setTabItem(tab);
-    } else if (tab === 2) {
-      navigate("/availability/user");
-      setTabItem(tab);
-    } else if (tab === 3) {
-      // navigate("/tab/user");
-      setTabItem(tab);
-    }
-  };
+  //   if (tab === 0) {
+  //     navigate("/events/user");
+  //     setTabItem(tab);
+  //   } else if (tab === 1) {
+  //     navigate("/meetings/user");
+  //     setTabItem(tab);
+  //   } else if (tab === 2) {
+  //     navigate("/availability/user");
+  //     setTabItem(tab);
+  //   } else if (tab === 3) {
+  //     // navigate("/tab/user");
+  //     setTabItem(tab);
+  //   }
+  // };
   //const [effect, setEffect] = useState(false);
   // useEffect(() => {
   //   console.log("set effectttt");
   // }, [effect]);
+  const handleLogOut = () => {
+    console.log("dleteeee");
 
+    // Clear the authentication cookie
+    Cookies.remove("authToken");
+
+    // Clear user data from Redux
+    dispatch(clearUserData([] as any));
+    dispatch(clearEventData([] as any));
+    // Redirect to the login page
+    navigate("/");
+  };
   return (
-    <div className="bg-gray-50 h-screen flex flex-col">
+    <div className="bg-gray-50 h-screen flex flex-col border-blue-400">
       {/* Header */}
       <div className="shadow-sm border-b border-blue-50 fixed top-0 left-0 right-0 z-20">
         <div className="w-full bg-white px-6 py-4 flex justify-between items-center">
@@ -93,7 +127,10 @@ const SideBar = () => {
             </div>
 
             {/* Sign Out Button */}
-            <button className="flex items-center text-gray-600 hover:text-red-500">
+            <button
+              onClick={() => handleLogOut()}
+              className="flex items-center text-gray-600 hover:text-red-500"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -123,7 +160,7 @@ const SideBar = () => {
             <div
               className="hover:bg-blue-100 w-56 h-11 mt-16 flex justify-center items-center border border-blue-400 rounded-full mx-auto cursor-pointer"
               onClick={() => {
-                handleNavigation(3);
+                handleSideBarNavigation(3);
               }}
             >
               <div className="flex items-center gap-1 text-blue-800 font-light ">
@@ -137,10 +174,14 @@ const SideBar = () => {
               {navItems.map((item, index) => (
                 <li
                   key={item.href}
-                  className="flex items-center px-6 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition rounded-md cursor-pointer"
-                  onClick={() => {
-                    handleNavigation(index);
-                  }}
+                  className={`flex items-center px-4 py-3 text-gray-600 hover:bg-blue-100 hover:text-blue-600 transition transform rounded-md cursor-pointer
+                 ${
+                   activeNav === index
+                     ? "bg-blue-200 scale-105  rounded-lg m-2"
+                     : ""
+                 } 
+               `}
+                  onClick={() => handleSideBarNavigation(index)}
                 >
                   <item.icon className="w-5 h-5 mr-3" />
                   <span className="text-sm text-black font-bold">
@@ -160,31 +201,31 @@ const SideBar = () => {
                 <div className="flex justify-between">
                   <header className="flex justify-between items-center mb-4">
                     <h1 className="text-3xl font-bold text-gray-800">
-                      {tabItem == 0 ? (
+                      {activeNav == 0 ? (
                         <span>Welcome, {userData?.firstName}</span>
                       ) : (
                         ""
                       )}
-                      {tabItem == 1 ? <span>Your meetings</span> : ""}
-                      {tabItem == 2 ? <span>Availability</span> : ""}
+                      {activeNav == 1 ? <span>Your meetings</span> : ""}
+                      {activeNav == 2 ? <span>Availability</span> : ""}
                     </h1>
                   </header>
                 </div>
                 <div>
-                  {tabItem == 2 && (
+                  {activeNav == 2 && (
                     <p className="text-gray-500 font-semibold text-lg">
                       View your Availability,
                     </p>
                   )}
                 </div>
 
-                {tabItem !== 3 && <LinkPart />}
+                {activeNav !== 3 && <LinkPart />}
               </div>
             )}
-            {tabItem === 0 && <Events />}
-            {tabItem === 1 && <Meeting />}
-            {tabItem === 2 && <Testing />}
-            {tabItem === 3 && <AppointmentTypesList />}
+            {activeNav === 0 && <Events />}
+            {activeNav === 1 && <Meeting />}
+            {activeNav === 2 && <Testing />}
+            {activeNav === 3 && <AppointmentTypesList />}
           </div>
         </main>
       </div>

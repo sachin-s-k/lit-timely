@@ -70,7 +70,7 @@ const Events = () => {
     <div>
       {eventData?.length === 0 ? (
         // Centered content when no events exist
-        <div className="flex flex-col items-center justify-center h-[calc(100vh-4rem)] text-center">
+        <div className="flex flex-col items-center justify-center h-[calc(80vh-4rem)] text-center">
           <img
             src="https://dev-application-portal.s3.eu-north-1.amazonaws.com/application_resource/calendar.svg"
             alt="calendar"
