@@ -6,13 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "./config/http";
 import { addCancelData } from "./app-store/meetingSlice";
 
-const BabelRow = ({
-  event,
-  isPast,
-  isCancelled,
-  activeTab,
-  setEffect,
-}: any) => {
+const BabelRow = ({ event, isPast, setEffect }: any) => {
   const userData = useSelector((state: any) => state.registration.userData);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,13 +24,7 @@ const BabelRow = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleEventPage = (
-    eventName: any,
-    bookedPersonName: any,
-    bookedPersonEmail: any,
-    bookingId: any,
-    eventId: any
-  ) => {
+  const handleEventPage = (eventName: any, bookingId: any, eventId: any) => {
     navigate(
       `/${
         userData.personalUrl
@@ -48,7 +36,7 @@ const BabelRow = ({
     setIsExpanded((prev) => !prev);
   };
 
-  const handleCancel = async (data) => {
+  const handleCancel = async (data: any) => {
     console.log("Meeting canceled with data:", data);
 
     try {
@@ -126,8 +114,7 @@ const BabelRow = ({
                   onClick={() =>
                     handleEventPage(
                       event.eventId.eventName,
-                      event.bookedPersonName,
-                      event.bookedPersonEmail,
+
                       event._id,
                       event.eventId._id
                     )

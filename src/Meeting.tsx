@@ -8,16 +8,16 @@ import { addMeetingData } from "./app-store/meetingSlice";
 
 const Meeting = () => {
   const dispatch = useDispatch();
-  const formatDateWithYear = (dateString: any) => {
-    const date = new Date(dateString);
+  // const formatDateWithYear = (dateString: any) => {
+  //   const date = new Date(dateString);
 
-    return new Intl.DateTimeFormat("en-US", {
-      weekday: "long",
-      month: "short",
-      day: "numeric",
-      year: "numeric", // Include the year in the format
-    }).format(date);
-  };
+  //   return new Intl.DateTimeFormat("en-US", {
+  //     weekday: "long",
+  //     month: "short",
+  //     day: "numeric",
+  //     year: "numeric", // Include the year in the format
+  //   }).format(date);
+  // };
   const [activeTab, setActiveTab] = useState("Upcoming");
   const [allMeetings, setAllMeetings] = useState([]); // Store all meetings
   const [filteredMeetings, setFilteredMeetings] = useState([]); // Store filtered meetings
@@ -43,11 +43,11 @@ const Meeting = () => {
   const categorizeMeetings = () => {
     const now = new Date(); // Current date and time
 
-    const categorizedMeetings = meetingData.filter((meeting) => {
+    const categorizedMeetings = meetingData.filter((meeting: any) => {
       const eventDate = new Date(meeting.eventDate); // Event date
       const [hours, minutes] = meeting.eventStartTime
         .split(":")
-        .map((val) => parseInt(val, 10));
+        .map((val: any) => parseInt(val, 10));
       const isPM = meeting.eventStartTime.includes("PM");
       const eventStartTime = new Date(eventDate); // Start time with the date
       eventStartTime.setHours(isPM ? hours + 12 : hours, minutes);
@@ -77,7 +77,7 @@ const Meeting = () => {
   }, [activeTab, allMeetings]);
 
   // Handle tab change
-  const handleTabChange = (tab) => {
+  const handleTabChange = (tab: any) => {
     setActiveTab(tab);
   };
 

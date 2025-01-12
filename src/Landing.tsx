@@ -270,12 +270,7 @@ const Landing = () => {
                   })}
                   onSubmit={handleSubmit}
                 >
-                  {({
-                    isSubmitting,
-                    setFieldValue,
-                    setFieldError,
-                    setFieldTouched,
-                  }) => (
+                  {({ isSubmitting, setFieldValue, setFieldError }) => (
                     <Form>
                       <div className="space-y-3 py-4">
                         {isSignUp && (

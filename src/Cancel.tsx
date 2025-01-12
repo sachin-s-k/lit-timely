@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 
 Modal.setAppElement("#root"); // Bind modal to your root element for accessibility
 
-const CancelMeetingModal = ({ isOpen, onClose, onCancel }) => {
+const CancelMeetingModal = ({ isOpen, onClose, onCancel }: any) => {
   const [customMessage, setCustomMessage] = useState("");
   const [notifyParticipants, setNotifyParticipants] = useState(true);
 
