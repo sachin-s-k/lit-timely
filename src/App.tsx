@@ -6,13 +6,15 @@ import Success from "./Success";
 import BookingPage from "./BookingPage";
 
 import UserPage from "./UserPage";
-import GoogleOAuthPage from "./Google";
+
 import TestForm from "./TestForm";
 import SlidingSidebar from "./SlidingSidebar";
 import ProtectedRoute from "./ProtectedRoute";
 import AppointmentTypesList from "./AppoinmentTypeList";
 import Landing from "./Landing";
-import Card from "./Card";
+import SkeletonCard from "./SkeletonCard";
+import CancelPublic from "./CancelPublic";
+import CancelPage from "./CancelPage";
 
 const App = () => {
   return (
@@ -90,12 +92,17 @@ const App = () => {
 
           <Route path="/test" element={<TestForm />} />
           <Route path="/:id" element={<UserPage />} />
-          <Route path="/auth/:id" element={<GoogleOAuthPage />} />
           <Route path="/events-page/success" element={<Success />} />
           {/* <Route path="/events-page/List" element={<AppointmentTypesList />} /> */}
           <Route path="/events/types_list" element={<SideBar />} />
           <Route path="/create/new-events" element={<SlidingSidebar />} />
-          <Route path="/create/card" element={<Card />} />
+          {/* <Route path="/create/card" element={<Card />} /> */}
+          <Route path="/create/card2" element={<SkeletonCard />} />
+          <Route
+            path="/meetings/cancel/:bookingId"
+            element={<CancelPublic />}
+          />
+          <Route path="/events-page/cancel" element={<CancelPage />} />
 
           {/*
           <Route path="/Sign-up" element={<SignUp />} />

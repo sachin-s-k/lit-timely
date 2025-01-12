@@ -173,7 +173,8 @@ import { Edit, Link, Trash2 } from "lucide-react";
 import DeleteModal from "./DeleteModal";
 import { axiosInstance } from "./config/http";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteEventData } from "./app-store/eventSlice";
 
 const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
   const userData = useSelector((state: any) => state.registration.userData);
@@ -181,7 +182,7 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentEventId, setCurrentEventId] = useState<string | null>(null);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(
@@ -205,9 +206,12 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
       const deleteResponse = await axiosInstance.delete(
         `/events/${currentEventId}`
       );
+      console.log(deleteResponse);
+
       if (deleteResponse.data.success) {
         setModalOpen(false);
-        navigate("/events/user"); // Navigate to user's events after delete
+        //navigate("/events/user");
+        dispatch(deleteEventData(currentEventId as any)); // Navigate to user's events after delete
       }
     } catch (error) {
       console.error("Error deleting event:", error);
@@ -224,7 +228,7 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
       >
         <CardHeader className="p-4">
           <CardTitle className="text-lg font-semibold text-gray-800 flex justify-between">
-            <span>{event.eventName}</span>
+            <span>{event?.eventName}</span>
             {!isPublicPage && (
               <Edit
                 size={22}
@@ -235,13 +239,13 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
             )}
           </CardTitle>
           <CardDescription className="flex justify-between text-sm text-gray-500 mt-2">
-            <span>{event.eventDuration} mins</span>
+            <span>{event?.eventDuration} mins</span>
             {!isPublicPage && <span>{event?.Bookings?.length} Bookings</span>}
           </CardDescription>
         </CardHeader>
 
         <CardContent className="p-4 text-gray-700 text-sm">
-          <p>{event.eventDescription}</p>
+          <p>{event?.eventDescription}</p>
         </CardContent>
 
         {!isPublicPage && (

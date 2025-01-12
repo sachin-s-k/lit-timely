@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "./config/http";
 import { addUserData } from "./app-store/registerSlice";
 import Cookies from "js-cookie";
-
+import debounce from "lodash.debounce";
 // Function to evaluate password strength
 const evaluatePasswordStrength = (password: string): number => {
   let strength = 0;
@@ -37,73 +37,119 @@ const Landing = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
 
-  const validateEmailWithServer = async (email: string) => {
-    console.log("called server");
+  // const validateEmailWithServer = async (email: string) => {
+  //   console.log("called server");
 
+  //   try {
+  //     const response = await axiosInstance.post("/check", { email });
+
+  //     return response.data.isValid; // Expecting `isValid` in the response
+  //   } catch (error) {
+  //     console.error("Error validating email:", error);
+  //     return false;
+  //   }
+  // };
+  // const handleEmailValidationError = async (
+  //   email: string,
+  //   setFieldError: (field: string, message: string) => void,
+  //   setFieldTouched: (
+  //     field: string,
+  //     isTouched?: boolean,
+  //     shouldValidate?: boolean
+  //   ) => void
+  // ) => {
+  //   try {
+  //     const isValid = await validateEmailWithServer(email);
+  //     if (!isValid) {
+  //       console.log("enttttred");
+
+  //       setFieldError("email", "This email does not exist in our records.");
+  //       setFieldTouched("email", true, true); // Ensure the field is marked as touched
+  //     } else {
+  //       setFieldError("email", ""); // Clear error if valid
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during email validation:", error);
+  //     setFieldError("email", "There was an issue validating the email.");
+  //   } finally {
+  //     setFieldTouched("email", true, true); // Ensure the field is marked as touched
+  //   }
+  // };
+
+  const [emailValidationError, setEmailValidationError] = useState("");
+
+  const validateEmailWithServer = async (email: string) => {
     try {
       const response = await axiosInstance.post("/check", { email });
-
-      return response.data.isValid; // Expecting `isValid` in the response
+      return response.data.isValid;
     } catch (error) {
       console.error("Error validating email:", error);
       return false;
     }
   };
 
-  const handleEmailValidationError = (
-    email: string,
-    setFieldError: (field: string, message: string) => void
-  ) => {
-    console.log("callled");
-
-    // Check domain with regex
-    if (!/^[a-zA-Z0-9._%+-]+@litschool\.in$/.test(email)) {
-      setFieldError("email", "Sorry, this mail is not registered with us");
+  // Debounced validation function
+  const validateEmail = debounce(async (email: string, setFieldError: any) => {
+    if (!email) {
+      //setFieldError("email", "Email is required");
+      setEmailValidationError("Email is required");
       return;
     }
 
-    // Proceed with async email validation
-    validateEmailWithServer(email)
-      .then((isValid) => {
-        console.log("API call success, isValid:", isValid);
-        if (!isValid) {
-          setFieldError("email", "This email does not exist in our records.");
-        } else {
-          setFieldError("email", ""); // Reset error if valid
-        }
-      })
-      .catch((error) => {
-        console.error("Error during email validation:", error);
-        setFieldError("email", "There was an issue validating the email.");
-      });
-  };
+    try {
+      const isValid = await validateEmailWithServer(email);
+      if (!isValid) {
+        // setFieldError("email", "This email does not exist in our records.");
+        setEmailValidationError("This email does not exist in our records.sss");
+      } else {
+        setFieldError("email", "");
+        setEmailValidationError(""); // Clear error if valid
+      }
+    } catch (error) {
+      setFieldError(
+        "email",
+        "There was an issue validating the email. Please try again."
+      );
+      setEmailValidationError(
+        "There was an issue validating the email. Please try again."
+      );
+    }
+  }, 500); // Debounce with a 500ms delay
 
   const handleSubmit = async (values: any, { setErrors }: any) => {
-    try {
-      const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
-      const response = await axiosInstance.post(endpoint, values);
+    console.log("befrrororor");
 
-      if (response.data) {
-        Cookies.set("authToken", response.data.data.token);
-        dispatch(addUserData(response.data.data.userData));
-        navigate("/events/user");
-      }
-    } catch (error: any) {
-      if (error.response) {
-        if (error.response.data.message === "Invalid credentials") {
-          setErrors({
-            email: "This email is not registered with us.",
-            password: "Password is incorrect.",
-          });
+    if (!emailValidationError) {
+      console.log("called");
+
+      try {
+        const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
+        const response = await axiosInstance.post(endpoint, values);
+
+        if (response.data) {
+          Cookies.set("authToken", response.data.data.token);
+          dispatch(addUserData(response.data.data.userData));
+          navigate("/events/user");
+        } else {
+          console.log(response.data, "fffff");
+        }
+      } catch (error: any) {
+        if (error.response) {
+          if (error.response.data.message === "Invalid credentials") {
+            setErrors({
+              email: "This email is not registered with us.",
+              password: "Password is incorrect.",
+            });
+          } else {
+            setErrors({
+              email: "An error occurred. Please try again.",
+            });
+          }
         } else {
           setErrors({
             email: "An error occurred. Please try again.",
           });
         }
-      } else {
-        setErrors({
-          email: "An error occurred. Please try again.",
-        });
       }
     }
   };
@@ -200,13 +246,13 @@ const Landing = () => {
                     lastName: isSignUp
                       ? Yup.string().required("Last Name is required")
                       : Yup.string(),
-                    email: Yup.string()
-                      .email("Invalid email address")
-                      .required("Email is required")
-                      .matches(
-                        /^[a-zA-Z0-9._%+-]+@litschool\.in$/,
-                        "Sorry, this mail is not registered with us"
-                      ),
+                    email: Yup.string(),
+                    // .email("Invalid email address")
+                    // .required("Email is required"),
+                    // .matches(
+                    //   /^[a-zA-Z0-9._%+-]+@litschool\.in$/,
+                    //   "Sorry, this mail is not registered with us"
+                    // )
                     password: isSignUp
                       ? Yup.string()
                           .min(8, "Password must be at least 8 characters")
@@ -224,7 +270,12 @@ const Landing = () => {
                   })}
                   onSubmit={handleSubmit}
                 >
-                  {({ isSubmitting, setFieldValue, setFieldError }) => (
+                  {({
+                    isSubmitting,
+                    setFieldValue,
+                    setFieldError,
+                    setFieldTouched,
+                  }) => (
                     <Form>
                       <div className="space-y-3 py-4">
                         {isSignUp && (
@@ -268,28 +319,20 @@ const Landing = () => {
                             type="email"
                             placeholder="Email"
                             className="pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
-                            onBlur={async (
-                              e: React.FocusEvent<HTMLInputElement>
+                            onChange={async (
+                              e: React.ChangeEvent<HTMLInputElement>
                             ) => {
                               const email = e.target.value;
-                              // This is firing, so onBlur is working
-                              handleEmailValidationError(email, setFieldError);
-                              // Debug the email validation flow
-                              console.log("Email onBlur triggered:", email);
-
-                              // Check domain with regex
-                              if (
-                                !/^[a-zA-Z0-9._%+-]+@litschool\.in$/.test(email)
-                              ) {
-                                setFieldError(
-                                  "email",
-                                  "Sorry, this mail is not registered with us"
-                                );
-                                return;
-                              }
+                              setFieldValue("email", email); // Update Formik state
+                              validateEmail(email, setFieldError); // Perform debounced validation
                             }}
                           />
                         </div>
+                        {emailValidationError && (
+                          <div className="text-red-500 text-xs">
+                            {emailValidationError}
+                          </div>
+                        )}
                         <ErrorMessage
                           name="email"
                           component="div"
@@ -397,10 +440,7 @@ const Landing = () => {
 
           {/* Footer Attribution */}
           <div className="absolute bottom-4 w-full text-center text-gray-200 text-sm">
-            Powered by{" "}
-            <a href="https://disruptiveacademy.com" className="underline">
-              Disruptive Edu Pvt. Ltd.
-            </a>
+            Powered by <a>Disruptive Edu Pvt. Ltd.</a>
           </div>
         </div>
       </div>

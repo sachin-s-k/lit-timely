@@ -378,18 +378,27 @@ const EventScheduler = () => {
     if (!eventDuration) {
       newErrors.eventDuration = "Event Duration is required";
       valid = false;
-    } else if (isNaN(eventDuration as any)) {
-      newErrors.eventDuration = "Event Duration must be a valid number";
+    } else if (isNaN(eventDuration as any) || (eventDuration as any) <= 0) {
+      newErrors.eventDuration =
+        "Event Duration must be a valid positive number";
+      valid = false;
+      setIsPreview(false);
+    } else if ((eventDuration as any) < 10) {
+      newErrors.eventDuration = "Event Duration must be at least 10 minutes";
+      valid = false;
+      setIsPreview(false);
+    } else if ((eventDuration as any) > 1439) {
+      newErrors.eventDuration = "Event Duration must not exceed 1439 minutes";
       valid = false;
       setIsPreview(false);
     }
 
     // Validate Description
-    if (!description) {
-      newErrors.description = "Description is required";
-      valid = false;
-      setIsPreview(false);
-    }
+    // if (!description) {
+    //   newErrors.description = "Description is required";
+    //   valid = false;
+    //   setIsPreview(false);
+    // }
 
     // Validate Weekdays
     // if (eventDays.length === 0) {
@@ -659,7 +668,11 @@ const EventScheduler = () => {
   //   }
   // };
 
-  const handleSubmit = async (edit: boolean, clickedDate?: Date) => {
+  const handleSubmit = async (
+    edit: boolean,
+    clickedDate?: any,
+    dataSubmit?: boolean
+  ) => {
     console.log("handle submit");
 
     if (validateForm()) {
@@ -670,17 +683,31 @@ const EventScheduler = () => {
             eventDuration,
             description,
             eventDatas,
+            eventId,
           });
 
           try {
-            toast.loading("Your Event is Creating....");
+            let response;
+            if (dataSubmit) {
+              toast.loading("Your Event is Creating....");
+              response = await axiosInstance.post("/events?preview=false", {
+                eventName,
+                eventDuration,
+                eventDescription: description,
+                eventDatas,
+                eventId,
+              });
+            } else {
+              console.log("previewwwwwww tryeeeee");
 
-            const response = await axiosInstance.post("/events?preview=true", {
-              eventName,
-              eventDuration,
-              eventDescription: description,
-              eventDatas,
-            });
+              response = await axiosInstance.post("/events?preview=true", {
+                eventName,
+                eventDuration,
+                eventDescription: description,
+                eventDatas,
+                eventId,
+              });
+            }
 
             if (response.data.success) {
               console.log(response.data);
@@ -694,9 +721,10 @@ const EventScheduler = () => {
                 //   handleSlots(clickedDate);
                 // }, 2000);
               }
-
-              toast.dismiss();
-              toast.success("Your event was created successfully!");
+              if (dataSubmit) {
+                toast.dismiss();
+                toast.success("Your event was created successfully!");
+              }
             } else {
               toast.dismiss();
               setTimeout(() => {
@@ -842,7 +870,7 @@ const EventScheduler = () => {
             </button>
             <button
               onClick={() => {
-                handleSubmit(false);
+                handleSubmit(false, "", true);
               }}
               className="bg-blue-600 text-white py-2 px-8 rounded-full shadow-md hover:bg-blue-700 transition duration-200 w-full"
             >
@@ -966,7 +994,7 @@ const EventScheduler = () => {
                       console.log("callleeeddddd");
 
                       setSlotIsLoading(true);
-                      handleSubmit(true, date); // Pass the clicked date to handleSubmit
+                      handleSubmit(true, date, false); // Pass the clicked date to handleSubmit
                     } else {
                       handleSlots(date); // Pass the clicked date to handleSlots
                     }

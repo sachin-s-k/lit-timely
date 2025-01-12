@@ -104,9 +104,9 @@ const SideBar = () => {
     navigate("/");
   };
   return (
-    <div className="bg-gray-50 h-screen flex flex-col border-blue-400">
+    <div className="bg-gray-50 h-screen flex flex-col ">
       {/* Header */}
-      <div className="shadow-sm border-b border-blue-50 fixed top-0 left-0 right-0 z-20">
+      <div className="shadow-sm border-b border-blue-100 fixed top-0 left-0 right-0 z-20">
         <div className="w-full bg-white px-6 py-4 flex justify-between items-center">
           {/* Left Section: Company Logo and Name */}
           <div className="flex items-center space-x-1">
@@ -121,9 +121,16 @@ const SideBar = () => {
           {/* Right Section: User Initial and Sign Out */}
           <div className="flex items-center space-x-4">
             {/* User Initial */}
-            <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white text-lg font-bold rounded-full">
-              {userData.firstName.charAt(0).toUpperCase()}
-              {/* Replace 'A' with the user's first initial dynamically */}
+            <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white text-lg font-bold rounded-full overflow-hidden">
+              {userData.profileImageUrl ? (
+                <img
+                  src={userData.profileImageUrl}
+                  alt={`${userData.firstName}'s profile`}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                userData.firstName.charAt(0).toUpperCase()
+              )}
             </div>
 
             {/* Sign Out Button */}
@@ -152,7 +159,7 @@ const SideBar = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex h-full pt-[4rem]">
+      <div className="flex h-full pt-[4rem]  border-r-2 border-blue-400">
         {/* Sidebar */}
         <aside className="hidden md:block w-64 bg-white shadow-lg h-full fixed left-0 top-[4rem]  overflow-y-auto">
           <nav className="mt-12">
@@ -197,16 +204,16 @@ const SideBar = () => {
         <main className="ml-64 w-full overflow-y-auto">
           <div className="p-6">
             {eventData?.length >= 1 && (
-              <div className="mt-12">
+              <div className={`${activeNav === 0 ? "mt-12" : "mt-0"}`}>
                 <div className="flex justify-between">
                   <header className="flex justify-between items-center mb-4">
                     <h1 className="text-3xl font-bold text-gray-800">
-                      {activeNav == 0 ? (
+                      {activeNav !== 1 && activeNav !== 2 && activeNav !== 3 ? (
                         <span>Welcome, {userData?.firstName}</span>
                       ) : (
                         ""
                       )}
-                      {activeNav == 1 ? <span>Your meetings</span> : ""}
+                      {/* {activeNav == 1 ? <span>Your meetings</span> : ""} */}
                       {activeNav == 2 ? <span>Availability</span> : ""}
                     </h1>
                   </header>
@@ -219,7 +226,9 @@ const SideBar = () => {
                   )}
                 </div>
 
-                {activeNav !== 3 && <LinkPart />}
+                {activeNav !== 1 && activeNav !== 2 && activeNav !== 3 && (
+                  <LinkPart />
+                )}
               </div>
             )}
             {activeNav === 0 && <Events />}
