@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-
 export const axiosInstance = axios.create({
   //baseURL: "http://localhost:8000",
 
@@ -14,6 +13,9 @@ axiosInstance.interceptors.request.use(
     // Fetch the token from cookies
     const authToken = Cookies.get("authToken");
     console.log(authToken, "authhhh");
+    if (!authToken) {
+      window.location.href = "/"; // Redirect to the home page or login page
+    }
 
     if (authToken) {
       if (config.headers) {
