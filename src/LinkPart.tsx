@@ -23,7 +23,7 @@ const LinkPart = () => {
                   className="text-blue-500 text-sm underline"
                   target="_blank"
                 >
-                  {`http://localhost:5173/${userData?.personalUrl}`}
+                  {`https://main.d2ogeweki0hgqu.amplifyapp.com/${userData?.personalUrl}`}
                 </a>
               </div>
             </div>
