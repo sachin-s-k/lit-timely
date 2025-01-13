@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 export const axiosInstance = axios.create({
   //baseURL: "http://localhost:8000",
 
-  baseURL: "http://dev.cal.litschool.in/",
+  baseURL: "https://dev.cal.litschool.in/",
 });
 
 axiosInstance.interceptors.request.use(
