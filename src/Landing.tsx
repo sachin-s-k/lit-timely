@@ -100,7 +100,7 @@ const Landing = () => {
       const isValid = await validateEmailWithServer(email);
       if (!isValid) {
         // setFieldError("email", "This email does not exist in our records.");
-        setEmailValidationError("This email does not exist in our records.sss");
+        setEmailValidationError("This email does not exist in our records..");
       } else {
         setFieldError("email", "");
         setEmailValidationError(""); // Clear error if valid
