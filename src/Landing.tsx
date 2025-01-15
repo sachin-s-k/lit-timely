@@ -17,6 +17,7 @@ import { addUserData } from "./app-store/registerSlice";
 import Cookies from "js-cookie";
 import debounce from "lodash.debounce";
 import axios from "axios";
+
 // Function to evaluate password strength
 const evaluatePasswordStrength = (password: string): number => {
   let strength = 0;
