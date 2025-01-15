@@ -16,6 +16,8 @@ import SkeletonCard from "./SkeletonCard";
 import CancelPublic from "./CancelPublic";
 import CancelPage from "./CancelPage";
 
+import OTP from "./Otp";
+
 const App = () => {
   return (
     <>
@@ -29,7 +31,7 @@ const App = () => {
 
           {/* Protected Routes */}
           <Route
-            path="/events/user"
+            path="/events/user/me"
             element={
               <ProtectedRoute>
                 <SideBar />
@@ -103,6 +105,7 @@ const App = () => {
             element={<CancelPublic />}
           />
           <Route path="/events-page/cancel" element={<CancelPage />} />
+          <Route path="/events-page/otp" element={<OTP />} />
 
           {/*
           <Route path="/Sign-up" element={<SignUp />} />

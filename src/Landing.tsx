@@ -13,10 +13,10 @@ import * as Yup from "yup";
 import { Label } from "./components/ui/label";
 import { Mail, Lock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "./config/http";
 import { addUserData } from "./app-store/registerSlice";
 import Cookies from "js-cookie";
 import debounce from "lodash.debounce";
+import axios from "axios";
 // Function to evaluate password strength
 const evaluatePasswordStrength = (password: string): number => {
   let strength = 0;
@@ -80,7 +80,9 @@ const Landing = () => {
 
   const validateEmailWithServer = async (email: string) => {
     try {
-      const response = await axiosInstance.post("/check", { email });
+      const response = await axios.post("https://dev.cal.litschool.in/check", {
+        email,
+      });
       return response.data.isValid;
     } catch (error) {
       console.error("Error validating email:", error);
@@ -124,30 +126,31 @@ const Landing = () => {
 
       try {
         const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
-        const response = await axiosInstance.post(endpoint, values);
+        const response = await axios.post(
+          "http://localhost:8000" + endpoint,
+          values
+        );
+
+        console.log(response, "resp");
 
         if (response.data) {
           Cookies.set("authToken", response.data.data.token);
           dispatch(addUserData(response.data.data.userData));
-          navigate("/events/user");
+          navigate("/events/user/me");
         } else {
           console.log(response.data, "fffff");
         }
       } catch (error: any) {
-        if (error.response) {
-          if (error.response.data.message === "Invalid credentials") {
-            setErrors({
-              email: "This email is not registered with us.",
-              password: "Password is incorrect.",
-            });
-          } else {
-            setErrors({
-              email: "An error occurred. Please try again.",
-            });
-          }
-        } else {
+        console.log(error, "erro");
+
+        if (error.response.data.type == "INVALID_PASSWORD") {
           setErrors({
-            email: "An error occurred. Please try again.",
+            password: "The entered password is incorrect",
+          });
+        }
+        if (error.response.data.type == "USER_NOT_FOUND") {
+          setErrors({
+            email: "This email is not registered with us.",
           });
         }
       }

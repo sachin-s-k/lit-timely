@@ -20,7 +20,6 @@ const CancelPage = () => {
 
   return (
     <div>
-      {" "}
       <div className="lg:border h-fit mx-auto mt-16 lg:rounded-md lg:shadow-lg w-3/4">
         <div className="">
           <div className="flex justify-center lg:mr-12">

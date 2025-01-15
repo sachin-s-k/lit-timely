@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Calendar, Clock, Globe2 } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { axiosInstance } from "./config/http";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const BookingPage = () => {
   // const formatDate = (isoDate: any) => {
@@ -36,8 +36,8 @@ const BookingPage = () => {
     setLoading(true);
     const fetchEventData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/events/meetings/booking/${bookingId}`
+        const response = await axios.get(
+          `https://dev.cal.litschool.in/events/meetings/booking/${bookingId}`
         );
         console.log(response, "response");
 
@@ -77,8 +77,8 @@ const BookingPage = () => {
         console.log();
 
         try {
-          const response: any = await axiosInstance.post(
-            `/events/meetings/cancel/${bookingId}`,
+          const response: any = await axios.post(
+            `https://dev.cal.litschool.in/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }

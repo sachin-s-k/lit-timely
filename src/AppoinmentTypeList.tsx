@@ -36,7 +36,7 @@ const AppointmentTypesList: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleNavigation = (index: any) => {
-    navigate("/events/user/");
+    navigate("/events/user/me");
     dispatch(addActiveNavState(index));
   };
   return (

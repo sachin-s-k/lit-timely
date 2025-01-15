@@ -240,7 +240,7 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
           </CardTitle>
           <CardDescription className="flex justify-between text-sm text-gray-500 mt-2">
             <span>{event?.eventDuration} mins</span>
-            {!isPublicPage && <span>{event?.Bookings?.length} Bookings</span>}
+            {/* {!isPublicPage && <span>{event?.Bookings?.length} Bookings</span>} */}
           </CardDescription>
         </CardHeader>
 

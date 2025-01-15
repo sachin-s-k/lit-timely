@@ -32,6 +32,8 @@ import { addActiveNavState } from "./app-store/gloabalSlice";
 import Cookies from "js-cookie";
 import { clearUserData } from "./app-store/registerSlice";
 import { clearEventData } from "./app-store/eventSlice";
+import { useEffect, useState } from "react";
+import { addMeetingData } from "./app-store/meetingSlice";
 // Navigation items for sidebar
 const navItems = [
   { href: "/events", label: "My Events", icon: Folder },
@@ -47,7 +49,7 @@ const SideBar = () => {
   const handleSideBarNavigation = (index: any) => {
     // Dispatch the active navigation change
     if (index === 0) {
-      navigate("/events/user");
+      navigate("/events/user/me");
 
       dispatch(addActiveNavState(index));
     } else if (index === 1) {
@@ -98,11 +100,34 @@ const SideBar = () => {
     Cookies.remove("authToken");
 
     // Clear user data from Redux
-    dispatch(clearUserData([] as any));
+    dispatch(clearUserData({} as any));
     dispatch(clearEventData([] as any));
+    dispatch(addMeetingData([] as any));
+    dispatch(addActiveNavState(0 as any));
     // Redirect to the login page
     navigate("/");
   };
+
+  //
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    // Handler to update online status
+    const updateOnlineStatus = () => {
+      setIsOnline(navigator.onLine);
+    };
+
+    // Listen for online/offline events
+    window.addEventListener("online", updateOnlineStatus);
+    window.addEventListener("offline", updateOnlineStatus);
+
+    // Cleanup event listeners on component unmount
+    return () => {
+      window.removeEventListener("online", updateOnlineStatus);
+      window.removeEventListener("offline", updateOnlineStatus);
+    };
+  }, []);
+
   return (
     <div className="bg-gray-50 h-screen flex flex-col ">
       {/* Header */}
@@ -120,17 +145,31 @@ const SideBar = () => {
 
           {/* Right Section: User Initial and Sign Out */}
           <div className="flex items-center space-x-4">
-            {/* User Initial */}
-            <div className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white text-lg font-bold rounded-full overflow-hidden">
-              {userData.profileImageUrl ? (
-                <img
-                  src={userData.profileImageUrl}
-                  alt={`${userData.firstName}'s profile`}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                userData.firstName.charAt(0).toUpperCase()
-              )}
+            {/* User Profile with Online/Offline Indicator */}
+            <div className="relative w-8 h-8">
+              {/* Ring around the profile */}
+              <div
+                className={`absolute inset-0 rounded-full ${
+                  isOnline ? "ring-2 ring-blue-400" : "ring-2 ring-gray-400"
+                }`}
+              ></div>
+
+              {/* Profile Image */}
+              <div className="relative w-full h-full flex items-center justify-center">
+                {userData.profileImageUrl ? (
+                  <img
+                    src={userData.profileImageUrl}
+                    alt={`${userData.firstName}'s profile`}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-blue-500 text-white text-lg font-bold rounded-full">
+                    {userData.firstName.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </div>
+
+              {/* Online/Offline Dot */}
             </div>
 
             {/* Sign Out Button */}

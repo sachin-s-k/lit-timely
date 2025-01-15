@@ -41,7 +41,7 @@ const Success = () => {
                 </span>
               </div>
               <div>
-                <span className="font-bold">You are scheduled </span>
+                <span className="font-bold">Your booking is complete.</span>
               </div>
             </div>
           </div>

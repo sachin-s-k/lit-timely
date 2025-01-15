@@ -5,9 +5,9 @@ import * as Yup from "yup";
 import { ArrowLeft, Calendar, Clock, Globe2 } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "./components/ui/avatar";
-import { axiosInstance } from "./config/http";
 import { format } from "date-fns";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const BookingPage = () => {
   const [loading, setLoading] = useState(false);
@@ -36,8 +36,8 @@ const BookingPage = () => {
     setLoading(true);
     const fetchEventData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/events/booking/${id}?eventId=${eventId}`
+        const response = await axios.get(
+          `https://dev.cal.litschool.in/events/booking/${id}?eventId=${eventId}`
         );
         setLoading(false);
         setUserData(response.data.userData);
@@ -88,8 +88,8 @@ const BookingPage = () => {
       const handlingSlotBooking = async () => {
         setIsSubmitting(true);
         try {
-          const response: any = await axiosInstance.post(
-            "/events/booking-slot",
+          const response: any = await axios.post(
+            "https://dev.cal.litschool.in/events/booking-slot",
             {
               ...values,
               eventId,

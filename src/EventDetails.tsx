@@ -5,10 +5,10 @@ import { AvatarFallback } from "@radix-ui/react-avatar";
 import { BookingForm } from "./BookingForm";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { axiosInstance } from "./config/http";
 import { addMinutes } from "date-fns/addMinutes";
 import { format, parse } from "date-fns";
 import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
 
 const EventDetails = () => {
   const { id, eventName } = useParams(); // Extract dynamic segments
@@ -28,8 +28,8 @@ const EventDetails = () => {
     setLoading(true);
     const fetchEventData = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/events/booking/${id}?eventId=${eventId}`
+        const response = await axios.get(
+          `https://dev.cal.litschool.in/events/booking/${id}?eventId=${eventId}`
         );
         console.log(response, "response=====>");
         setUserData(response.data.userData);

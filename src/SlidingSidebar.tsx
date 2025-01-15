@@ -8,7 +8,8 @@ import Testing from "./Testing";
 import toast, { Toaster } from "react-hot-toast";
 import { axiosInstance } from "./config/http";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addActiveNavState } from "./app-store/gloabalSlice";
 
 const EventScheduler = () => {
   console.log("rendering");
@@ -20,6 +21,7 @@ const EventScheduler = () => {
   const [orgSelectedDate, setOrgSelectedDate] = useState<Date | null>(null);
   const [slots, setSlots] = useState([]);
   const [orgData, setOrgData] = useState([] as any);
+  const dispatch = useDispatch();
   // const handleSlots = () => {
   //   console.log("enterrrr{{{{{{{");
 
@@ -202,7 +204,7 @@ const EventScheduler = () => {
         {
           start: "",
           end: "",
-          error: "startTime and endTime are requiredsss",
+          error: "startTime and endTime are required",
         },
       ],
     },
@@ -252,7 +254,7 @@ const EventScheduler = () => {
         {
           start: "",
           end: "",
-          error: "",
+          error: "startTime and endTime are requireds",
         },
       ],
     },
@@ -674,7 +676,7 @@ const EventScheduler = () => {
     dataSubmit?: boolean
   ) => {
     console.log("handle submit");
-
+    const index: any = 0;
     if (validateForm()) {
       if (globalErrors.length === 0 && otherErrors.length === 0) {
         if (handleValidation()) {
@@ -724,6 +726,8 @@ const EventScheduler = () => {
               if (dataSubmit) {
                 toast.dismiss();
                 toast.success("Your event was created successfully!");
+                dispatch(addActiveNavState(index));
+                navigate("/events/user/me");
               }
             } else {
               toast.dismiss();
@@ -762,7 +766,7 @@ const EventScheduler = () => {
             <span
               className="font-semibold text-blue-500"
               onClick={() => {
-                navigate("/events/user/");
+                navigate("/events/user/me");
               }}
             >
               {" "}
