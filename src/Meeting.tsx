@@ -251,7 +251,7 @@ const Meeting = () => {
 
   return (
     <>
-      <div className="mt-12">
+      <div className="mt-28">
         <span className="text-3xl font-bold">Meetings</span>
       </div>
 

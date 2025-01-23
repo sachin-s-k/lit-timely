@@ -12,7 +12,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { addActiveNavState } from "./app-store/gloabalSlice";
 
 const EventScheduler = () => {
+  const [bookingGap, setBookingGap] = useState(0); // Stores the selected or custom gap
+  const [isGapDropdownVisible, setGapDropdownVisible] = useState(false);
+  const predefinedGaps = ["5", "10", "15"]; // Predefined gaps in minutes
+
+  const handleGapInputChange = (value: any) => {
+    setBookingGap(value); // Update bookingGap with custom input
+  };
+
+  const handleSelectGap = (gap: any) => {
+    setBookingGap(gap); // Update bookingGap with selected value
+    setDropdownVisible(false); // Hide dropdown after selection
+  };
+  const categoryData: any = useSelector(
+    (state: any) => state.event.categoryData
+  );
+
+  const predefinedCategories = [
+    "General",
+    "Litmus Test Review",
+    "Application Test Review",
+    "Conference",
+    "workshop",
+  ];
+  const uniquePredefinedCategories = predefinedCategories.filter(
+    (category: any) =>
+      category === "General" || !categoryData.includes(category)
+  );
+  const [eventCategory, setEventCategory] = useState("General"); // Holds both predefined and custom categories
   console.log("rendering");
+  const [isCatDropdownVisible, setCatDropdownVisible] = useState(false);
+
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const predefinedDurations = ["15", "30", "45", "60", "90", "120"];
 
   const [eventDuration, setEventDuration] = useState("");
   const [isSlotLoading, setSlotIsLoading] = useState(false);
@@ -85,7 +118,7 @@ const EventScheduler = () => {
     setOrgSelectedDate(clickedDate || selectedDate);
     setIsPreview(true);
   };
-
+  const [restrictedCategory, setRestrictedCategory] = useState("");
   // let eventData = [
   //   {
   //     isAvailable: true,
@@ -176,9 +209,14 @@ const EventScheduler = () => {
       setEventName(editEventdata.data.data.eventName);
       setEventDuration(editEventdata.data.data.eventDuration);
       setDescription(editEventdata.data.data.eventDescription);
+      setEventCategory(editEventdata.data.data.eventCategory);
+      setRestrictedCategory(editEventdata.data.data.eventCategory);
+      setBookingGap(editEventdata.data.data.meetingGap);
+
       // setEventData(editEventdata.data.data.availability);
       //setEditEventDays(editEventdata.data.data.availability);
-      console.log(editEventdata.data.data.availability, "eee&&&");
+      //console.log(editEventdata.data.data.availability, "eee&&&");
+      //dispatch(addCategory([]));
       // eventData = editEventdata.data.data.availability;
       //setEventData(editEventdata.data.data.availability);
       //eventData = editEventdata.data.data.availability;
@@ -202,18 +240,8 @@ const EventScheduler = () => {
       isAvailable: false,
       timeSlots: [
         {
-          start: "",
-          end: "",
-          error: "startTime and endTime are required",
-        },
-      ],
-    },
-    {
-      isAvailable: false,
-      timeSlots: [
-        {
-          start: "9:00am",
-          end: "5:00pm",
+          start: "10:30am",
+          end: "6:00pm",
           error: "",
         },
       ],
@@ -222,28 +250,8 @@ const EventScheduler = () => {
       isAvailable: false,
       timeSlots: [
         {
-          start: "9:00am",
-          end: "5:00pm",
-          error: "",
-        },
-      ],
-    },
-    {
-      isAvailable: true,
-      timeSlots: [
-        {
-          start: "9:00am",
-          end: "5:00pm",
-          error: "",
-        },
-      ],
-    },
-    {
-      isAvailable: true,
-      timeSlots: [
-        {
-          start: "9:00am",
-          end: "5:00pm",
+          start: "10:30am",
+          end: "6:00pm",
           error: "",
         },
       ],
@@ -252,9 +260,9 @@ const EventScheduler = () => {
       isAvailable: false,
       timeSlots: [
         {
-          start: "",
-          end: "",
-          error: "startTime and endTime are requireds",
+          start: "10:30am",
+          end: "6:00pm",
+          error: "",
         },
       ],
     },
@@ -262,8 +270,38 @@ const EventScheduler = () => {
       isAvailable: true,
       timeSlots: [
         {
-          start: "9:00am",
-          end: "5:00pm",
+          start: "10:30am",
+          end: "6:00pm",
+          error: "",
+        },
+      ],
+    },
+    {
+      isAvailable: true,
+      timeSlots: [
+        {
+          start: "10:30am",
+          end: "6:00pm",
+          error: "",
+        },
+      ],
+    },
+    {
+      isAvailable: false,
+      timeSlots: [
+        {
+          start: "10:30am",
+          end: "6:00pm",
+          error: "",
+        },
+      ],
+    },
+    {
+      isAvailable: true,
+      timeSlots: [
+        {
+          start: "10:30am",
+          end: "6:00pm",
           error: "",
         },
       ],
@@ -357,6 +395,7 @@ const EventScheduler = () => {
     eventName: "",
     eventDuration: "",
     description: "",
+    gap: "",
   });
 
   const validateForm = () => {
@@ -365,6 +404,7 @@ const EventScheduler = () => {
       eventName: "",
       eventDuration: "",
       description: "",
+      gap: "",
     };
 
     // Validate Event Name
@@ -396,12 +436,16 @@ const EventScheduler = () => {
     }
 
     // Validate Description
-    // if (!description) {
-    //   newErrors.description = "Description is required";
-    //   valid = false;
-    //   setIsPreview(false);
-    // }
-
+    if (bookingGap > 15) {
+      newErrors.gap = "The booking gap must be less than 15";
+      valid = false;
+      setIsPreview(false);
+    }
+    if (description.split(/\s+/).filter(Boolean).length > 60) {
+      newErrors.description = "The description must have 60 words or fewer.";
+      valid = false;
+      setIsPreview(false);
+    }
     // Validate Weekdays
     // if (eventDays.length === 0) {
     //   newErrors.eventDays = "At least one day must be selected";
@@ -611,64 +655,45 @@ const EventScheduler = () => {
     return isValid; // Return true if valid, false otherwise
   };
 
-  // const handleSubmit = async (edit: boolean) => {
-  //   // e.preventDefault();
+  const handleInputChange = (value: any) => {
+    setEventDuration(value); // Directly update eventDuration with the custom input
 
-  //   if (validateForm()) {
-  //     if (globalErrors.length == 0) {
-  //       console.log(otherErrors, "otherrrr");
+    // Validation for numeric custom duration
+    if (value && !/^\d+$/.test(value)) {
+      setErrors({
+        eventDuration: "Please enter a valid number for duration.",
+      } as any);
+    } else if (value && Number(value) <= 0) {
+      setErrors({ eventDuration: "Duration must be greater than 0." } as any);
+    } else {
+      setErrors({ eventDuration: "" } as any);
+    }
+  };
 
-  //       if (otherErrors.length == 0) {
-  //         console.log("other");
+  const handleSelectDuration = (value: any) => {
+    setEventDuration(value); // Update eventDuration with the selected value
+    setDropdownVisible(false); // Hide the dropdown
+    setErrors({ eventDuration: "" } as any); // Clear errors for valid selection
+  };
 
-  //         if (handleValidation()) {
-  //           console.log("hanedl validationnnnnns");
+  // const handleCategoryInputChange = (value: any) => {
+  //   setEventCategory(value); // Directly update eventCategory with the custom input
 
-  //           console.log("Form submitted", {
-  //             eventName,
-  //             eventDuration,
-  //             description,
-  //             eventDatas,
-  //           });
-
-  //           try {
-  //             toast.loading("Your Event is Creating....");
-  //             console.log("data");
-
-  //             const response = await axiosInstance.post(
-  //               "/events?preview=true",
-  //               {
-  //                 eventName,
-  //                 eventDuration,
-  //                 eventDescription: description,
-  //                 eventDatas,
-  //               }
-  //             );
-
-  //             if (response.data.success) {
-  //               console.log(response.data, "xxxxxxxxxxxx");
-
-  //               if (edit) {
-  //                 handleSlots();
-  //                 setOrgData(response.data.data);
-  //               }
-
-  //               toast.dismiss();
-  //               toast.success("Your event was created successfully !", {});
-  //               //navigate("/events/user");
-  //             } else {
-  //               toast.dismiss();
-  //               setTimeout(() => {
-  //                 toast.error("There is an error!", {});
-  //               }, 2000);
-  //             }
-  //           } catch (error: any) {}
-  //         }
-  //       }
-  //     }
-  //     // Submit form data
+  //   // Validation for custom category (optional)
+  //   if (value && value.length > 50) {
+  //     setErrors({
+  //       eventCategory: "Category name must be less than 50 characters.",
+  //     } as any);
+  //   } else {
+  //     setErrors({ eventCategory: "" } as any);
   //   }
   // };
+
+  const handleSelectCategory = (value: any) => {
+    setEventCategory(value); // Update eventCategory with the selected value
+    setDropdownVisible(false); // Hide the dropdown
+    setErrors({ eventCategory: "" } as any); // Clear errors for valid selection
+  };
 
   const handleSubmit = async (
     edit: boolean,
@@ -698,6 +723,8 @@ const EventScheduler = () => {
                 eventDescription: description,
                 eventDatas,
                 eventId,
+                meetingGap: bookingGap,
+                eventCategory: eventCategory,
               });
             } else {
               console.log("previewwwwwww tryeeeee");
@@ -708,6 +735,8 @@ const EventScheduler = () => {
                 eventDescription: description,
                 eventDatas,
                 eventId,
+                meetingGap: bookingGap,
+                eventCategory: eventCategory,
               });
             }
 
@@ -724,10 +753,11 @@ const EventScheduler = () => {
                 // }, 2000);
               }
               if (dataSubmit) {
+                navigate("/events/user/me");
                 toast.dismiss();
                 toast.success("Your event was created successfully!");
+
                 dispatch(addActiveNavState(index));
-                navigate("/events/user/me");
               }
             } else {
               toast.dismiss();
@@ -750,6 +780,18 @@ const EventScheduler = () => {
       }, 3000); // Call handleSlots once orgData and selectedDate are available
     }
   }, [orgData]);
+
+  useEffect(() => {
+    setOrgSelectedDate(null);
+    setSlots([]);
+    setSlotIsLoading(false);
+    setIsPreview(false);
+  }, [eventDuration, bookingGap]);
+
+  const isRestricted = [
+    "Litmus Test Review",
+    "Application Test Review",
+  ].includes(restrictedCategory);
 
   return (
     <>
@@ -799,7 +841,7 @@ const EventScheduler = () => {
             </div>
 
             {/* Event Duration */}
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Event Duration
               </label>
@@ -812,6 +854,153 @@ const EventScheduler = () => {
               />
               {errors.eventDuration && (
                 <p className="text-red-500 text-sm">{errors.eventDuration}</p>
+              )}
+            </div> */}
+
+            {/* <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Event Category
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={eventCategory}
+                  onChange={(e) => handleInputChange(e.target.value)}
+                  onFocus={() => setCatDropdownVisible(true)}
+                  onBlur={() => {
+                    setTimeout(() => setCatDropdownVisible(false), 200); // Delay to handle selection
+                  }}
+                  placeholder="Enter or select a category"
+                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+
+                {isCatDropdownVisible && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                    {uniquePredefinedCategories?.map((category) => (
+                      <li
+                        key={category}
+                        onClick={() => handleSelectCategory(category)}
+                        className="p-2 cursor-pointer hover:bg-blue-100"
+                      >
+                        {category}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {errors.eventCategory && (
+                <p className="text-red-500 text-sm">{errors.eventCategory}</p>
+              )}
+            </div> */}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Event Category
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={eventCategory}
+                  onChange={(e) => handleInputChange(e.target.value)}
+                  onFocus={() => setCatDropdownVisible(true)}
+                  onBlur={() => {
+                    setTimeout(() => setCatDropdownVisible(false), 200); // Delay to handle selection
+                  }}
+                  placeholder="Enter or select a category"
+                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+                {/* Message below the input box */}
+                {isRestricted && (
+                  <p className="mt-1 text-sm text-red-500">
+                    This category is exclusive and cannot be changed.
+                  </p>
+                )}
+                {isCatDropdownVisible && !isRestricted && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                    {uniquePredefinedCategories?.map((category) => (
+                      <li
+                        key={category}
+                        onClick={() => handleSelectCategory(category)}
+                        className="p-2 cursor-pointer hover:bg-blue-100"
+                      >
+                        {category}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Event Duration
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={eventDuration}
+                  onChange={(e) => handleInputChange(e.target.value)}
+                  onFocus={() => setDropdownVisible(true)}
+                  onBlur={() => {
+                    setTimeout(() => setDropdownVisible(false), 200); // Delay to handle selection
+                  }}
+                  placeholder="Enter or select duration (minutes)"
+                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+
+                {isDropdownVisible && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                    {predefinedDurations.map((duration) => (
+                      <li
+                        key={duration}
+                        onClick={() => handleSelectDuration(duration)}
+                        className="p-2 cursor-pointer hover:bg-blue-100"
+                      >
+                        {duration} minutes
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {errors.eventDuration && (
+                <p className="text-red-500 text-sm">{errors.eventDuration}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Meeting Gap
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={bookingGap}
+                  onChange={(e) => handleGapInputChange(e.target.value)}
+                  onFocus={() => setGapDropdownVisible(true)}
+                  onBlur={() => {
+                    setTimeout(() => setGapDropdownVisible(false), 200); // Delay to handle dropdown click
+                  }}
+                  placeholder="Enter or select gap (minutes)"
+                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+
+                {isGapDropdownVisible && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                    {predefinedGaps.map((gap) => (
+                      <li
+                        key={gap}
+                        onClick={() => handleSelectGap(gap)}
+                        className="p-2 cursor-pointer hover:bg-blue-100"
+                      >
+                        {gap} minutes
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              {errors.gap && (
+                <p className="text-red-500 text-sm">{errors.gap}</p>
               )}
             </div>
 
@@ -884,12 +1073,12 @@ const EventScheduler = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex h-screen w-full bg-gray-100 p-4 ">
+        <div className="flex  min-h-[80vh] h-fit w-full bg-gray-100 p-4 ">
           {/* Preview Section */}
           <div
-            className={`transition-all duration-300 ${
+            className={`transition-all duration-300 border-gray-400  border-r-[0px]   border-t-8 ${
               slots && slots.length > 0 ? "w-2/5" : "w-[356px]"
-            } bg-white p-6 shadow-md rounded-l-md flex flex-col border-r border-gray-200`}
+            } bg-white p-6 rounded-l-md flex flex-col border-r border-gray-200`}
           >
             <h3 className="text-md font-semibold text-gray-500">
               {userData.firstName + " " + userData.lastName}
@@ -919,9 +1108,9 @@ const EventScheduler = () => {
 
           {/* Calendar Section */}
           <div
-            className={`relative transition-all duration-300 ${
+            className={`relative transition-all border-gray-400  border-l-[.5px]   border-t-8  duration-300 ${
               slots && slots.length > 0 ? "w-3/5" : "w-fit"
-            } bg-white p-6 shadow-md rounded-r-md flex flex-col border-gray-200`}
+            } bg-white p-6  rounded-r-md flex flex-col border-gray-200`}
           >
             {loading && (
               <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-75 flex items-center justify-center z-10">
@@ -944,38 +1133,6 @@ const EventScheduler = () => {
             {/* Calendar Component */}
             <div className="flex">
               <div>
-                {/* <DayPicker
-                  modifiers={modifiers}
-                  modifiersStyles={modifiersStyles}
-                  styles={styles}
-                  disabled={[
-                    { before: new Date() },
-                    (date) => {
-                      const targetDate = new Date(date).setHours(0, 0, 0, 0);
-                      return !next30AvailableDays.some(
-                        (availableDate: any) =>
-                          new Date(availableDate).setHours(0, 0, 0, 0) ===
-                          targetDate
-                      );
-                    },
-                  ]}
-                  onSelect={(date: Date | undefined) => {
-                    setSelectedDate(date);
-                    if (!isPreview) {
-                      console.log("is previewwwwwww");
-
-                      handleSubmit(true);
-                    } else {
-                      console.log("handleeeee");
-
-                      handleSlots();
-                    }
-
-                    console.log("Selected Date:", date);
-                  }}
-                  mode="single"
-                  selected={selectedDate as any}
-                /> */}
                 <DayPicker
                   modifiers={modifiers}
                   modifiersStyles={modifiersStyles}

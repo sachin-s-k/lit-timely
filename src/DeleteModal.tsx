@@ -45,7 +45,8 @@ const DeleteModal = ({ isOpen, onClose, deleteFn }: any) => {
       // Simulate a delay to show loader, replace with your actual delete function
       //await new Promise((resolve) => setTimeout(resolve, 2000));
       await deleteFn(); // Call the actual delete function
-      //onClose(); // Close modal on success
+
+      onClose(); // Close modal on success
       setIsDeleting(false);
     } catch (error) {
       console.error("Error deleting:", error);
@@ -86,7 +87,7 @@ const DeleteModal = ({ isOpen, onClose, deleteFn }: any) => {
                 <ThreeDots
                   height="24"
                   width="24"
-                  radius="9"
+                  radius="12"
                   color="#fff"
                   ariaLabel="three-dots-loading"
                   visible={true}

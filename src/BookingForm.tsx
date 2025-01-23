@@ -7,14 +7,37 @@ import { format } from "date-fns";
 import { Globe2Icon } from "lucide-react";
 
 export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
+  console.log(availabilityArray, "avaialbility array");
+
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
 
   const availabilities = availabilityArray;
 
+  //
+
+  //
+
   const availableDays = availabilities.map(
     (day: any) => new Date(day.eventDate)
   );
+
+  //
+  const isDateAvailable = (date) =>
+    availableDays.some(
+      (availableDate) =>
+        availableDate.getFullYear() === date.getFullYear() &&
+        availableDate.getMonth() === date.getMonth() &&
+        availableDate.getDate() === date.getDate()
+    );
+
+  const disabledDates = [
+    { before: new Date() }, // Disable dates before today
+    (date) => !isDateAvailable(date), // Disable dates not in availableDays
+  ];
+
+  //
+  console.log(availableDays, "avaialabeele");
 
   const timeSlots = selectedDate
     ? availabilities.find(
@@ -73,7 +96,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
   }, []);
   return (
     <div
-      className={`border rounded-r-lg overflow-y-scroll h-160 ${
+      className={`border rounded-r-lg overflow-y-scroll  h-160 ${
         selectedDate ? "" : "w-1/4"
       }`}
     >
@@ -107,7 +130,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
                 setSelectedTime(null); // Reset selected time when date changes
               } // Reset selected time when date changes
             }
-            disabled={[{ before: new Date() }]}
+            disabled={disabledDates}
             modifiers={{ available: availableDays }}
             modifiersStyles={{
               selected: {

@@ -158,10 +158,6 @@ const Landing = () => {
     }
   };
 
-  // function setFieldError(arg0: string, arg1: string) {
-  //   throw new Error("Function not implemented.");
-  // }
-
   return (
     <>
       <div>
@@ -195,7 +191,7 @@ const Landing = () => {
               />
             </div>
             {/* Main Text */}
-            <h1 className="text-white text-4xl font-bold">CalendLIT</h1>
+            <h1 className="text-white text-4xl font-bold">Cal.LIT</h1>
             <h2 className="text-white mb-4 mt-1">
               Organise and schedule your meetings efficiently
             </h2>
@@ -366,9 +362,9 @@ const Landing = () => {
                         {passwordStrength >= 1 && isSignUp && (
                           <div className="mt-2">
                             <div
-                              className={`h-1 rounded-full ${
+                              className={`h-0.5 rounded-full ${
                                 passwordStrength === 0
-                                  ? "bg-gray-200"
+                                  ? "bg-gray-300"
                                   : passwordStrength <= 2
                                   ? "bg-red-500"
                                   : passwordStrength === 3

@@ -16,7 +16,7 @@ import SkeletonCard from "./SkeletonCard";
 import CancelPublic from "./CancelPublic";
 import CancelPage from "./CancelPage";
 
-import OTP from "./Otp";
+import EventCard from "./NewCard";
 
 const App = () => {
   return (
@@ -105,7 +105,7 @@ const App = () => {
             element={<CancelPublic />}
           />
           <Route path="/events-page/cancel" element={<CancelPage />} />
-          <Route path="/events-page/otp" element={<OTP />} />
+          <Route path="/events-page/otp" element={<EventCard />} />
 
           {/*
           <Route path="/Sign-up" element={<SignUp />} />

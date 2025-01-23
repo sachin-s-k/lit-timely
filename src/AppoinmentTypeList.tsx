@@ -41,7 +41,7 @@ const AppointmentTypesList: React.FC = () => {
   };
   return (
     <>
-      <div className="m-8 mt-8 mb-1 flex cursor-pointer">
+      <div className="m-8 mt-32 mb-1 flex cursor-pointer">
         <ChevronLeft color="#3b82f6" size={17} className="mt-1" />
         <span
           className="font-semibold text-blue-500"

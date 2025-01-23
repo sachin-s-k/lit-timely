@@ -17,6 +17,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      borderWidth: {
+        5: "5px", // Add custom border width
+      },
       width: {
         86: "90px", // Add a custom width
       },

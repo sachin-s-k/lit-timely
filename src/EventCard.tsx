@@ -174,7 +174,6 @@ import DeleteModal from "./DeleteModal";
 import { axiosInstance } from "./config/http";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteEventData } from "./app-store/eventSlice";
 
 const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
   const userData = useSelector((state: any) => state.registration.userData);
@@ -199,32 +198,13 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
     setModalOpen(true);
   };
 
-  const handleDelete = async () => {
-    if (!currentEventId) return;
-
-    try {
-      const deleteResponse = await axiosInstance.delete(
-        `/events/${currentEventId}`
-      );
-      console.log(deleteResponse);
-
-      if (deleteResponse.data.success) {
-        setModalOpen(false);
-        //navigate("/events/user");
-        dispatch(deleteEventData(currentEventId as any)); // Navigate to user's events after delete
-      }
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
-  };
-
   return (
     <>
       <Card
         onClick={() => {
           handleEventPage(event._id, event.eventName);
         }}
-        className="border border-gray-200 cursor-pointer rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border-t-4 border-t-gray-400 m-1"
+        className="  cursor-pointer  shadow-md hover:shadow-lg transition-shadow duration-300  m-1"
       >
         <CardHeader className="p-4">
           <CardTitle className="text-lg font-semibold text-gray-800 flex justify-between">
@@ -245,7 +225,7 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
         </CardHeader>
 
         <CardContent className="p-4 text-gray-700 text-sm">
-          <p>{event?.eventDescription}</p>
+          {!isPublicPage && event?.eventDescription}
         </CardContent>
 
         {!isPublicPage && (
@@ -270,11 +250,7 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
         )}
       </Card>
 
-      <DeleteModal
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        deleteFn={handleDelete} // Pass the handleDelete function here
-      />
+      <DeleteModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
     </>
   );
 };

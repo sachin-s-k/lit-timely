@@ -89,14 +89,13 @@ const BookingPage = () => {
         setIsSubmitting(true);
         try {
           const response: any = await axios.post(
-            "https://dev.cal.litschool.in/events/booking-slot",
+            "http://localhost:8000/events/booking-slot",
             {
               ...values,
               eventId,
               startTime,
               endTime,
               id,
-
               date,
               userId,
               bookingId,

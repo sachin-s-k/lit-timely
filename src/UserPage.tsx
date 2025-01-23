@@ -190,7 +190,9 @@ const UserPage = () => {
             />
           ) : (
             <div className="text-gray-800 text-2xl font-bold">
-              {userData?.firstName?.slice(0, 2).toUpperCase() || ""}
+              {`${userData?.firstName?.[0]?.toUpperCase() || ""}${
+                userData?.lastName?.[0]?.toUpperCase() || ""
+              }`}{" "}
             </div>
           )}
         </div>

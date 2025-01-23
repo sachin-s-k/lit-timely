@@ -11,6 +11,8 @@ import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 
 const EventDetails = () => {
+  console.log("render event detail pagge");
+
   const { id, eventName } = useParams(); // Extract dynamic segments
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -29,7 +31,7 @@ const EventDetails = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/events/booking/${id}?eventId=${eventId}`
+          `http://localhost:8000/events/booking/${id}?eventId=${eventId}`
         );
         console.log(response, "response=====>");
         setUserData(response.data.userData);
@@ -110,7 +112,7 @@ const EventDetails = () => {
         <Calendar className="mr-2" />
         <span>Google meeet:https://helloworldddd</span>
       </div> */}
-            {/* <p className="text-gray-700">{eventData.eventDescription}</p> */}
+            <p className="text-gray-700">{eventData.eventDescription}</p>
           </div>
 
           <BookingForm
