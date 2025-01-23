@@ -171,17 +171,18 @@ import {
 import { Button } from "../src/components/ui/button";
 import { Edit, Link, Trash2 } from "lucide-react";
 import DeleteModal from "./DeleteModal";
-import { axiosInstance } from "./config/http";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
   const userData = useSelector((state: any) => state.registration.userData);
   const [copied, setCopied] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentEventId, setCurrentEventId] = useState<string | null>(null);
+  console.log(currentEventId);
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(

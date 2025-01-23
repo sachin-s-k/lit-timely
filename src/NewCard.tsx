@@ -2,10 +2,10 @@ import { useState } from "react";
 
 function EventGrid() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null as any);
   const [showDeleteButton, setShowDeleteButton] = useState(false); // State for delete button visibility
 
-  const handleModalOpen = (event) => {
+  const handleModalOpen = (event: any) => {
     setSelectedEvent(event);
     setIsModalOpen(true);
   };

@@ -23,9 +23,9 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
   );
 
   //
-  const isDateAvailable = (date) =>
+  const isDateAvailable = (date: any) =>
     availableDays.some(
-      (availableDate) =>
+      (availableDate: any) =>
         availableDate.getFullYear() === date.getFullYear() &&
         availableDate.getMonth() === date.getMonth() &&
         availableDate.getDate() === date.getDate()
@@ -33,7 +33,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
 
   const disabledDates = [
     { before: new Date() }, // Disable dates before today
-    (date) => !isDateAvailable(date), // Disable dates not in availableDays
+    (date: any) => !isDateAvailable(date), // Disable dates not in availableDays
   ];
 
   //

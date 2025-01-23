@@ -33,8 +33,8 @@ const MeetingCard = ({ events }: any) => {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [showDeleteButton, setShowDeleteButton] = useState(false); // State for delete button visibility
+  const [selectedEvent, setSelectedEvent] = useState(null as any);
+  // const [showDeleteButton, setShowDeleteButton] = useState(false ); // State for delete button visibility
 
   const handleModalOpen = (event: any) => {
     setSelectedEvent(event);
@@ -46,13 +46,14 @@ const MeetingCard = ({ events }: any) => {
     setTimeout(() => setSelectedEvent(null), 300); // Delay for smooth exit animation
   };
 
-  const [onLoading, setOnLoading] = useState(false);
+  // const [onLoading, setOnLoading] = useState(false);
 
-  const handleOpenAndClose = (value: any) => {
-    setOnLoading(value);
-  };
+  // const handleOpenAndClose:any = (value: any) => {
+  //   setOnLoading(value);
+  // };
+  // console.log(onLoading);
 
-  const handleCheckboxChange = (eventId, checked) => {
+  const handleCheckboxChange = (eventId: any, checked: any) => {
     console.log("called");
 
     if (checked) {
