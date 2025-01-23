@@ -96,9 +96,9 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
   }, []);
   return (
     <div
-      className={`border rounded-r-lg overflow-y-scroll  h-160 ${
-        selectedDate ? "" : "w-1/4"
-      }`}
+      className={`border rounded-r-lg overflow-y-scroll  ${
+        selectedDate ? "" : "w-1/4 "
+      } `}
     >
       <div className="m-4 mb-2 ml-4">
         <span className="font-bold text-gray-600 text-lg">
@@ -158,7 +158,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
 
         {/* Time Slot Section */}
         {selectedDate && (
-          <div className="w-full overflow-y-scroll h-[80vh]">
+          <div className="w-full overflow-y-scroll h-[65vh]">
             <div className="p-4">
               <span className="font-semibold text-gray-600">
                 {selectedDate

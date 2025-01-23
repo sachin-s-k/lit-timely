@@ -36,8 +36,10 @@ const MeetingCard = ({ events }: any) => {
   const [selectedEvent, setSelectedEvent] = useState(null as any);
   // const [showDeleteButton, setShowDeleteButton] = useState(false ); // State for delete button visibility
 
-  const handleModalOpen = (event: any) => {
-    setSelectedEvent(event);
+  const handleModalOpen = (eventData: any) => {
+    console.log("event");
+
+    setSelectedEvent(eventData);
     setIsModalOpen(true);
   };
 
@@ -86,7 +88,7 @@ const MeetingCard = ({ events }: any) => {
             {/* Settings Icon */}
             <button
               onClick={() => {
-                handleModalOpen(event);
+                handleModalOpen(events);
               }}
             >
               <svg
@@ -151,7 +153,7 @@ const MeetingCard = ({ events }: any) => {
       {isModalOpen && selectedEvent && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300">
           <div
-            className={`bg-white rounded-lg shadow-lg p-6 w-96 transform transition-all duration-300 ${
+            className={`bg-white rounded-lg h-96 shadow-lg p-6 w-96 flex flex-col transform transition-all duration-300 ${
               isModalOpen
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"
@@ -182,13 +184,13 @@ const MeetingCard = ({ events }: any) => {
             </div>
 
             {/* Modal Content */}
-            <div className="space-y-4">
+            <div className="flex-grow overflow-y-auto space-y-4">
               {/* Event Name */}
               <div>
                 <h3 className="text-sm font-semibold text-gray-700">
                   Event Name
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 break-words">
                   {selectedEvent.eventName}
                 </p>
               </div>
@@ -211,19 +213,29 @@ const MeetingCard = ({ events }: any) => {
                 </p>
               </div>
 
+              {/* Category */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700">
+                  Category
+                </h3>
+                <p className="text-sm text-gray-600">
+                  {selectedEvent.eventCategory}
+                </p>
+              </div>
+
               {/* Description */}
               <div>
                 <h3 className="text-sm font-semibold text-gray-700">
                   Description
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 break-words">
                   {selectedEvent.eventDescription}
                 </p>
               </div>
             </div>
 
             {/* Modal Actions */}
-            <div className="mt-6 flex justify-end">
+            <div className="mt-4 flex justify-end">
               <button
                 onClick={handleModalClose}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

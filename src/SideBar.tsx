@@ -22,6 +22,7 @@ const navItems = [
 
 const SideBar = () => {
   const [modalOpen, setModalOpen] = useState(false);
+
   const dispatch = useDispatch();
   const selectedEvents = useSelector(
     (state: any) => state.event.deleteEventIds
@@ -104,6 +105,10 @@ const SideBar = () => {
     } catch (error) {
       console.error("Error deleting event:", error);
     }
+  };
+  const OnClose = () => {
+    setModalOpen(false);
+    dispatch(removeDeleteEventIds(selectedEvents));
   };
 
   return (
@@ -252,7 +257,11 @@ const SideBar = () => {
           </div>
         )}
       </div>
-      <DeleteModal isOpen={modalOpen} deleteFn={handleDelete} />
+      <DeleteModal
+        isOpen={modalOpen}
+        onClose={OnClose}
+        deleteFn={handleDelete}
+      />
     </>
   );
 };

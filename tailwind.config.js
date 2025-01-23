@@ -7,6 +7,9 @@ export default {
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      minHeight: {
+        90: "90px", // Custom min-height
+      },
       spacing: {
         128: "32rem", // 512px
         144: "36rem", // 576px

@@ -24,6 +24,28 @@ const EventScheduler = () => {
     setBookingGap(gap); // Update bookingGap with selected value
     setDropdownVisible(false); // Hide dropdown after selection
   };
+  // const categoryData: any = useSelector(
+  //   (state: any) => state.event.categoryData
+  // );
+
+  // const predefinedCategories = [
+  //   "General",
+  //   "Litmus Test Review",
+  //   "Application Test Review",
+  //   "Seminar",
+  //   "Workshop",
+  //   "Networking",
+  //   "Webinar",
+  //   "Panel Discussion",
+  //   "Training Session",
+  //   "Product Launch",
+  // ];
+  // const uniquePredefinedCategories = predefinedCategories.filter(
+  //   (category: any) =>
+  //     category === "General" || !categoryData.includes(category)
+  // );
+  // const [eventCategory, setEventCategory] = useState("General"); // Holds both predefined and custom categories
+
   const categoryData: any = useSelector(
     (state: any) => state.event.categoryData
   );
@@ -32,14 +54,29 @@ const EventScheduler = () => {
     "General",
     "Litmus Test Review",
     "Application Test Review",
-    "Conference",
-    "workshop",
+    "Seminar",
+    "Workshop",
+    "Networking",
+    "Webinar",
+    "Panel Discussion",
+    "Training Session",
+    "Product Launch",
   ];
-  const uniquePredefinedCategories = predefinedCategories.filter(
-    (category: any) =>
-      category === "General" || !categoryData.includes(category)
-  );
-  const [eventCategory, setEventCategory] = useState("General"); // Holds both predefined and custom categories
+
+  // Filter predefined categories based on categoryData
+  const uniquePredefinedCategories = predefinedCategories.filter((category) => {
+    // Show "Litmus Test Review" and "Application Test Review" only if they are NOT in categoryData
+    if (
+      category === "Litmus Test Review" ||
+      category === "Application Test Review"
+    ) {
+      return !categoryData.includes(category);
+    }
+    // Include all other categories
+    return true;
+  });
+
+  const [eventCategory, setEventCategory] = useState("General");
   console.log("rendering");
   const [isCatDropdownVisible, setCatDropdownVisible] = useState(false);
 
@@ -811,7 +848,6 @@ const EventScheduler = () => {
                 navigate("/events/user/me");
               }}
             >
-              {" "}
               Back
             </span>
           </div>
@@ -1076,7 +1112,7 @@ const EventScheduler = () => {
         <div className="flex  min-h-[80vh] h-fit w-full bg-gray-100 p-4 ">
           {/* Preview Section */}
           <div
-            className={`transition-all duration-300 border-gray-400  border-r-[0px]   border-t-8 ${
+            className={`transition-all duration-300 border-gray-400  border-r-[0px]   border-t-5 ${
               slots && slots.length > 0 ? "w-2/5" : "w-[356px]"
             } bg-white p-6 rounded-l-md flex flex-col border-r border-gray-200`}
           >
@@ -1108,7 +1144,7 @@ const EventScheduler = () => {
 
           {/* Calendar Section */}
           <div
-            className={`relative transition-all border-gray-400  border-l-[.5px]   border-t-8  duration-300 ${
+            className={`relative transition-all border-gray-400  border-l-[.5px]   border-t-5  duration-300 ${
               slots && slots.length > 0 ? "w-3/5" : "w-fit"
             } bg-white p-6  rounded-r-md flex flex-col border-gray-200`}
           >

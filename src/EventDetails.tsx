@@ -75,6 +75,7 @@ const EventDetails = () => {
   const handleBack = () => {
     window.history.back(); // Goes back to the previous page in the browser history
   };
+
   return (
     <>
       {loading ? (
@@ -83,9 +84,9 @@ const EventDetails = () => {
           {/* Assuming ThreeDots is the loader component */}
         </div>
       ) : (
-        <div className="flex flex-col justify-center lg:flex-row px-4 py-8 mt-8   ">
-          <div className="p-10  pt-6 lg:w-1/4   border-t border-b  border-l  rounded-s-lg  h-160 pb-96 ">
-            <div className="flex w-10 h-10 hover:bg-blue-200 border rounded-full cursor-pointer items-center justify-center mb-2 m">
+        <div className="flex flex-col justify-center lg:flex-row px-4 py-8 mt-8 ">
+          <div className="p-10 pt-6 lg:w-1/4 border-t border-b border-l rounded-s-lg   pb-72">
+            <div className="flex w-10 h-10 hover:bg-blue-200 border rounded-full cursor-pointer items-center justify-center mb-2">
               <div onClick={handleBack}>
                 <ArrowLeft size={26} color="blue" />
               </div>
@@ -108,10 +109,6 @@ const EventDetails = () => {
               <Clock className="mr-2" />
               <span>{eventData.eventDuration} minutes</span>
             </div>
-            {/* <div className="flex items-center  mb-4">
-        <Calendar className="mr-2" />
-        <span>Google meeet:https://helloworldddd</span>
-      </div> */}
             <p className="text-gray-700">{eventData.eventDescription}</p>
           </div>
 
