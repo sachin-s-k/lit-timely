@@ -95,15 +95,11 @@ const SideBar = () => {
       const deleteResponse = await axiosInstance.put(`/events/delete`, {
         selectedIds: selectedEvents,
       });
-      console.log(deleteResponse, "responseneeeeeeeeeeeeeeedeleeie");
 
       if (deleteResponse.data.success) {
         setModalOpen(false);
-        //navigate("/events/user");
         dispatch(removeDeleteEventIds(deleteResponse.data.data));
-
         window.location.reload();
-        // dispatch(removeDeleteEventIds(selectedEvents)); // Navigate to user's events after delete
       }
     } catch (error) {
       console.error("Error deleting event:", error);
@@ -239,7 +235,7 @@ const SideBar = () => {
           </main>
         </div>
 
-        {selectedEvents.length >= 1 && (
+        {selectedEvents?.length >= 1 && (
           <div className="fixed bottom-0 z-20 left-64 w-[calc(100%-16rem)] overflow-hidden bg-white shadow-md  py-4 flex p-4 gap-4 transition-transform duration-300">
             <p className="text-lg mt-1 flex gap-1">
               <XIcon className=" mt-1.5" size={20} />

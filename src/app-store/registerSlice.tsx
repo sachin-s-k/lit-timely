@@ -7,8 +7,6 @@ const AuthSlice = createSlice({
   },
   reducers: {
     addUserData: (state, action: any) => {
-      console.log("called");
-
       state.userData = action.payload;
     },
     clearUserData: (state, action: any) => {
