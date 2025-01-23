@@ -109,7 +109,7 @@ const Events = () => {
 
   const [landingPageLoading, setLandingPageLoading] = useState(false);
   const userEventData = useSelector((state: any) => state.event.eventData);
-  if (!userEventData.length) {
+  if (!eventData.length) {
     dispatch(clearCategories());
   }
 
