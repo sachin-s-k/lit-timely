@@ -631,11 +631,20 @@ const BabelRow = ({
     bookedPersonName: any,
     eventName: any,
     bookingId: any,
-    eventId: any
+    eventId: any,
+    eventCategory: any,
+    litApplicationUserId: any,
+    cohortId: any
   ) => {
-    navigate(
-      `/${userData.personalUrl}/${eventName}?email=${boookedPersonEmail}&bookingId=${bookingId}&name=${bookedPersonName}&eventId=${eventId}`
-    );
+    if (eventCategory && litApplicationUserId && cohortId) {
+      navigate(
+        `/${userData.personalUrl}/${eventName}?email=${boookedPersonEmail}&bookingId=${bookingId}&name=${bookedPersonName}&eventId=${eventId}&eventCategory=${eventCategory}&litApplicationUserId=${litApplicationUserId}&cohortId=${cohortId}`
+      );
+    } else {
+      navigate(
+        `/${userData.personalUrl}/${eventName}?email=${boookedPersonEmail}&bookingId=${bookingId}&name=${bookedPersonName}&eventId=${eventId}`
+      );
+    }
   };
 
   // Function to open the modal
@@ -737,7 +746,10 @@ const BabelRow = ({
                       event.bookedPersonName,
                       event.eventId.eventName,
                       event._id,
-                      event.eventId._id
+                      event.eventId._id,
+                      event.eventCategory,
+                      event.litApplicationUserId,
+                      event.cohortId
                     )
                   }
                 >

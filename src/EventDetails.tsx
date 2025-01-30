@@ -1,7 +1,6 @@
 import { ArrowLeft, Clock } from "lucide-react";
 import { Avatar, AvatarImage } from "./components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
-
 import { BookingForm } from "./BookingForm";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";

@@ -54,6 +54,10 @@ const BookingPage = () => {
   const nameParam = searchParams.get("name") || "";
   const emailParam = searchParams.get("email") || "";
   const bookingId = searchParams.get("bookingId") || "";
+  const eventCategory = searchParams.get("eventCategory") || "";
+  const litApplicationUserId = searchParams.get("litApplicationUserId") || "";
+  const cohortId = searchParams.get("cohortId") || "";
+
   console.log(startTime, endTime, date, "dateeeeeeTime");
 
   // Formik setup
@@ -89,7 +93,7 @@ const BookingPage = () => {
         setIsSubmitting(true);
         try {
           const response: any = await axios.post(
-            "http://localhost:8000/events/booking-slot",
+            "https://dev.cal.litschool.in/events/booking-slot",
             {
               ...values,
               eventId,
@@ -99,12 +103,11 @@ const BookingPage = () => {
               date,
               userId,
               bookingId,
+              litApplicationUserId,
+              eventCategory,
+              cohortId,
             }
           );
-
-          console.log(response, "response=======>");
-
-          console.log(response.data, "sucessspage respose");
           navigate(
             `/events-page/success?startTime=${
               response.data.booking.startTime
