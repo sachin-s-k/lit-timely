@@ -135,7 +135,11 @@ const Landing = () => {
         console.log(response, "resp");
 
         if (response.data) {
-          Cookies.set("authToken", response.data.data.token);
+          Cookies.set(
+            `authToken${response.data.data.userData._id}`,
+            response.data.data.token,
+            { expires: 1 / 12 }
+          );
           dispatch(addUserData(response.data.data.userData));
           navigate("/events/user/me");
         } else {

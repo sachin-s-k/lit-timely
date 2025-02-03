@@ -28,19 +28,6 @@ const LinkPart = () => {
               </div>
             </div>
           </div>
-          {/* <div className="flex gap-2 items-center">
-            <div>
-              <div className="border-gray-300 border-1 hover:bg-blue-100 w-28 h-7 flex justify-center items-center border-2 rounded-full mx-auto cursor-pointer">
-                <div className="flex items-center gap-2   text-black  font-light ">
-                  <Plus size={14} />
-                  create
-                </div>
-              </div>
-            </div>
-            <div className="cursor-pointer">
-              <Settings size={21} color="gray" />
-            </div>
-          </div> */}
         </div>
 
         {/* Divider */}

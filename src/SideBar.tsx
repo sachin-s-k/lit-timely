@@ -64,6 +64,7 @@ const SideBar = () => {
     dispatch(clearEventData([] as any));
     dispatch(addMeetingData([] as any));
     dispatch(addActiveNavState(0 as any));
+    Cookies.remove("authToken" + userData._id);
     // Redirect to the login page
     navigate("/");
   };

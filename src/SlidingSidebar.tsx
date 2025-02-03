@@ -274,7 +274,7 @@ const EventScheduler = () => {
 
   let eventData = [
     {
-      isAvailable: false,
+      isAvailable: true,
       timeSlots: [
         {
           start: "10:30am",
@@ -284,17 +284,7 @@ const EventScheduler = () => {
       ],
     },
     {
-      isAvailable: false,
-      timeSlots: [
-        {
-          start: "10:30am",
-          end: "6:00pm",
-          error: "",
-        },
-      ],
-    },
-    {
-      isAvailable: false,
+      isAvailable: true,
       timeSlots: [
         {
           start: "10:30am",
@@ -324,7 +314,17 @@ const EventScheduler = () => {
       ],
     },
     {
-      isAvailable: false,
+      isAvailable: true,
+      timeSlots: [
+        {
+          start: "10:30am",
+          end: "6:00pm",
+          error: "",
+        },
+      ],
+    },
+    {
+      isAvailable: true,
       timeSlots: [
         {
           start: "10:30am",
