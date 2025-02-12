@@ -25,7 +25,7 @@ const LinkPart = () => {
                   className="text-blue-500 text-sm underline"
                   target="_blank"
                 >
-                  {`https://main.d2ogeweki0hgqu.amplifyapp.com/${userData?.personalUrl}`}
+                  {`https://dev.cal.litschool.in/${userData?.personalUrl}`}
                 </a>
               </div>
             </div>
