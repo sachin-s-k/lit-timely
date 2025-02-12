@@ -131,7 +131,7 @@ const Landing = () => {
       try {
         const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
         const response = await axios.post(
-          "https://dev.cal.litschool.in" + endpoint,
+          "https://dev.cal.litschool.in/api/" + endpoint,
           values
         );
 
