@@ -19,7 +19,7 @@ const UserPage = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:8000/events/${id}?eventId=${eventId}&isPublic=true`
+          `https://dev.cal.litschool.in/api/events/${id}?eventId=${eventId}&isPublic=true`
         );
         setUserData(response.data.userData);
         setEvents(response.data.data);
