@@ -81,9 +81,12 @@ const Landing = () => {
 
   const validateEmailWithServer = async (email: string) => {
     try {
-      const response = await axios.post("https://dev.cal.litschool.in/check", {
-        email,
-      });
+      const response = await axios.post(
+        "https://dev.cal.litschool.in/api/check",
+        {
+          email,
+        }
+      );
       return response.data.isValid;
     } catch (error) {
       console.error("Error validating email:", error);
