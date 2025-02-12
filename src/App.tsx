@@ -7,7 +7,6 @@ import BookingPage from "./BookingPage";
 
 import UserPage from "./UserPage";
 
-import TestForm from "./TestForm";
 import SlidingSidebar from "./SlidingSidebar";
 import ProtectedRoute from "./ProtectedRoute";
 import AppointmentTypesList from "./AppoinmentTypeList";
@@ -17,7 +16,6 @@ import CancelPublic from "./CancelPublic";
 import CancelPage from "./CancelPage";
 
 // import EventCard from "./NewCard";
-import OTPVerification from "./Otp";
 
 const App = () => {
   return (
@@ -93,7 +91,6 @@ const App = () => {
           <Route path="/:id/:eventName" element={<EventDetails />} />
           <Route path="/:id/:eventName/booking" element={<BookingPage />} />
 
-          <Route path="/test" element={<TestForm />} />
           <Route path="/:id" element={<UserPage />} />
           <Route path="/events-page/success" element={<Success />} />
           {/* <Route path="/events-page/List" element={<AppointmentTypesList />} /> */}
@@ -106,7 +103,6 @@ const App = () => {
             element={<CancelPublic />}
           />
           <Route path="/events-page/cancel" element={<CancelPage />} />
-          <Route path="/events-page/otp" element={<OTPVerification />} />
 
           {/*
           <Route path="/Sign-up" element={<SignUp />} />

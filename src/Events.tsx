@@ -82,7 +82,7 @@ const Events = () => {
     const fetchEvents = async () => {
       try {
         const response = await axiosInstance.get(
-          `/events/${userData.personalUrl}`
+          `/events/${userData.personalUrl}?isPublic=false`
         );
 
         dispatch(addEventData(response.data.data));

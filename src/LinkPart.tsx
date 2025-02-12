@@ -9,7 +9,9 @@ const LinkPart = () => {
         <div className="flex justify-between">
           <div className="mb-2 flex items-center gap-3">
             <div className="w-10 h-10 flex justify-center mt-2 items-center rounded-full bg-gray-200 border  border-blue-50">
-              <span className="text-gray-900 font-medium">S</span>
+              <span className="text-gray-900 font-medium">
+                {userData.firstName.charAt(0).toUpperCase()}
+              </span>
             </div>
             <div className="mt-2">
               <div>

@@ -7,16 +7,8 @@ const CancelPage = () => {
 
   const startTime = searchParams.get("startTime");
   const endTime = searchParams.get("endTime");
-  //const date = searchParams.get("date");
-  //   const eventName :any= searchParams.get("eventName");
+
   const fullname = searchParams.get("fullname");
-  //const date = new Date(searchParams.get("date") as any);
-  //   const formattedDate = date.toLocaleDateString("en-GB", {
-  //     weekday: "long",
-  //     year: "numeric",
-  //     month: "short",
-  //     day: "numeric",
-  //   });
 
   return (
     <div>

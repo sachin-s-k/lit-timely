@@ -54,13 +54,9 @@ const EventScheduler = () => {
     "General",
     "Litmus Test Review",
     "Application Test Review",
-    "Seminar",
-    "Workshop",
-    "Networking",
     "Webinar",
     "Panel Discussion",
     "Training Session",
-    "Product Launch",
   ];
 
   // Filter predefined categories based on categoryData
