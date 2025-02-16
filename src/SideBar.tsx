@@ -181,15 +181,15 @@ const SideBar = () => {
                   }`}
                 ></div>
                 <div className="relative w-full h-full flex items-center justify-center">
-                  {userData.profileImageUrl !== null ? (
+                  {userData.profileImageUrl ? (
                     <img
-                      src={userData.profileImageUrl}
-                      alt={`${userData.firstName}'s profile`}
+                      src={userData?.profileImageUrl}
+                      alt={`${userData?.firstName.charAt(0)}'s profile`}
                       className="w-full h-full object-cover rounded-full"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-blue-500 text-white text-lg font-bold rounded-full">
-                      {userData.firstName.charAt(0).toUpperCase()}
+                      {userData.firstName?.charAt(0).toUpperCase()}
                     </div>
                   )}
                 </div>
