@@ -181,7 +181,7 @@ const SideBar = () => {
                   }`}
                 ></div>
                 <div className="relative w-full h-full flex items-center justify-center">
-                  {userData.profileImageUrl ? (
+                  {userData.profileImageUrl !== null ? (
                     <img
                       src={userData.profileImageUrl}
                       alt={`${userData.firstName}'s profile`}

@@ -8,7 +8,6 @@ import { addCancelData } from "./app-store/meetingSlice";
 
 const BabelRow = ({
   event,
-  isPast,
 
   categorizeMeetings,
 }: any) => {
@@ -207,29 +206,22 @@ const BabelRow = ({
               </div>
               <div>
                 <strong>Location: </strong>
-                {!isPast ? (
+                {event.meetingStatus === "confirmed" && isUpcoming ? (
                   <a
-                    href={
-                      event.meetingStatus !== "cancelled"
-                        ? event.meetingUrl
-                        : "#"
-                    }
+                    href={event.meetingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${
-                      event.meetingStatus !== "cancelled"
-                        ? "underline text-blue-500 hover:text-blue-700 cursor-pointer"
-                        : "cursor-not-allowed text-gray-400"
-                    }`}
+                    className="underline text-blue-500 hover:text-blue-700 cursor-pointer"
                   >
                     Join Meeting
                   </a>
                 ) : (
                   <span className="text-gray-400 cursor-not-allowed">
-                    Join Meeting
+                    Not Available
                   </span>
                 )}
               </div>
+
               <div>
                 <strong>Invitee Timezone:</strong> Indian Standard Time (IST)
               </div>
