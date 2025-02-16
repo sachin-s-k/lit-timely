@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button } from "./components/ui/button";
 import {
@@ -38,45 +38,6 @@ const Landing = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
 
-  // const validateEmailWithServer = async (email: string) => {
-  //   console.log("called server");
-
-  //   try {
-  //     const response = await axiosInstance.post("/check", { email });
-
-  //     return response.data.isValid; // Expecting `isValid` in the response
-  //   } catch (error) {
-  //     console.error("Error validating email:", error);
-  //     return false;
-  //   }
-  // };
-  // const handleEmailValidationError = async (
-  //   email: string,
-  //   setFieldError: (field: string, message: string) => void,
-  //   setFieldTouched: (
-  //     field: string,
-  //     isTouched?: boolean,
-  //     shouldValidate?: boolean
-  //   ) => void
-  // ) => {
-  //   try {
-  //     const isValid = await validateEmailWithServer(email);
-  //     if (!isValid) {
-  //       console.log("enttttred");
-
-  //       setFieldError("email", "This email does not exist in our records.");
-  //       setFieldTouched("email", true, true); // Ensure the field is marked as touched
-  //     } else {
-  //       setFieldError("email", ""); // Clear error if valid
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during email validation:", error);
-  //     setFieldError("email", "There was an issue validating the email.");
-  //   } finally {
-  //     setFieldTouched("email", true, true); // Ensure the field is marked as touched
-  //   }
-  // };
-
   const [emailValidationError, setEmailValidationError] = useState("");
 
   const validateEmailWithServer = async (email: string) => {
@@ -106,7 +67,7 @@ const Landing = () => {
       const isValid = await validateEmailWithServer(email);
       if (!isValid) {
         // setFieldError("email", "This email does not exist in our records.");
-        setEmailValidationError("This email does not exist in our records..");
+        setEmailValidationError("This email does not exist in our records.");
       } else {
         setFieldError("email", "");
         setEmailValidationError(""); // Clear error if valid
@@ -164,6 +125,7 @@ const Landing = () => {
       }
     }
   };
+  const formikRef = useRef(null);
 
   return (
     <>
@@ -204,7 +166,15 @@ const Landing = () => {
             </h2>
 
             {/* Get Started Button */}
-            <Dialog>
+            <Dialog
+              onOpenChange={(isOpen) => {
+                if (!isOpen) {
+                  setEmailValidationError("");
+                  ((formikRef as any)?.current).resetForm();
+                  // Reset email validation error on close
+                }
+              }}
+            >
               <DialogTrigger asChild>
                 <button className="bg-white text-black py-3 px-6 rounded-md shadow-md hover:bg-blue-500 hover:text-white transition duration-200">
                   Get Started
@@ -238,6 +208,7 @@ const Landing = () => {
                   </div>
                 </DialogHeader>
                 <Formik
+                  innerRef={formikRef}
                   initialValues={{
                     firstName: "",
                     lastName: "",

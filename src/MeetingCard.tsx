@@ -98,7 +98,7 @@ const MeetingCard = ({ events }: any) => {
     <>
       {/* Card */}
       <div className="border-t-5 rounded-t-md shadow-md bg-white relative border-gray-400 transform transition-transform duration-200 hover:scale-105 hover:z-10 hover:shadow-lg">
-        <div className="p-4">
+        <div className="p-4 ">
           {/* Top section: Left - Checkbox, Right - Settings */}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">

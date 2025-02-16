@@ -18,26 +18,16 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   console.log(searchParams, "searchParms");
-
   const { bookingId } = useParams();
-  // const eventId = searchParams.get("eventId");
-  // const userId = searchParams.get("userId");
 
   const [eventData, setEventData] = useState({} as any);
-  //const [userData, setUserData] = useState({} as any);
-
-  //const startTime = searchParams.get("startTime");
-  //const endTime = searchParams.get("endTime");
-  //const date = searchParams.get("date");
-  //const parsedDate = new Date(date as any);
-  //const fullDate = format(parsedDate, "EEEE, MMMM dd, yyyy");
 
   useEffect(() => {
     setLoading(true);
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/events/meetings/booking/${bookingId}`
+          `https://dev.cal.litschool.in/api/events/meetings/booking/${bookingId}`
         );
         console.log(response, "response");
 
@@ -78,7 +68,7 @@ const BookingPage = () => {
 
         try {
           const response: any = await axios.post(
-            `https://dev.cal.litschool.in/events/meetings/cancel/${bookingId}`,
+            `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }

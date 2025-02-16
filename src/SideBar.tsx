@@ -16,7 +16,7 @@ import { addMeetingData } from "./app-store/meetingSlice";
 import DeleteModal from "./DeleteModal";
 import { axiosInstance } from "./config/http";
 const navItems = [
-  { href: "/events", label: "Event types", icon: Folder },
+  { href: "/events", label: "My Event", icon: Folder },
   { href: "/meeting", label: "Meetings", icon: Calendar },
 ];
 
@@ -114,17 +114,17 @@ const SideBar = () => {
 
   return (
     <>
-      <div className="bg-gray-50 h-screen flex flex-col">
+      <div className=" bg-white h-screen flex flex-col">
         {/* Main Content */}
         <div className="flex h-full border-r-2">
           {/* Sidebar */}
           <aside className="hidden md:block w-64 bg-white border border-r-blue-100 shadow-lg h-full fixed left-0 top-0 overflow-y-auto">
             {/* Logo and Company Name */}
-            <div className="flex items-center m-6">
+            <div className="flex items-center justify-center m-6 gap-2">
               <img
                 src="https://dev-application-portal.s3.eu-north-1.amazonaws.com/calendLit.png"
                 alt="Company Logo"
-                className="h-14 w-13 mb-4"
+                className="h-14 w-14"
               />
               <span className="text-4xl font-bold text-blue-500">Cal.LIT</span>
             </div>

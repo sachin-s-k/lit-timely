@@ -129,43 +129,63 @@ const Events = () => {
       ) : (
         <>
           {eventData.length >= 1 && (
-            <div className="p-6 pb-2 mt-24 pl-0">
-              {/* Welcome Message */}
-              <header className="flex justify-between items-center mb-6 ">
-                <h1 className="text-3xl font-bold text-gray-800">
-                  {/* Welcome, {userData.firstName}! */}
-                  Event Types
-                </h1>
-              </header>{" "}
-              <div className="relative flex items-center w-60 border border-gray-300 rounded-md px-4 py-3.5 text-sm focus-within:ring-2 focus-within:ring-blue-400 mt-9">
-                {/* Search Icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-400 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1117.5 10.5 7.5 7.5 0 0116.65 16.65z"
+            <div className="pt-6  p-0 pb-2 mt-20 pl-0">
+              {/* Header containing Welcome Message & Search Bar */}
+              {/* <h1 className="text-3xl font-bold text-gray-800 mb-5">
+                Event Types
+              </h1> */}
+              <header className="flex justify-between items-center w-full">
+                <div>
+                  {/* Welcome Message */}
+                  <h2 className="text-2xl font-semibold text-gray-800">
+                    {userData?.firstName
+                      ? `Welcome, ${userData.firstName}!`
+                      : "Welcome!"}
+                  </h2>
+                  {/* Personal URL Link */}
+                  <a
+                    href={`https://dev.cal.litschool.in/${userData?.personalUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 block text-blue-500 text-sm"
+                  >
+                    {`https://dev.cal.litschool.in/${userData?.personalUrl}`}
+                  </a>
+                </div>
+
+                {/* Search Bar - Adjusted to stretch properly */}
+                <div className="relative flex items-center max-w-[300px] w-full border border-gray-300 rounded-md px-4 py-3.5   text-sm focus-within:ring-2 focus-within:ring-blue-500">
+                  {/* Search Icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-400 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1117.5 10.5 7.5 7.5 0 0116.65 16.65z"
+                    />
+                  </svg>
+                  {/* Input Field */}
+                  <input
+                    type="text"
+                    placeholder="Search by event name..."
+                    className="flex-1 bg-transparent text-gray-700 placeholder-gray-400 outline-none focus:outline-none"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                </svg>
-                {/* Input Field */}
-                <input
-                  type="text"
-                  placeholder="Filter..."
-                  className="flex-1 bg-transparent text-gray-700 placeholder-gray-400 outline-none focus:outline-none"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
+                </div>
+              </header>
+
+              {/* Additional Component */}
               <LinkPart />
-              {/* Search Bar */}
             </div>
           )}
+
           <div>
             {eventData?.length === 0 ? (
               // Centered content when no events exist
@@ -178,11 +198,11 @@ const Events = () => {
                 <h1 className="text-xl font-bold text-gray-800 mb-2">
                   Create scheduling links with event types
                 </h1>
-                <p className="text-gray-600  font-extralight">
+                <p className="text-gray-600 font-extralight">
                   Create event types for meetings you'll want to schedule
-                  regularly,like product demos,
+                  regularly, like product demos,
                 </p>
-                <p className="text-gray-600 mb-4  font-extralight">
+                <p className="text-gray-600 mb-4 font-extralight">
                   customer calls, office hours, and more.
                 </p>
 
@@ -193,28 +213,23 @@ const Events = () => {
                   }}
                 >
                   <span className="flex gap-1 text-sm">
-                    {" "}
                     <Plus size={16} className="mt-0.5" /> New event type
                   </span>
                 </button>
-
-                {/* Submit Button */}
               </div>
             ) : (
               // Main content if events exist
               <>
-                <div>
-                  <div className="grid md:grid-cols-3 gap-3">
-                    {filteredEvents.length > 0 ? (
-                      filteredEvents.map((event: any, index: any) => (
-                        <MeetingCard key={index} events={event} />
-                      ))
-                    ) : (
-                      <p className="text-sm text-gray-500 mt-4">
-                        No results found.
-                      </p>
-                    )}
-                  </div>
+                <div className="grid md:grid-cols-3 gap-6 w-full max-w-[1200px] mx-auto">
+                  {filteredEvents.length > 0 ? (
+                    filteredEvents.map((event: any, index: any) => (
+                      <MeetingCard key={index} events={event} />
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500 mt-4">
+                      No results found.
+                    </p>
+                  )}
                 </div>
               </>
             )}

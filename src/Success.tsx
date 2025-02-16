@@ -1,6 +1,5 @@
 import { Calendar, Globe2, User } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 const Success = () => {
   const [searchParams] = useSearchParams();
 
@@ -83,20 +82,16 @@ const Success = () => {
         {/* Signup Section */}
         {/* Signup Section */}
         <div className="rounded-lg p-6 mx-auto mt-8 w-3/4 text-center mb-16">
-          <h2 className="text-lg font-bold mb-4">
-            Schedule your own meetings with Calendlit for free
-          </h2>
-          <p className="text-gray-600 mb-4">
-            Eliminate the back-and-forth emails for finding time.
-          </p>
+          <h2 className="text-lg font-bold mb-4"></h2>
+          <p className="text-gray-600 mb-4"></p>
           <div className="flex justify-center">
             {/* Google Signup */}
-            <button className="flex items-center border border-b justify-center w-fit rounded-full p-3 text-white hover:bg-blue-50">
-              {/* Google Icon */}
-              <FcGoogle className="text-lg mr-2" />
-              <span className="text-black font-thin text-sm">
-                Google workspace account
-              </span>
+            <button className="flex items-center  border-b justify-center w-fit rounded-full p-3 text-white hover:bg-blue-50">
+              {/* // <FcGoogle className="text-lg mr-2" /> */}
+              //{" "}
+              {/* <span className="text-black font-thin text-sm">
+                // Google workspace account //{" "}
+              </span> */}
             </button>
           </div>
         </div>

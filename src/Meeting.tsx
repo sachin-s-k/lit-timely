@@ -88,7 +88,7 @@ const Meeting = () => {
   return (
     <>
       <div className="mt-28">
-        <span className="text-3xl font-bold">Meetings</span>
+        <span className="text-2xl font-bold">Meetings</span>
       </div>
 
       <div className="border mt-8 rounded-lg">

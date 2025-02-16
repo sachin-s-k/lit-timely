@@ -1105,7 +1105,7 @@ const EventScheduler = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex  min-h-[80vh] h-fit w-full bg-gray-100 p-4 ">
+        <div className="flex  min-h-[80vh] h-fit w-full bg-gray-100 p-4 mt-20 ">
           {/* Preview Section */}
           <div
             className={`transition-all duration-300 border-gray-400  border-r-[0px]   border-t-5 ${

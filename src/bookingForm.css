@@ -8,11 +8,6 @@
 }
 
 /* Wrapper to maintain consistent width */
-.time-slot-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%; /* Full width */
-}
 
 /* Styling for each time slot (both selected and unselected) */
 .time-slot-unselected,
@@ -52,7 +47,7 @@
   transform: translateX(100%); /* Start off-screen to the right */
   opacity: 0; /* Initially invisible */
   animation: slideIn 0.5s ease-in-out forwards; /* Slide in animation */
-  margin-left: 12px;
+  margin-left: 1.8px;
 }
 
 /* Keyframes for sliding in effect */
@@ -65,7 +60,9 @@
 
 /* Styling for the "Next" button */
 .next-button button {
-  padding: 10px 28px;
+  padding: 10px 29px;
+  padding-top: 11px;
+
   font-size: 16px;
 }
 

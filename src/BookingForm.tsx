@@ -18,6 +18,12 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
 
   //
 
+  const formatTime = (time: string) => {
+    const [hour, minutePart] = time.split(":");
+    const hourFormatted = hour.padStart(2, "0"); // Ensures 01, 02, etc.
+    return `${hourFormatted}:${minutePart}`;
+  };
+
   const availableDays = availabilities.map(
     (day: any) => new Date(day.eventDate)
   );
@@ -180,8 +186,8 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
                     <div className="time-slot-selected ">
                       {/* Selected Time */}
                       <div className="time-box border border-blue-600">
-                        <span className="text-center text-blue-600">
-                          {time}
+                        <span className="text-center text-blue-600 text-bold">
+                          {formatTime(time)}
                         </span>
                       </div>
 
@@ -205,7 +211,7 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
                       onClick={() => setSelectedTime(time)}
                     >
                       <span className="text-center font-bold  text-blue-600">
-                        {time}
+                        {formatTime(time)}
                       </span>
                     </div>
                   )}

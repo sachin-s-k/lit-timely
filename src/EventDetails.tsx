@@ -45,7 +45,13 @@ const EventDetails = () => {
   }, []);
 
   const handlingTimeEvents = (selectedDate: any, startTime: any) => {
-    console.log("callled time page", "se;lected datae", selectedDate);
+    console.log(
+      "callled time page",
+      "se;lected datae",
+      selectedDate,
+      startTime,
+      "starttt"
+    );
     function calculateEndTime(dateString: any, startTime: any, duration: any) {
       // Parse the start date and time
       const startDateTime = parse(startTime, "hh:mm a", new Date(dateString));
