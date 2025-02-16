@@ -23,6 +23,8 @@ const BookingPage = () => {
   const [eventData, setEventData] = useState({} as any);
 
   useEffect(() => {
+    console.log(bookingId, "bookingId");
+
     setLoading(true);
     const fetchEventData = async () => {
       try {
@@ -30,7 +32,9 @@ const BookingPage = () => {
           `https://dev.cal.litschool.in/api/events/meetings/booking/${bookingId}`
         );
         console.log(response, "response");
-
+        if (!response.data.success) {
+          navigate("/cancel-page/link-expired");
+        }
         setLoading(false);
         //setUserData(response.data.userData);
         setEventData(response.data.data);
@@ -105,7 +109,7 @@ const BookingPage = () => {
         <div className="relative flex flex-col justify-center lg:flex-row px-4 py-6 mt-14 h-screen">
           <div className="relative flex flex-col justify-center lg:flex-row w-full h-144 px-4 mt-">
             {/* Event Info */}
-            <div className="p-10 pt-6 lg:w-1/3 border-t border-b border-l rounded-s-lg shadow-sm">
+            <div className="p-10 pt-6 lg:w-1/3 border-t border-b border-l rounded-s-sm shadow-sm">
               <h1 className="text-xl font-bold mb-4">
                 {eventData?.eventId?.eventName}
               </h1>
@@ -134,7 +138,7 @@ const BookingPage = () => {
             </div>
 
             {/* Booking Form */}
-            <div className="relative border rounded-r-md w-2/5 p-4 shadow-sm">
+            <div className="relative border rounded-r-sm w-2/5 p-4 shadow-sm">
               <form onSubmit={formik.handleSubmit} className="space-y-4">
                 <div>
                   <h1 className="font-bold text-lg">Cancel Event?</h1>

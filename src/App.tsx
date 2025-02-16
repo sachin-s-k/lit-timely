@@ -14,6 +14,7 @@ import Landing from "./Landing";
 import SkeletonCard from "./SkeletonCard";
 import CancelPublic from "./CancelPublic";
 import CancelPage from "./CancelPage";
+import Deactive from "./Deactive";
 
 // import EventCard from "./NewCard";
 
@@ -103,6 +104,7 @@ const App = () => {
             element={<CancelPublic />}
           />
           <Route path="/events-page/cancel" element={<CancelPage />} />
+          <Route path="/cancel-page/link-expired" element={<Deactive />} />
 
           {/*
           <Route path="/Sign-up" element={<SignUp />} />
