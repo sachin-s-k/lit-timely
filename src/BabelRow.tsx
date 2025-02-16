@@ -97,11 +97,26 @@ const BabelRow = ({
   };
 
   // Determine if the event is upcoming
-  const isUpcoming = new Date(event.eventDate) > new Date();
+  const isUpcoming = (() => {
+    const now = new Date();
+    const eventDate = new Date(event.eventDate);
 
+    // Extract start time from event
+    const [hours, minutes] = event.eventStartTime
+      .split(":")
+      .map((val: any) => parseInt(val, 10));
+
+    const isPM = event.eventStartTime.includes("PM");
+    const eventStartTime = new Date(eventDate);
+    eventStartTime.setHours(isPM ? (hours % 12) + 12 : hours, minutes, 0, 0);
+
+    return (
+      eventDate > now ||
+      (eventDate.toDateString() === now.toDateString() && eventStartTime > now)
+    );
+  })();
   return (
     <>
-      {console.log(event, "even")}
       <div className="babel-row">
         {/* Main Row */}
         <div className="babel-row-main" onClick={toggleExpand}>
@@ -117,26 +132,30 @@ const BabelRow = ({
           <div className="row-details">
             <strong>{event.eventId?.eventName}</strong>
             <div>
-              Event Date:{" "}
-              <strong> {formatDateWithYear(event.eventDate)}</strong>
+              Event Date: <strong>{formatDateWithYear(event.eventDate)}</strong>
             </div>
           </div>
+          {/* Solid Up/Down Arrow for Expand/Collapse */}
           <div className="expand-icon">
             {isExpanded ? (
               <svg
-                viewBox="0 0 20 20"
-                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                width="20"
+                height="20"
               >
-                <path d="M10 15l-6-6h12l-6 6z" fill="currentColor" />
+                <path d="M5 12l5-5 5 5H5z" />
               </svg>
             ) : (
               <svg
-                viewBox="0 0 20 20"
-                fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                width="20"
+                height="20"
               >
-                <path d="M10 5l6 6H4l6-6z" fill="currentColor" />
+                <path d="M5 8l5 5 5-5H5z" />
               </svg>
             )}
           </div>
@@ -172,7 +191,7 @@ const BabelRow = ({
                       ? "bg-red-300 cursor-not-allowed"
                       : "bg-red-500 text-white hover:bg-red-600"
                   } rounded`}
-                  disabled={isSubmitting} // Disable the button when submitting
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? "Processing..." : "Cancel"}
                 </button>
@@ -227,7 +246,7 @@ const BabelRow = ({
         isOpen={isModalOpen}
         onClose={closeModal}
         onCancel={handleCancel}
-        isSubmitting={isSubmitting} // Pass state to modal
+        isSubmitting={isSubmitting}
       />
     </>
   );
