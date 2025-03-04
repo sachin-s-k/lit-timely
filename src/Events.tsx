@@ -130,14 +130,10 @@ const Events = () => {
         <>
           {eventData.length >= 1 && (
             <div className="pt-6  p-0 pb-2 mt-20 pl-0">
-              {/* Header containing Welcome Message & Search Bar */}
-              {/* <h1 className="text-3xl font-bold text-gray-800 mb-5">
-                Event Types
-              </h1> */}
               <header className="flex justify-between items-center w-full">
                 <div>
                   {/* Welcome Message */}
-                  <h2 className="text-2xl font-semibold text-gray-800">
+                  <h2 className="text-2xl font-opensauce font-semibold text-gray-800">
                     {userData?.firstName
                       ? `Welcome, ${userData.firstName}!`
                       : "Welcome!"}
@@ -147,14 +143,14 @@ const Events = () => {
                     href={`https://dev.cal.litschool.in/${userData?.personalUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 block text-blue-500 text-sm"
+                    className="mt-2 block font-opensauce text-blue-500 text-sm"
                   >
                     {`https://dev.cal.litschool.in/${userData?.personalUrl}`}
                   </a>
                 </div>
 
                 {/* Search Bar - Adjusted to stretch properly */}
-                <div className="relative flex items-center max-w-[300px] w-full border border-gray-300 rounded-md px-4 py-3.5   text-sm focus-within:ring-2 focus-within:ring-blue-500">
+                <div className="relative flex items-center max-w-[300px] w-full border border-gray-300 rounded-md px-4 py-3.5 text-sm focus-within:ring-2 focus-within:ring-blue-500">
                   {/* Search Icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -180,6 +176,9 @@ const Events = () => {
                   />
                 </div>
               </header>
+
+              {/* Divider */}
+              <hr className="my-6 border-t border-gray-300" />
 
               {/* Additional Component */}
               <LinkPart />
@@ -226,9 +225,9 @@ const Events = () => {
                       <MeetingCard key={index} events={event} />
                     ))
                   ) : (
-                    <p className="text-sm text-gray-500 mt-4">
-                      No results found.
-                    </p>
+                    <div className="flex items-center justify-center h-[calc(70vh-8rem)] ml-96 w-full text-center">
+                      <p className="text-md text-gray-500">No results found.</p>
+                    </div>
                   )}
                 </div>
               </>

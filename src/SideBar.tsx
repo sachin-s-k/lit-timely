@@ -16,7 +16,7 @@ import { addMeetingData } from "./app-store/meetingSlice";
 import DeleteModal from "./DeleteModal";
 import { axiosInstance } from "./config/http";
 const navItems = [
-  { href: "/events", label: "My Event", icon: Folder },
+  { href: "/events", label: "My Events", icon: Folder },
   { href: "/meeting", label: "Meetings", icon: Calendar },
 ];
 
@@ -120,7 +120,7 @@ const SideBar = () => {
           {/* Sidebar */}
           <aside className="hidden md:block w-64 bg-white border border-r-blue-100 shadow-lg h-full fixed left-0 top-0 overflow-y-auto">
             {/* Logo and Company Name */}
-            <div className="flex items-center justify-center m-6 gap-2">
+            <div className="flex items-center justify-start ml-0 mt-12  px-4">
               <img
                 src="https://dev-application-portal.s3.eu-north-1.amazonaws.com/calendLit.png"
                 alt="Company Logo"
@@ -131,7 +131,7 @@ const SideBar = () => {
 
             {/* Create Button */}
             <div
-              className="hover:bg-blue-100 w-56 h-12 mt-10 flex justify-center items-center border border-blue-400 rounded-full mx-auto cursor-pointer"
+              className="hover:bg-blue-100 w-56 h-12 mt-6 flex justify-center items-center border border-blue-400 rounded-full mx-auto cursor-pointer"
               onClick={() => {
                 handleSideBarNavigation(3);
               }}
@@ -150,14 +150,14 @@ const SideBar = () => {
                     key={item.href}
                     className={`flex items-center px-4 font-extrabold  m-4 py-3 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition transform rounded-md cursor-pointer ${
                       activeNav === index
-                        ? "bg-blue-100 scale-105     rounded-lg m-4 text-blue-500"
+                        ? "bg-blue-100 scale-105 rounded-lg m-4 text-blue-500"
                         : ""
                     }`}
                     onClick={() => handleSideBarNavigation(index)}
                   >
                     <item.icon className="w-5 h-5 mr-3" />
                     <span
-                      className={`text-sm text-black font-extrabold ${
+                      className={`text-sm text-black font-opensauce font-extrabold ${
                         activeNav === index ? " text-blue-500 " : ""
                       }`}
                     >
@@ -214,7 +214,9 @@ const SideBar = () => {
                     d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6.75A2.25 2.25 0 004.5 5.25v13.5A2.25 2.25 0 007.5 21h6.75a2.25 2.25 0 002.25-2.25V15M15 12h6m0 0l-3-3m3 3l-3 3"
                   />
                 </svg>
-                <span className="text-sm font-medium">Log Out</span>
+                <span className="text-sm text-gray-500 font-medium font-opensauce">
+                  Log Out
+                </span>
               </button>
             </div>
 

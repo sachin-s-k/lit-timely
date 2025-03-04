@@ -162,13 +162,13 @@ const MeetingCard = ({ events }: any) => {
                 disabled={loading} // Disable while loading
               />
               <div
-                className={`w-11 h-6 rounded-full transition-all duration-300 relative ${
+                className={`w-9 h-5 rounded-full transition-all duration-300 relative ${
                   isEventActive ? "bg-blue-500" : "bg-gray-300"
                 }`}
               >
                 <div
-                  className={`absolute w-4 h-4 bg-white rounded-full shadow-md left-1 top-1 transition-all duration-300 ${
-                    isEventActive ? "translate-x-5" : ""
+                  className={`absolute w-3 h-3 bg-white rounded-full shadow-md left-1 top-1 transition-all duration-300 ${
+                    isEventActive ? "translate-x-4" : ""
                   }`}
                 ></div>
               </div>

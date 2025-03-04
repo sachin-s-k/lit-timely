@@ -7,6 +7,9 @@ export default {
   content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        opensauce: ["Open Sauce", "sans-serif"], // Add Open Sauce font
+      },
       minHeight: {
         90: "90px", // Custom min-height
       },
