@@ -72,7 +72,7 @@ const BookingPage = () => {
 
         try {
           const response: any = await axios.post(
-            `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
+            `http://localhost:8000/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }

@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import "./bookingForm.css"; // Include the custom CSS for animations
+import "./bookingForm.css";
 
 import { format } from "date-fns";
 import { Globe2Icon } from "lucide-react";
+import { ThreeDots } from "react-loader-spinner";
 
-export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
-  console.log(availabilityArray, "avaialbility array");
-
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
+export const BookingForm = ({
+  handlingTimeEvents,
+  availabilityArray,
+  litApplicationUserId,
+  isSubmitting,
+}: any) => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [currentISTTime, setCurrentISTTime] = useState("");
 
   const availabilities = availabilityArray;
 
-  //
-
-  //
-
   const formatTime = (time: string) => {
     const [hour, minutePart] = time.split(":");
-    const hourFormatted = hour.padStart(2, "0"); // Ensures 01, 02, etc.
+    const hourFormatted = hour.padStart(2, "0");
     return `${hourFormatted}:${minutePart}`;
   };
 
@@ -28,48 +29,32 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
     (day: any) => new Date(day.eventDate)
   );
 
-  //
-  const isDateAvailable = (date: any) =>
+  const isDateAvailable = (date: Date) =>
     availableDays.some(
-      (availableDate: any) =>
+      (availableDate: Date) =>
         availableDate.getFullYear() === date.getFullYear() &&
         availableDate.getMonth() === date.getMonth() &&
         availableDate.getDate() === date.getDate()
     );
 
   const disabledDates = [
-    { before: new Date() }, // Disable dates before today
-    (date: any) => !isDateAvailable(date), // Disable dates not in availableDays
+    { before: new Date() },
+    (date: Date) => !isDateAvailable(date),
   ];
-
-  //
-  console.log(availableDays, "avaialabeele");
 
   const timeSlots = selectedDate
     ? availabilities.find(
         (day: any) => day.eventDate === format(selectedDate, "yyyy-MM-dd")
       )?.slots || []
     : [];
-  //const navigate = useNavigate();
-  {
-    console.log(
-      selectedDate,
-      "selectedDate",
-      format(selectedDate as any, "yyyy-MM-dd")
-    );
-  }
-  const [currentISTTime, setCurrentISTTime] = useState("");
 
   useEffect(() => {
     const updateTime = () => {
       const date = new Date();
-
-      // Convert the current time to IST (GMT+5:30)
-      const istOffset = 330; // IST is UTC+5:30 in minutes
+      const istOffset = 330;
       const utcTime = date.getTime() + date.getTimezoneOffset() * 60000;
       const istTime = new Date(utcTime + istOffset * 60000);
 
-      // Format the IST time as hh:mm AM/PM
       const options = {
         hour: "2-digit",
         minute: "2-digit",
@@ -79,32 +64,25 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
       setCurrentISTTime(formattedTime);
     };
 
-    // Call immediately to avoid lag
     updateTime();
 
-    // Calculate delay to the next exact minute
     const now = new Date();
     const delay = (60 - now.getSeconds()) * 1000;
 
-    // Set a timeout for the first update at the next minute
     const timeout = setTimeout(() => {
       updateTime();
-
-      // After the first update, set an interval to update every minute
       const interval = setInterval(updateTime, 60000);
-
-      // Cleanup interval on unmount
       return () => clearInterval(interval);
     }, delay);
 
-    // Cleanup timeout on unmount
     return () => clearTimeout(timeout);
   }, []);
+
   return (
     <div
-      className={`border rounded-r-lg overflow-y-scroll  ${
-        selectedDate ? "" : "w-1/4 "
-      } `}
+      className={`border rounded-r-lg overflow-y-scroll ${
+        selectedDate ? "" : "w-1/4"
+      }`}
     >
       <div className="m-4 mb-2 ml-4">
         <span className="font-bold text-gray-600 text-lg">
@@ -112,11 +90,10 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
         </span>
       </div>
       <div className="flex flex-col md:flex-row">
-        {/* Date Picker Section */}
         <div className="sticky top-0 z-10 max-w-sm mx-auto p-4 pt-0 bg-white">
           <DayPicker
             styles={{
-              months: { gap: "20px" }, // Adds space between the columns of the grid
+              months: { gap: "20px" },
               caption: { marginBottom: "10px" },
               day: { margin: "5px" },
             }}
@@ -126,16 +103,14 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
               today: "text-blue-600 rounded-full",
             }}
             selected={selectedDate as any}
-            onSelect={
-              (date) => {
-                if (date) {
-                  setSelectedDate(date as any);
-                } else {
-                  setSelectedDate(null);
-                }
-                setSelectedTime(null); // Reset selected time when date changes
-              } // Reset selected time when date changes
-            }
+            onSelect={(date) => {
+              if (date) {
+                setSelectedDate(date as any);
+              } else {
+                setSelectedDate(null);
+              }
+              setSelectedTime(null);
+            }}
             disabled={disabledDates}
             modifiers={{ available: availableDays }}
             modifiersStyles={{
@@ -143,11 +118,11 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
                 background: "#4169e1",
                 color: "#fff",
                 borderRadius: "50%",
-              }, // Royal blue
+              },
               available: { background: "#dbeafe", borderRadius: "30px" },
             }}
           />
-          <div className="mt-8 ">
+          <div className="mt-8">
             <div>
               <span className="font-bold text-md">Time zone</span>
             </div>
@@ -162,61 +137,79 @@ export const BookingForm = ({ handlingTimeEvents, availabilityArray }: any) => {
           </div>
         </div>
 
-        {/* Time Slot Section */}
         {selectedDate && (
           <div className="w-full overflow-y-scroll h-[65vh]">
             <div className="p-4">
               <span className="font-semibold text-gray-600">
-                {selectedDate
-                  ? (selectedDate as any).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      month: "long",
-                      day: "numeric",
-                    })
-                  : "Tuesday, December 10"}
+                {selectedDate.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                })}
               </span>
             </div>
 
-            {/* Scrollable Time Slot Container */}
             <div className="time-slot-list">
-              {timeSlots.map((time: any, index: any) => (
-                <div key={index} className="time-slot-wrapper">
-                  {selectedTime === time ? (
-                    // Render the selected time slot with "Next" button
-                    <div className="time-slot-selected ">
-                      {/* Selected Time */}
-                      <div className="time-box border border-blue-600">
-                        <span className="text-center text-blue-600 text-bold">
+              {timeSlots.map((time: string, index: number) => {
+                const isSelected = selectedTime === time;
+                const isDisabled = isSubmitting && !isSelected;
+
+                return (
+                  <div key={index} className="time-slot-wrapper">
+                    {isSelected ? (
+                      <div className="time-slot-selected">
+                        <div className="time-box border border-blue-600">
+                          <span className="text-center text-blue-600 text-bold">
+                            {formatTime(time)}
+                          </span>
+                        </div>
+
+                        <div className="next-button">
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className={`px-4 py-2 border rounded-md bg-blue-600 text-white text-sm flex items-center justify-center w-full text-center ${
+                              isSubmitting
+                                ? "bg-blue-500 cursor-not-allowed"
+                                : "hover:bg-blue-700"
+                            }`}
+                            onClick={() =>
+                              handlingTimeEvents(selectedDate, selectedTime)
+                            }
+                          >
+                            {isSubmitting ? (
+                              <ThreeDots
+                                visible={true}
+                                height="20"
+                                width="32"
+                                color="#e5e7eb"
+                                ariaLabel="three-dots-loading"
+                              />
+                            ) : litApplicationUserId ? (
+                              "Book"
+                            ) : (
+                              "Next"
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className={`time-slot-unselected ${
+                          isDisabled
+                            ? "opacity-50 cursor-not-allowed"
+                            : "cursor-pointer hover:bg-blue-50"
+                        }`}
+                        onClick={() => !isSubmitting && setSelectedTime(time)}
+                      >
+                        <span className="text-center font-bold text-blue-600">
                           {formatTime(time)}
                         </span>
                       </div>
-
-                      {/* Next Button */}
-                      <div className="next-button">
-                        <button
-                          className="bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                          onClick={() => {
-                            console.log("Navigating with time:", time);
-                            handlingTimeEvents(selectedDate, selectedTime);
-                          }}
-                        >
-                          Next
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    // Render the unselected time slots
-                    <div
-                      className="time-slot-unselected"
-                      onClick={() => setSelectedTime(time)}
-                    >
-                      <span className="text-center font-bold  text-blue-600">
-                        {formatTime(time)}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

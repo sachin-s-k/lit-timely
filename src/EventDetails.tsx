@@ -6,20 +6,32 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { addMinutes } from "date-fns/addMinutes";
 import { format, parse } from "date-fns";
-import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { ThreeDots } from "react-loader-spinner";
 
 const EventDetails = () => {
-  console.log("render event detail pagge");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { id, eventName } = useParams(); // Extract dynamic segments
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
+  console.log(searchParams.get("litApplicationUserId"), "=============>");
 
-  console.log(searchParams, "sear");
+  //datt for quick
+
+  const name = searchParams.get("name") || "";
+  const email = searchParams.get("email") || "";
+  const bookingId = searchParams.get("bookingId") || "";
+  const eventCategory = searchParams.get("eventCategory") || "";
+  const litApplicationUserId = searchParams.get("litApplicationUserId") || "";
+  const cohortId = searchParams.get("cohortId") || "";
+  console.log("render event detail pagge");
   const [availability, setAvailability] = useState([]);
   // const email = searchParams.get("email");
-  // const userId = searchParams.get("userId");
+  const userId = searchParams.get("userId");
+  console.log(userId, "usettttttttttttttIDDDDD");
+
   // const name = searchParams.get("name");
   const eventId = searchParams.get("eventId");
   const [eventData, setEventData] = useState({} as any);
@@ -30,7 +42,7 @@ const EventDetails = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
+          `http://localhost:8000/events/booking/${id}?eventId=${eventId}`
         );
         console.log(response, "response=====>");
         setUserData(response.data.userData);
@@ -43,6 +55,45 @@ const EventDetails = () => {
     };
     fetchEventData();
   }, []);
+
+  const handlingSlotBooking = async (bookingData: any) => {
+    setIsSubmitting(true);
+    try {
+      const response: any = await axios.post(
+        "https://dev.cal.litschool.in/events/booking-slot",
+        {
+          name,
+          email,
+          bookingId,
+          eventId,
+          startTime: bookingData.startTime,
+          endTime: bookingData.endTime,
+          id,
+          date: bookingData.date,
+          userId,
+          eventCategory,
+          cohortId,
+          litApplicationUserId,
+        }
+      );
+      navigate(
+        `/events-page/success?startTime=${
+          response.data.booking.startTime
+        }&endTime=${response.data.booking.endTime}&date=${
+          response.data.booking.date
+        }&eventName=${response.data.booking.eventName}&fullname=${
+          response.data.booking.ownerfirstName +
+          " " +
+          response.data.booking.ownerlastName
+        }`
+      );
+    } catch (error: any) {
+      console.error("Error booking slo======>t", error);
+      toast.error(error.response.data.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handlingTimeEvents = (selectedDate: any, startTime: any) => {
     console.log(
@@ -67,15 +118,18 @@ const EventDetails = () => {
       startTime,
       eventData.eventDuration
     );
-    console.log(selectedDate, startTime, "gooooooooood", endTime);
     const queryParams = new URLSearchParams({
       ...Object.fromEntries(searchParams), // Preserve existing query params
       date: selectedDate, // Add the new query params
       startTime,
       endTime,
     }).toString();
-    navigate(`/${id}/${eventName}/booking?${queryParams}`);
-    //navigate("/booking");
+
+    if (searchParams.get("litApplicationUserId") !== "") {
+      handlingSlotBooking({ date: selectedDate, startTime, endTime });
+    } else {
+      navigate(`/${id}/${eventName}/booking?${queryParams}`);
+    }
   };
   const handleBack = () => {
     window.history.back(); // Goes back to the previous page in the browser history
@@ -120,6 +174,8 @@ const EventDetails = () => {
           <BookingForm
             handlingTimeEvents={handlingTimeEvents}
             availabilityArray={availability}
+            litApplicationUserId={searchParams.get("litApplicationUserId")}
+            isSubmitting={isSubmitting}
           />
         </div>
       )}

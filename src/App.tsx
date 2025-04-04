@@ -24,10 +24,6 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Landing />} />
-          {/* <Route path="/events/user" element={<SideBar />} />
-          <Route path="/booking-page" element={<EventDetails />} />
-          <Route path="/availability/user" element={<SideBar />} />
-          <Route path="/meetings/user/" element={<SideBar />} /> */}
 
           {/* Protected Routes */}
           <Route
@@ -80,14 +76,6 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="/tab/user"
-            element={
-              <ProtectedRoute>
-                <SlidingSidebar />
-              </ProtectedRoute>
-            }
-          /> */}
           <Route path="/availability/user" element={<SideBar />} />
           <Route path="/:id/:eventName" element={<EventDetails />} />
           <Route path="/:id/:eventName/booking" element={<BookingPage />} />
@@ -105,13 +93,6 @@ const App = () => {
           />
           <Route path="/events-page/cancel" element={<CancelPage />} />
           <Route path="/cancel-page/link-expired" element={<Deactive />} />
-
-          {/*
-          <Route path="/Sign-up" element={<SignUp />} />
-         
-          <Route path="/auth" element={<GoogleOAuthPage />} />
-          <Route path="/test" element={<TestForm />} />
-          <Route path="/shi" element={<SkeletonCard />} /> */}
         </Routes>
       </Router>
     </>

@@ -17,7 +17,6 @@ const BookingPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  console.log(searchParams, "searchParms");
 
   const { id } = useParams();
   const eventId = searchParams.get("eventId");
@@ -33,11 +32,13 @@ const BookingPage = () => {
   const fullDate = format(parsedDate, "EEEE, MMMM dd, yyyy");
 
   useEffect(() => {
+    console.log("callled");
+
     setLoading(true);
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
+          `https://dev.cal.litschool.in/events/booking/${id}?eventId=${eventId}`
         );
         setLoading(false);
         setUserData(response.data.userData);
@@ -93,7 +94,7 @@ const BookingPage = () => {
         setIsSubmitting(true);
         try {
           const response: any = await axios.post(
-            "https://dev.cal.litschool.in/api/events/booking-slot",
+            "https://dev.cal.litschool.in/events/booking-slot",
             {
               ...values,
               eventId,
