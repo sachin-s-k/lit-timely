@@ -43,7 +43,7 @@ const Landing = () => {
   const validateEmailWithServer = async (email: string) => {
     try {
       const response = await axios.post(
-        "https://dev.cal.litschool.in/api/check",
+        `${import.meta.env.VITE_BACKEND_API_BASE_URL}/check`,
         {
           email,
         }
@@ -92,7 +92,7 @@ const Landing = () => {
       try {
         const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
         const response = await axios.post(
-          "https://dev.cal.litschool.in/api/" + endpoint,
+          `${import.meta.env.VITE_BACKEND_API_BASE_URL}${endpoint}`,
           values
         );
 
@@ -225,12 +225,6 @@ const Landing = () => {
                       ? Yup.string().required("Last Name is required")
                       : Yup.string(),
                     email: Yup.string(),
-                    // .email("Invalid email address")
-                    // .required("Email is required"),
-                    // .matches(
-                    //   /^[a-zA-Z0-9._%+-]+@litschool\.in$/,
-                    //   "Sorry, this mail is not registered with us"
-                    // )
                     password: isSignUp
                       ? Yup.string()
                           .min(8, "Password must be at least 8 characters")

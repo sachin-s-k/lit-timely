@@ -16,8 +16,6 @@ import CancelPublic from "./CancelPublic";
 import CancelPage from "./CancelPage";
 import Deactive from "./Deactive";
 
-// import EventCard from "./NewCard";
-
 const App = () => {
   return (
     <>

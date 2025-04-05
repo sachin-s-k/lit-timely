@@ -3,9 +3,7 @@ import Cookies from "js-cookie";
 import { store } from "../app-store/store";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000",
-
-  // baseURL: "/api",
+  baseURL: import.meta.env.VITE_BACKEND_API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(
