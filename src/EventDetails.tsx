@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { addMinutes } from "date-fns/addMinutes";
 import { format, parse } from "date-fns";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { ThreeDots } from "react-loader-spinner";
 
 const EventDetails = () => {
@@ -16,8 +16,6 @@ const EventDetails = () => {
   const { id, eventName } = useParams(); // Extract dynamic segments
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
-  console.log(searchParams.get("litApplicationUserId"), "=============>");
-
   //datt for quick
 
   const name = searchParams.get("name") || "";
@@ -26,11 +24,11 @@ const EventDetails = () => {
   const eventCategory = searchParams.get("eventCategory") || "";
   const litApplicationUserId = searchParams.get("litApplicationUserId") || "";
   const cohortId = searchParams.get("cohortId") || "";
+  const ownerBooking = searchParams.get("ownerBooking") || false;
   console.log("render event detail pagge");
   const [availability, setAvailability] = useState([]);
   // const email = searchParams.get("email");
   const userId = searchParams.get("userId");
-  console.log(userId, "usettttttttttttttIDDDDD");
 
   // const name = searchParams.get("name");
   const eventId = searchParams.get("eventId");
@@ -42,9 +40,8 @@ const EventDetails = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/events/booking/${id}?eventId=${eventId}`
+          `https://dev.cal.litschool.in/api/booking/${id}?eventId=${eventId}`
         );
-        console.log(response, "response=====>");
         setUserData(response.data.userData);
         setEventData(response.data.eventData);
         setAvailability(response.data.availability);
@@ -60,7 +57,7 @@ const EventDetails = () => {
     setIsSubmitting(true);
     try {
       const response: any = await axios.post(
-        "https://dev.cal.litschool.in/events/booking-slot",
+        "http://localhost:8000/events/booking-slot",
         {
           name,
           email,
@@ -76,19 +73,21 @@ const EventDetails = () => {
           litApplicationUserId,
         }
       );
-      navigate(
-        `/events-page/success?startTime=${
-          response.data.booking.startTime
-        }&endTime=${response.data.booking.endTime}&date=${
-          response.data.booking.date
-        }&eventName=${response.data.booking.eventName}&fullname=${
-          response.data.booking.ownerfirstName +
-          " " +
-          response.data.booking.ownerlastName
-        }`
-      );
+      console.log(response);
+
+      window.location.replace("https://apply-lit-school.vercel.app");
+      // navigate(
+      //   `/events-page/success?startTime=${
+      //     response.data.responseData.booking.startTime
+      //   }&endTime=${response.data.responseData.booking.endTime}&date=${
+      //     response.data.responseData.booking.date
+      //   }&eventName=${response.data.responseData.booking.event.name}&fullname=${
+      //     response.data.responseData.booking.organizer.firstName +
+      //     " " +
+      //     response.data.responseData.booking.organizer.lastName
+      //   }`
+      // );
     } catch (error: any) {
-      console.error("Error booking slo======>t", error);
       toast.error(error.response.data.message);
     } finally {
       setIsSubmitting(false);
@@ -125,7 +124,11 @@ const EventDetails = () => {
       endTime,
     }).toString();
 
-    if (searchParams.get("litApplicationUserId") !== "") {
+    if (searchParams.get("litApplicationUserId") !== null && !ownerBooking) {
+      console.log(searchParams.get("litApplicationUserId"), "seeeeee");
+
+      console.log("handleee called");
+
       handlingSlotBooking({ date: selectedDate, startTime, endTime });
     } else {
       navigate(`/${id}/${eventName}/booking?${queryParams}`);
@@ -176,9 +179,11 @@ const EventDetails = () => {
             availabilityArray={availability}
             litApplicationUserId={searchParams.get("litApplicationUserId")}
             isSubmitting={isSubmitting}
+            ownerBooking={ownerBooking}
           />
         </div>
       )}
+      <Toaster />
     </>
   );
 };

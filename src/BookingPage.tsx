@@ -38,7 +38,7 @@ const BookingPage = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/events/booking/${id}?eventId=${eventId}`
+          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
         );
         setLoading(false);
         setUserData(response.data.userData);
@@ -94,7 +94,7 @@ const BookingPage = () => {
         setIsSubmitting(true);
         try {
           const response: any = await axios.post(
-            "https://dev.cal.litschool.in/events/booking-slot",
+            "https://dev.cal.litschool.in/api/events/booking-slot",
             {
               ...values,
               eventId,
@@ -111,17 +111,18 @@ const BookingPage = () => {
           );
           navigate(
             `/events-page/success?startTime=${
-              response.data.booking.startTime
-            }&endTime=${response.data.booking.endTime}&date=${
-              response.data.booking.date
-            }&eventName=${response.data.booking.eventName}&fullname=${
-              response.data.booking.ownerfirstName +
+              response.data.responseData.booking.startTime
+            }&endTime=${response.data.responseData.booking.endTime}&date=${
+              response.data.responseData.booking.date
+            }&eventName=${
+              response.data.responseData.booking.event.name
+            }&fullname=${
+              response.data.responseData.booking.organizer.firstName +
               " " +
-              response.data.booking.ownerlastName
+              response.data.responseData.booking.organizer.lastName
             }`
           );
         } catch (error: any) {
-          console.error("Error booking slo======>t", error);
           toast.error(error.response.data.message);
         } finally {
           setIsSubmitting(false);

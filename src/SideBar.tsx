@@ -54,8 +54,6 @@ const SideBar = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    console.log("dleteeee");
-
     // Clear the authentication cookie
     Cookies.remove("authToken");
 
@@ -91,7 +89,6 @@ const SideBar = () => {
 
   const handleDelete = async () => {
     //dispatch(clearDeletedEvents([] as any));
-    console.log("start coneeeemmm");
 
     try {
       const deleteResponse = await axiosInstance.put(`/events/delete`, {

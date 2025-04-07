@@ -12,6 +12,7 @@ export const BookingForm = ({
   availabilityArray,
   litApplicationUserId,
   isSubmitting,
+  ownerBooking,
 }: any) => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -185,7 +186,7 @@ export const BookingForm = ({
                                 color="#e5e7eb"
                                 ariaLabel="three-dots-loading"
                               />
-                            ) : litApplicationUserId ? (
+                            ) : litApplicationUserId && !ownerBooking ? (
                               "Book"
                             ) : (
                               "Next"

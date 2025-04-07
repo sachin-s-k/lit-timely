@@ -8,12 +8,10 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    console.log("Interceptor triggered");
     const userData: any = store.getState().registration.userData;
 
     // Fetch the tokezn from cookies
     const authToken = Cookies.get("authToken" + userData._id);
-    console.log(authToken, "authhhh");
     if (!authToken) {
       window.location.href = "/"; // Redirect to the home page or login page
     }

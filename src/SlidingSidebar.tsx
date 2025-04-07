@@ -544,38 +544,6 @@ const EventScheduler = () => {
   };
   //new test
 
-  // validation errors duration and availabilty
-
-  // const validateEventData = (data: any, duration: any) => {
-  //   console.log("calledddd");
-
-  //   let errors: any = [];
-  //   let isValid = true;
-
-  //   data.forEach((day: any, dayIndex: any) => {
-  //     if (!day.isAvailable) return; // Skip unavailable days
-
-  //     day.timeSlots.forEach((slot: any, _slotIndex: any) => {
-  //       const startMinutes: any = timeToMinutes(slot.start);
-  //       const endMinutes: any = timeToMinutes(slot.end);
-  //       console.log(startMinutes, endMinutes);
-
-  //       console.log(endMinutes - startMinutes < duration, "conditionnnnnn");
-
-  //       if (endMinutes - startMinutes < duration) {
-  //         isValid = false;
-  //         errors.push(
-  //           `Error: Slot from ${slot.start} to ${slot.end} on day ${
-  //             dayIndex + 1
-  //           } must be at least ${duration} minutes.`
-  //         );
-  //       }
-  //     });
-  //   });
-
-  //   return { isValid, errors };
-  // };
-
   const validateEventData = (eventData: any, requiredDuration: any) => {
     let isValid = true;
     const errors: string[] = [];

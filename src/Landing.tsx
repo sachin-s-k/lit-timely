@@ -54,11 +54,8 @@ const Landing = () => {
       return false;
     }
   };
-
-  // Debounced validation function
   const validateEmail = debounce(async (email: string, setFieldError: any) => {
     if (!email) {
-      //setFieldError("email", "Email is required");
       setEmailValidationError("Email is required");
       return;
     }
@@ -66,7 +63,6 @@ const Landing = () => {
     try {
       const isValid = await validateEmailWithServer(email);
       if (!isValid) {
-        // setFieldError("email", "This email does not exist in our records.");
         setEmailValidationError("This email does not exist in our records.");
       } else {
         setFieldError("email", "");

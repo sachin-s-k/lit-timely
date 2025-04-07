@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "./config/http";
 import { addCancelData } from "./app-store/meetingSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const BabelRow = ({
   event,
@@ -46,7 +47,7 @@ const BabelRow = ({
   ) => {
     if (eventCategory && litApplicationUserId && cohortId) {
       navigate(
-        `/${userData.personalUrl}/${eventName}?email=${boookedPersonEmail}&bookingId=${bookingId}&name=${bookedPersonName}&eventId=${eventId}&eventCategory=${eventCategory}&litApplicationUserId=${litApplicationUserId}&cohortId=${cohortId}`
+        `/${userData.personalUrl}/${eventName}?email=${boookedPersonEmail}&bookingId=${bookingId}&name=${bookedPersonName}&eventId=${eventId}&eventCategory=${eventCategory}&litApplicationUserId=${litApplicationUserId}&cohortId=${cohortId}&ownerBooking=true`
       );
     } else {
       navigate(
@@ -88,10 +89,12 @@ const BabelRow = ({
       window.location.reload();
       // Switch to Cancelled tab
     } catch (error: any) {
-      console.error("Error canceling meeting:", error);
+      console.log(error, "errr");
+
+      toast.error(error.response.data.message);
     } finally {
-      // setIsSubmitting(false); // Stop the loader
-      // closeModal(); // Close the modal
+      setIsSubmitting(false); // Stop the loader
+      closeModal(); // Close the modal
     }
   };
 
@@ -240,6 +243,7 @@ const BabelRow = ({
         onCancel={handleCancel}
         isSubmitting={isSubmitting}
       />
+      <Toaster />
     </>
   );
 };

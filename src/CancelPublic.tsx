@@ -8,10 +8,6 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 const BookingPage = () => {
-  // const formatDate = (isoDate: any) => {
-  //   const date = new Date(isoDate);
-  //   return format(date, "dd MMMM, yyyy");
-  // };
   const [loading, setLoading] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,8 +19,6 @@ const BookingPage = () => {
   const [eventData, setEventData] = useState({} as any);
 
   useEffect(() => {
-    console.log(bookingId, "bookingId");
-
     setLoading(true);
     const fetchEventData = async () => {
       try {
@@ -72,22 +66,17 @@ const BookingPage = () => {
 
         try {
           const response: any = await axios.post(
-            `http://localhost:8000/events/meetings/cancel/${bookingId}`,
+            `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }
           );
-
-          console.log(response, "response=======>");
-
-          console.log(response.data, "sucessspage respose");
           if (response.data.success) {
             navigate(
               `/events-page/cancel?startTime=${eventData.eventStartTime}&endTime=${eventData.eventEndTime}&date=${eventData?.eventDate}&eventName=${eventData?.eventId?.eventName}&fullname=${eventData?.userId?.firstName} ${eventData?.userId?.lastName}`
             );
           }
         } catch (error: any) {
-          console.error("Error booking slo======>t", error);
           toast.error(error.response.data.message);
         } finally {
           setIsSubmitting(false);
