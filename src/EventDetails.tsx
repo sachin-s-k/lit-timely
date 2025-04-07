@@ -40,7 +40,7 @@ const EventDetails = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/booking/${id}?eventId=${eventId}`
+          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
         );
         setUserData(response.data.userData);
         setEventData(response.data.eventData);
