@@ -57,7 +57,7 @@ const EventDetails = () => {
     setIsSubmitting(true);
     try {
       const response: any = await axios.post(
-        "http://localhost:8000/events/booking-slot",
+        "https://dev.cal.litschool.in/api/events/booking-slot",
         {
           name,
           email,
