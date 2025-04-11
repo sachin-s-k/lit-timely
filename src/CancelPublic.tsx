@@ -23,7 +23,7 @@ const BookingPage = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.apply.litschool.in/api/events/meetings/booking/${bookingId}`
+          `https://dev.cal.litschool.in/api/events/meetings/booking/${bookingId}`
         );
         console.log(response, "response");
         if (!response.data.success) {
@@ -66,7 +66,7 @@ const BookingPage = () => {
 
         try {
           const response: any = await axios.post(
-            `https://dev.apply.litschool.in/api/events/meetings/cancel/${bookingId}`,
+            `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }
