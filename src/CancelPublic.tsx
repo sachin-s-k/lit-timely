@@ -1,4 +1,4 @@
-import { ThreeDots } from "react-loader-spinner";
+import { TailSpin, ThreeDots } from "react-loader-spinner";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 const BookingPage = () => {
   const [loading, setLoading] = useState(false);
-
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -72,6 +72,7 @@ const BookingPage = () => {
             }
           );
           if (response.data.success) {
+            setIsRedirecting(true);
             const redirectUrl = searchParams.get("redirectUrl");
 
             if (redirectUrl) {
@@ -95,6 +96,16 @@ const BookingPage = () => {
 
   return (
     <>
+      {isRedirecting && (
+        <div className="fixed inset-0 bg-white bg-opacity-100 backdrop-blur-sm flex items-center justify-center z-50">
+          <TailSpin
+            height="40" // Smaller size
+            width="40"
+            color="#9CA3AF" // Gray-400
+            ariaLabel="loading"
+          />
+        </div>
+      )}
       {loading ? (
         <div className="flex items-center justify-center w-full h-screen bg-gray-100 z-50 absolute top-0 left-0">
           <ThreeDots color="gray" />{" "}
