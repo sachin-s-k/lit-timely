@@ -8,10 +8,11 @@ import { addMinutes } from "date-fns/addMinutes";
 import { format, parse } from "date-fns";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { ThreeDots } from "react-loader-spinner";
+import { TailSpin, ThreeDots } from "react-loader-spinner";
 
 const EventDetails = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const { id, eventName } = useParams(); // Extract dynamic segments
   const [searchParams] = useSearchParams();
@@ -53,11 +54,52 @@ const EventDetails = () => {
     fetchEventData();
   }, []);
 
+  // const handlingSlotBooking = async (bookingData: any) => {
+  //   setIsSubmitting(true);
+  //   try {
+  //     const response: any = await axios.post(
+  //       "http://localhost:8000/events/booking-slot",
+  //       {
+  //         name,
+  //         email,
+  //         bookingId,
+  //         eventId,
+  //         startTime: bookingData.startTime,
+  //         endTime: bookingData.endTime,
+  //         id,
+  //         date: bookingData.date,
+  //         userId,
+  //         eventCategory,
+  //         cohortId,
+  //         litApplicationUserId,
+  //       }
+  //     );
+  //     console.log(response);
+
+  //     //window.location.replace("https://apply-lit-school.vercel.app");
+  //     // navigate(
+  //     //   `/events-page/success?startTime=${
+  //     //     response.data.responseData.booking.startTime
+  //     //   }&endTime=${response.data.responseData.booking.endTime}&date=${
+  //     //     response.data.responseData.booking.date
+  //     //   }&eventName=${response.data.responseData.booking.event.name}&fullname=${
+  //     //     response.data.responseData.booking.organizer.firstName +
+  //     //     " " +
+  //     //     response.data.responseData.booking.organizer.lastName
+  //     //   }`
+  //     // );
+  //   } catch (error: any) {
+  //     toast.error(error.response.data.message);
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
   const handlingSlotBooking = async (bookingData: any) => {
     setIsSubmitting(true);
     try {
       const response: any = await axios.post(
-        "https://dev.cal.litschool.in/api/events/booking-slot",
+        "https://dev.apply.litschool.in/api/events/booking-slot",
         {
           name,
           email,
@@ -75,18 +117,12 @@ const EventDetails = () => {
       );
       console.log(response);
 
-      window.location.replace("https://apply-lit-school.vercel.app");
-      // navigate(
-      //   `/events-page/success?startTime=${
-      //     response.data.responseData.booking.startTime
-      //   }&endTime=${response.data.responseData.booking.endTime}&date=${
-      //     response.data.responseData.booking.date
-      //   }&eventName=${response.data.responseData.booking.event.name}&fullname=${
-      //     response.data.responseData.booking.organizer.firstName +
-      //     " " +
-      //     response.data.responseData.booking.organizer.lastName
-      //   }`
-      // );
+      // Show redirect loader
+      setIsRedirecting(true);
+
+      setTimeout(() => {
+        window.location.replace("https://apply-lit-school.vercel.app");
+      }, 1200);
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {
@@ -140,6 +176,16 @@ const EventDetails = () => {
 
   return (
     <>
+      {isRedirecting && (
+        <div className="fixed inset-0 bg-white bg-opacity-100 backdrop-blur-sm flex items-center justify-center z-50">
+          <TailSpin
+            height="40" // Smaller size
+            width="40"
+            color="#9CA3AF" // Gray-400
+            ariaLabel="loading"
+          />
+        </div>
+      )}
       {loading ? (
         <div className="flex items-center justify-center w-full h-screen bg-gray-100 z-50 absolute top-0 left-0">
           <ThreeDots color="gray" />{" "}

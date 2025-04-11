@@ -23,7 +23,7 @@ const BookingPage = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/events/meetings/booking/${bookingId}`
+          `https://dev.apply.litschool.in/api/events/meetings/booking/${bookingId}`
         );
         console.log(response, "response");
         if (!response.data.success) {
@@ -66,15 +66,21 @@ const BookingPage = () => {
 
         try {
           const response: any = await axios.post(
-            `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
+            `https://dev.apply.litschool.in/api/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }
           );
           if (response.data.success) {
-            navigate(
-              `/events-page/cancel?startTime=${eventData.eventStartTime}&endTime=${eventData.eventEndTime}&date=${eventData?.eventDate}&eventName=${eventData?.eventId?.eventName}&fullname=${eventData?.userId?.firstName} ${eventData?.userId?.lastName}`
-            );
+            const redirectUrl = searchParams.get("redirectUrl");
+
+            if (redirectUrl) {
+              window.location.replace(redirectUrl);
+            } else {
+              navigate(
+                `/events-page/cancel?startTime=${eventData.eventStartTime}&endTime=${eventData.eventEndTime}&date=${eventData?.eventDate}&eventName=${eventData?.eventId?.eventName}&fullname=${eventData?.userId?.firstName} ${eventData?.userId?.lastName}`
+              );
+            }
           }
         } catch (error: any) {
           toast.error(error.response.data.message);
