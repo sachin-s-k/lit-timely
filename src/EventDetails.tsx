@@ -30,7 +30,7 @@ const EventDetails = () => {
   const [availability, setAvailability] = useState([]);
   // const email = searchParams.get("email");
   const userId = searchParams.get("userId");
-
+  const redirectUrl: any = searchParams.get("redirectUrl") || "";
   // const name = searchParams.get("name");
   const eventId = searchParams.get("eventId");
   const [eventData, setEventData] = useState({} as any);
@@ -120,9 +120,15 @@ const EventDetails = () => {
       // Show redirect loader
       setIsRedirecting(true);
 
-      setTimeout(() => {
-        window.location.replace("https://apply-lit-school.vercel.app");
-      }, 1200);
+      if (redirectUrl !== "") {
+        setTimeout(() => {
+          window.location.replace(redirectUrl);
+        }, 1200);
+      } else {
+        setTimeout(() => {
+          window.location.replace("https://apply-lit-school.vercel.app/");
+        }, 1200);
+      }
     } catch (error: any) {
       toast.error(error.response.data.message);
     } finally {

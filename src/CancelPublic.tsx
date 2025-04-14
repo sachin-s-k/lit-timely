@@ -58,12 +58,8 @@ const BookingPage = () => {
     }),
     onSubmit: (values) => {
       setIsSubmitting(true);
-      console.log("Form values", values, "===");
 
       const handlingSlotBooking = async () => {
-        setIsSubmitting(true);
-        console.log();
-
         try {
           const response: any = await axios.post(
             `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
@@ -71,20 +67,25 @@ const BookingPage = () => {
               cancelReason: values.cancelReason,
             }
           );
+
           if (response.data.success) {
-            setIsRedirecting(true);
             const redirectUrl = searchParams.get("redirectUrl");
 
             if (redirectUrl) {
-              window.location.replace(redirectUrl);
+              // Show spinner only for external redirect
+              setIsRedirecting(true);
+              setTimeout(() => {
+                window.location.replace(redirectUrl);
+              }, 100); // Optional slight delay to allow spinner render
             } else {
+              // Internal redirect without spinner
               navigate(
                 `/events-page/cancel?startTime=${eventData.eventStartTime}&endTime=${eventData.eventEndTime}&date=${eventData?.eventDate}&eventName=${eventData?.eventId?.eventName}&fullname=${eventData?.userId?.firstName} ${eventData?.userId?.lastName}`
               );
             }
           }
         } catch (error: any) {
-          toast.error(error.response.data.message);
+          toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
           setIsSubmitting(false);
         }
@@ -96,16 +97,17 @@ const BookingPage = () => {
 
   return (
     <>
-      {isRedirecting && (
+      {isRedirecting && searchParams.get("redirectUrl") && (
         <div className="fixed inset-0 bg-white bg-opacity-100 backdrop-blur-sm flex items-center justify-center z-50">
           <TailSpin
-            height="40" // Smaller size
+            height="40"
             width="40"
-            color="#9CA3AF" // Gray-400
-            ariaLabel="loading"
+            color="#9CA3AF"
+            ariaLabel="redirecting-spinner"
           />
         </div>
       )}
+
       {loading ? (
         <div className="flex items-center justify-center w-full h-screen bg-gray-100 z-50 absolute top-0 left-0">
           <ThreeDots color="gray" />{" "}
