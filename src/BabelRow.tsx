@@ -234,7 +234,7 @@ const BabelRow = ({
               {event.meetingStatus === "cancelled" && (
                 <div>
                   <strong>Cancellation Reason:</strong>{" "}
-                  {event.reason || "No reason provided"}
+                  {event.cancelReason || "No reason provided"}
                 </div>
               )}
             </div>
