@@ -1,14 +1,14 @@
-import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
-const ProtectedRoute = ({ children }: any) => {
-  const userData = useSelector((state: any) => state.registration.userData); // Check if userData exists
+export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const userData = useSelector((state: any) => state.registration.userData);
+  const authToken = Cookies.get(`authToken${userData?._id}`);
 
-  if (!userData) {
-    return <Navigate to="/" replace />; // Redirect to home if not logged in
+  if (!authToken) {
+    return <Navigate to="/" replace />;
   }
 
-  return children; // Render the route if userData exists
+  return children;
 };
-
-export default ProtectedRoute;
