@@ -80,11 +80,7 @@ const Landing = () => {
   }, 500); // Debounce with a 500ms delay
 
   const handleSubmit = async (values: any, { setErrors }: any) => {
-    console.log("befrrororor");
-
     if (!emailValidationError) {
-      console.log("called");
-
       try {
         const endpoint = isSignUp ? "/auth/sign-up" : "/auth/sign-in";
         const response = await axios.post(

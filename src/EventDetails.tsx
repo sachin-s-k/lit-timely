@@ -125,10 +125,6 @@ const EventDetails = () => {
     }).toString();
 
     if (searchParams.get("litApplicationUserId") !== null && !ownerBooking) {
-      console.log(searchParams.get("litApplicationUserId"), "seeeeee");
-
-      console.log("handleee called");
-
       handlingSlotBooking({ date: selectedDate, startTime, endTime });
     } else {
       navigate(`/${id}/${eventName}/booking?${queryParams}`);
