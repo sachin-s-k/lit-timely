@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 export const AuthWrapper = () => {
   const userData = useSelector((state: any) => state.registration.userData);
   const authToken = Cookies.get(`authToken${userData?._id}`);
+  console.log(authToken, "authhhhhhhhhh");
 
   if (!authToken) {
     return <Navigate to="/" replace />;
@@ -16,6 +17,7 @@ export const AuthWrapper = () => {
 export const PublicWrapper = () => {
   const userData = useSelector((state: any) => state.registration.userData);
   const authToken = Cookies.get(`authToken${userData?._id}`);
+  console.log(authToken, "authhhhhhhhhh");
 
   if (authToken) {
     return <Navigate to="/events/user/me" replace />;
