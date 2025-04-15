@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import SideBar from "./SideBar";
 import EventDetails from "./EventDetails";
 
@@ -6,6 +11,7 @@ import Success from "./Success";
 import BookingPage from "./BookingPage";
 
 import UserPage from "./UserPage";
+import Cookies from "js-cookie";
 
 import SlidingSidebar from "./SlidingSidebar";
 import AppointmentTypesList from "./AppoinmentTypeList";
@@ -15,13 +21,22 @@ import CancelPublic from "./CancelPublic";
 import CancelPage from "./CancelPage";
 import Deactive from "./Deactive";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const userData = useSelector((state: any) => state.registration.userData);
+  const authToken = Cookies.get(`authToken${userData?._id}`);
+
+  // Create a root route handler
+  const RootRoute = () => {
+    return authToken ? <Navigate to="/events/user/me" replace /> : <Landing />;
+  };
+
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<RootRoute />} />
 
           {/* Protected Routes */}
           <Route
