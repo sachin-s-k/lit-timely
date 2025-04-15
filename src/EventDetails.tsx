@@ -53,48 +53,6 @@ const EventDetails = () => {
     };
     fetchEventData();
   }, []);
-
-  // const handlingSlotBooking = async (bookingData: any) => {
-  //   setIsSubmitting(true);
-  //   try {
-  //     const response: any = await axios.post(
-  //       "http://localhost:8000/events/booking-slot",
-  //       {
-  //         name,
-  //         email,
-  //         bookingId,
-  //         eventId,
-  //         startTime: bookingData.startTime,
-  //         endTime: bookingData.endTime,
-  //         id,
-  //         date: bookingData.date,
-  //         userId,
-  //         eventCategory,
-  //         cohortId,
-  //         litApplicationUserId,
-  //       }
-  //     );
-  //     console.log(response);
-
-  //     //window.location.replace("https://apply-lit-school.vercel.app");
-  //     // navigate(
-  //     //   `/events-page/success?startTime=${
-  //     //     response.data.responseData.booking.startTime
-  //     //   }&endTime=${response.data.responseData.booking.endTime}&date=${
-  //     //     response.data.responseData.booking.date
-  //     //   }&eventName=${response.data.responseData.booking.event.name}&fullname=${
-  //     //     response.data.responseData.booking.organizer.firstName +
-  //     //     " " +
-  //     //     response.data.responseData.booking.organizer.lastName
-  //     //   }`
-  //     // );
-  //   } catch (error: any) {
-  //     toast.error(error.response.data.message);
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
   const handlingSlotBooking = async (bookingData: any) => {
     setIsSubmitting(true);
     try {

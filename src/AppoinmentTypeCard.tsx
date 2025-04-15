@@ -2,14 +2,6 @@ import { ChevronRight } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
 
-// interface AppointmentTypeCardProps {
-//   title: string;
-//   subtitle: string;
-//   description: string;
-//   icon: React.ReactNode;
-//   link: string; // Use ReactNode for SVG/Icons or images
-// }
-
 const AppointmentTypeCard = ({
   title,
   subtitle,

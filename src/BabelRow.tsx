@@ -231,6 +231,12 @@ const BabelRow = ({
               <div>
                 <strong>Questions:</strong> {event.question || "No questions"}
               </div>
+              {event.meetingStatus === "cancelled" && (
+                <div>
+                  <strong>Cancellation Reason:</strong>{" "}
+                  {event.reason || "No reason provided"}
+                </div>
+              )}
             </div>
           </div>
         )}
