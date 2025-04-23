@@ -27,35 +27,6 @@ const Meeting = () => {
     }
   };
 
-  // Categorize meetings based on the active tab
-  // const categorizeMeetings = () => {
-  //   const now = new Date();
-
-  //   const categorizedMeetings = meetingData.filter((meeting: any) => {
-  //     const eventDate = new Date(meeting.eventDate);
-  //     const [hours, minutes] = meeting.eventStartTime
-  //       .split(":")
-  //       .map((val: any) => parseInt(val, 10));
-  //     const isPM = meeting.eventStartTime.includes("PM");
-  //     const eventStartTime = new Date(eventDate);
-  //     eventStartTime.setHours(isPM ? hours + 12 : hours, minutes);
-
-  //     if (activeTab === "Upcoming") {
-  //       return (
-  //         meeting.meetingStatus === "confirmed" &&
-  //         new Date(meeting.eventDate) > now
-  //       );
-  //     } else if (activeTab === "Past") {
-  //       return eventStartTime < now && meeting.meetingStatus !== "Cancelled";
-  //     } else if (activeTab === "Cancelled") {
-  //       return meeting.meetingStatus === "cancelled";
-  //     }
-  //     return false;
-  //   });
-
-  //   setFilteredMeetings(categorizedMeetings);
-  // };
-
   const categorizeMeetings = () => {
     const now = new Date();
 

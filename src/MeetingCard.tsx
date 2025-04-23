@@ -49,13 +49,6 @@ const MeetingCard = ({ events }: any) => {
     setTimeout(() => setSelectedEvent(null), 300); // Delay for smooth exit animation
   };
 
-  // const [onLoading, setOnLoading] = useState(false);
-
-  // const handleOpenAndClose:any = (value: any) => {
-  //   setOnLoading(value);
-  // };
-  // console.log(onLoading);
-
   const handleCheckboxChange = (eventId: any, checked: any) => {
     console.log("called");
 

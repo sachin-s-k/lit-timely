@@ -78,7 +78,7 @@ const EventScheduler = () => {
 
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-  const predefinedDurations = ["15", "30", "45", "60", "90", "120"];
+  const predefinedDurations = ["2", "15", "30", "45", "60", "90", "120"];
 
   const [eventDuration, setEventDuration] = useState("");
   const [isSlotLoading, setSlotIsLoading] = useState(false);
@@ -88,63 +88,13 @@ const EventScheduler = () => {
   const [slots, setSlots] = useState([]);
   const [orgData, setOrgData] = useState([] as any);
   const dispatch = useDispatch();
-  // const handleSlots = () => {
-  //   console.log("enterrrr{{{{{{{");
 
-  //   const timeSlots = selectedDate
-  //     ? orgData.find(
-  //         (day: any) => day.eventDate === format(selectedDate, "yyyy-MM-dd")
-  //       )?.slots || []
-  //     : [];
-
-  //   setSlots(timeSlots);
-  //   setOrgSelectedDate(selectedDate);
-  //   setIsPreview(true);
-  // };
-
-  // const handleSlots = (clickedDate?: Date) => {
-  //   console.log("Fetching slots for:handleSLots", clickedDate);
-  //   console.log(orgData, "or");
-
-  //   const timeSlots = clickedDate
-  //     ? orgData.find((day: any) => {
-  //         day.eventDate === format(clickedDate, "yyyy-MM-dd");
-  //       })?.slots || []
-  //     : [];
-  //   // setSlots(timeSlots);
-  //   // setSlotIsLoading(false);
-
-  //   // setOrgSelectedDate(clickedDate || selectedDate);
-  //   // setIsPreview(true);
-  //   setTimeout(() => {
-  //     setSlotIsLoading(false); // Stop loading
-  //     setSlots(timeSlots); // Update slots
-  //     setOrgSelectedDate(clickedDate || selectedDate);
-  //     setIsPreview(true);
-  //   }, 5000);
-  // };
   const handleSlots = (clickedDate?: Date) => {
-    // console.log("Fetching slots for:", clickedDate);
-    // console.log(orgData, "orgData=======>");
-    // if (!orgData || orgData.length === 0) {
-    //   console.log("Waiting for orgData to be loaded...");
-    //   return; // Prevent further execution if orgData is not loaded
-    // }
     const timeSlots = clickedDate
       ? orgData.find(
           (day: any) => day.eventDate === format(clickedDate, "yyyy-MM-dd")
         )?.slots || []
       : [];
-
-    // setSlotIsLoading(false); // Start the loading indicator
-
-    // Simulating the loading delay and then updating the state
-    // setTimeout(() => {
-    //   setSlotIsLoading(false); // Stop the loader
-    //   setSlots(timeSlots); // Update the slots
-    //   setOrgSelectedDate(clickedDate || selectedDate);
-    //   setIsPreview(true);
-    // }, 2000);
 
     setSlotIsLoading(false); // Stop the loader
     setSlots(timeSlots); // Update the slots
@@ -152,79 +102,6 @@ const EventScheduler = () => {
     setIsPreview(true);
   };
   const [restrictedCategory, setRestrictedCategory] = useState("");
-  // let eventData = [
-  //   {
-  //     isAvailable: true,
-  //     timeSlots: [
-  //       {
-  //         start: "",
-  //         end: "",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     isAvailable: false,
-  //     timeSlots: [
-  //       {
-  //         start: "9:00am",
-  //         end: "5:00pm",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     isAvailable: false,
-  //     timeSlots: [
-  //       {
-  //         start: "9:00am",
-  //         end: "5:00pm",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     isAvailable: true,
-  //     timeSlots: [
-  //       {
-  //         start: "9:00am",
-  //         end: "5:00pm",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     isAvailable: true,
-  //     timeSlots: [
-  //       {
-  //         start: "9:00am",
-  //         end: "5:00pm",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     isAvailable: false,
-  //     timeSlots: [
-  //       {
-  //         start: "",
-  //         end: "",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     isAvailable: true,
-  //     timeSlots: [
-  //       {
-  //         start: "9:00am",
-  //         end: "5:00pm",
-  //         error: "",
-  //       },
-  //     ],
-  //   },
-  // ];
-  // const slots = ["dd"];
 
   // const [eventData, setEventData] = useState([]);
   const [searchParams] = useSearchParams();
@@ -245,15 +122,6 @@ const EventScheduler = () => {
       setEventCategory(editEventdata.data.data.eventCategory);
       setRestrictedCategory(editEventdata.data.data.eventCategory);
       setBookingGap(editEventdata.data.data.meetingGap);
-
-      // setEventData(editEventdata.data.data.availability);
-      //setEditEventDays(editEventdata.data.data.availability);
-      //console.log(editEventdata.data.data.availability, "eee&&&");
-      //dispatch(addCategory([]));
-      // eventData = editEventdata.data.data.availability;
-      //setEventData(editEventdata.data.data.availability);
-      //eventData = editEventdata.data.data.availability;
-      console.log(eventData, "here");
     };
 
     fetchingEditData();
@@ -458,8 +326,8 @@ const EventScheduler = () => {
         "Event Duration must be a valid positive number";
       valid = false;
       setIsPreview(false);
-    } else if ((eventDuration as any) < 10) {
-      newErrors.eventDuration = "Event Duration must be at least 10 minutes";
+    } else if ((eventDuration as any) < 2) {
+      newErrors.eventDuration = "Event Duration must be at least 2 minutes";
       valid = false;
       setIsPreview(false);
     } else if ((eventDuration as any) > 1439) {
@@ -676,19 +544,6 @@ const EventScheduler = () => {
     setDropdownVisible(false); // Hide the dropdown
     setErrors({ eventDuration: "" } as any); // Clear errors for valid selection
   };
-
-  // const handleCategoryInputChange = (value: any) => {
-  //   setEventCategory(value); // Directly update eventCategory with the custom input
-
-  //   // Validation for custom category (optional)
-  //   if (value && value.length > 50) {
-  //     setErrors({
-  //       eventCategory: "Category name must be less than 50 characters.",
-  //     } as any);
-  //   } else {
-  //     setErrors({ eventCategory: "" } as any);
-  //   }
-  // };
 
   const handleSelectCategory = (value: any) => {
     setEventCategory(value); // Update eventCategory with the selected value

@@ -7,11 +7,7 @@ import { axiosInstance } from "./config/http";
 import { addCancelData } from "./app-store/meetingSlice";
 import toast, { Toaster } from "react-hot-toast";
 
-const BabelRow = ({
-  event,
-
-  categorizeMeetings,
-}: any) => {
+const BabelRow = ({ event, categorizeMeetings }: any) => {
   const userData = useSelector((state: any) => state.registration.userData);
   const navigate = useNavigate();
   const dispatch = useDispatch();
