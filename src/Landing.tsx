@@ -94,7 +94,7 @@ const Landing = () => {
           Cookies.set(
             `authToken${response.data.data.userData._id}`,
             response.data.data.token,
-            { expires: 1 / 12 }
+            { expires: 10 }
           );
           dispatch(addUserData(response.data.data.userData));
           navigate("/events/user/me");

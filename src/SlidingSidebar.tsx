@@ -241,8 +241,8 @@ const EventScheduler = () => {
     const generateNext30AvailableDays = () => {
       const result: any = [];
       let currentDate: Date = new Date();
-
-      while (result.length < 60) {
+      //HERE Chnagedd
+      while (result.length < 7) {
         if ((availableDays as any).includes(currentDate.getDay())) {
           result.push(new Date(currentDate)); // Add copy of the date
         }
