@@ -32,13 +32,11 @@ const BookingPage = () => {
   const fullDate = format(parsedDate, "EEEE, MMMM dd, yyyy");
 
   useEffect(() => {
-    console.log("callled");
-
     setLoading(true);
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
+          `https://cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
         );
         setLoading(false);
         setUserData(response.data.userData);
@@ -59,8 +57,6 @@ const BookingPage = () => {
   const litApplicationUserId = searchParams.get("litApplicationUserId") || "";
   const cohortId = searchParams.get("cohortId") || "";
 
-  console.log(startTime, endTime, date, "dateeeeeeTime");
-
   // Formik setup
   const formik = useFormik({
     initialValues: {
@@ -77,24 +73,12 @@ const BookingPage = () => {
     }),
     onSubmit: (values) => {
       setIsSubmitting(true);
-      console.log(
-        "Form values",
-        values,
-        "===",
-        bookingId,
-        eventId,
-        startTime,
-        endTime,
-        id,
-        date,
-        userId
-      );
 
       const handlingSlotBooking = async () => {
         setIsSubmitting(true);
         try {
           const response: any = await axios.post(
-            "https://dev.cal.litschool.in/api/events/booking-slot",
+            "https://cal.litschool.in/api/events/booking-slot",
             {
               ...values,
               eventId,

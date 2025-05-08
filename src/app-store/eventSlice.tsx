@@ -14,7 +14,6 @@ const eventSlice = createSlice({
       state.eventData = action.payload;
     },
     clearEventData: (state, action: any) => {
-      console.log("called");
       state.eventData = action.payload;
     },
     effectAdd: (state, action) => {
@@ -25,8 +24,6 @@ const eventSlice = createSlice({
       state.deleteState = action.payload;
     },
     addDeleteEventIds: (state, action: { payload: string }) => {
-      console.log("cneee");
-
       // Ensure deleteEventIds is always an array before updating
       if (!Array.isArray(state.deleteEventIds)) {
         state.deleteEventIds = [];
@@ -34,8 +31,6 @@ const eventSlice = createSlice({
 
       // Add new event ID to the array
       state.deleteEventIds = [...state.deleteEventIds, action.payload];
-
-      console.log(state.deleteEventIds, "dleeyeue");
     },
     removeDeleteEventIds: (state, action: { payload: string[] }) => {
       if (state.deleteEventIds) {
@@ -71,8 +66,6 @@ const eventSlice = createSlice({
     // },
 
     addCategory: (state: any, action: { payload: string[] }) => {
-      console.log("calleeddd");
-
       if (state.categoryData) {
         // Merge existing categories with the new array, ensuring uniqueness
         state.categoryData = action.payload;

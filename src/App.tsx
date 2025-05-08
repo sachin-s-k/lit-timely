@@ -38,7 +38,6 @@ const App = () => {
         <Routes>
           <Route path="/" element={<RootRoute />} />
 
-          {/* Protected Routes */}
           <Route
             path="/events/user/me"
             element={

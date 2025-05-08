@@ -27,7 +27,6 @@ const SideBar = () => {
   const selectedEvents = useSelector(
     (state: any) => state.event.deleteEventIds
   );
-  console.log(selectedEvents, "seleeeeee");
 
   const activeNav = useSelector((state: any) => state.global.activeNav);
   const handleSideBarNavigation = (index: any) => {

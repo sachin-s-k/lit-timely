@@ -7,8 +7,6 @@ const GlobalSlice = createSlice({
   },
   reducers: {
     addActiveNavState: (state, action: any) => {
-      console.log("called");
-
       state.activeNav = action.payload;
     },
   },

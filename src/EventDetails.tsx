@@ -26,7 +26,6 @@ const EventDetails = () => {
   const litApplicationUserId = searchParams.get("litApplicationUserId") || "";
   const cohortId = searchParams.get("cohortId") || "";
   const ownerBooking = searchParams.get("ownerBooking") || false;
-  console.log("render event detail pagge");
   const [availability, setAvailability] = useState([]);
   // const email = searchParams.get("email");
   const userId = searchParams.get("userId");
@@ -41,39 +40,33 @@ const EventDetails = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
+          `https://cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
         );
         setUserData(response.data.userData);
         setEventData(response.data.eventData);
         setAvailability(response.data.availability);
         setLoading(false);
-      } catch (error: any) {
-        console.log(error);
-      }
+      } catch (error: any) {}
     };
     fetchEventData();
   }, []);
   const handlingSlotBooking = async (bookingData: any) => {
     setIsSubmitting(true);
     try {
-      const response: any = await axios.post(
-        "https://dev.cal.litschool.in/api/events/booking-slot",
-        {
-          name,
-          email,
-          bookingId,
-          eventId,
-          startTime: bookingData.startTime,
-          endTime: bookingData.endTime,
-          id,
-          date: bookingData.date,
-          userId,
-          eventCategory,
-          cohortId,
-          litApplicationUserId,
-        }
-      );
-      console.log(response);
+      await axios.post("https://cal.litschool.in/api/events/booking-slot", {
+        name,
+        email,
+        bookingId,
+        eventId,
+        startTime: bookingData.startTime,
+        endTime: bookingData.endTime,
+        id,
+        date: bookingData.date,
+        userId,
+        eventCategory,
+        cohortId,
+        litApplicationUserId,
+      });
 
       // Show redirect loader
       setIsRedirecting(true);
@@ -95,13 +88,6 @@ const EventDetails = () => {
   };
 
   const handlingTimeEvents = (selectedDate: any, startTime: any) => {
-    console.log(
-      "callled time page",
-      "se;lected datae",
-      selectedDate,
-      startTime,
-      "starttt"
-    );
     function calculateEndTime(dateString: any, startTime: any, duration: any) {
       // Parse the start date and time
       const startDateTime = parse(startTime, "hh:mm a", new Date(dateString));

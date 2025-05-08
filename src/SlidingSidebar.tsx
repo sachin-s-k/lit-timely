@@ -4,12 +4,12 @@ import { ColorRing, ThreeDots } from "react-loader-spinner";
 import { ChevronLeft, Clock, FileText, Globe2Icon } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { useEffect, useState } from "react";
-import Testing from "./Testing";
 import toast, { Toaster } from "react-hot-toast";
 import { axiosInstance } from "./config/http";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addActiveNavState } from "./app-store/gloabalSlice";
+import Testing from "./Testing";
 
 const EventScheduler = () => {
   const [bookingGap, setBookingGap] = useState(0); // Stores the selected or custom gap
@@ -52,8 +52,8 @@ const EventScheduler = () => {
 
   const predefinedCategories = [
     "General",
-    "Litmus Test Review",
-    "Application Test Review",
+    "Litmus Test Interview",
+    "Application Test Interview",
     "Webinar",
     "Panel Discussion",
     "Training Session",
@@ -73,7 +73,6 @@ const EventScheduler = () => {
   });
 
   const [eventCategory, setEventCategory] = useState("General");
-  console.log("rendering");
   const [isCatDropdownVisible, setCatDropdownVisible] = useState(false);
 
   const [isDropdownVisible, setDropdownVisible] = useState(false);
@@ -107,7 +106,6 @@ const EventScheduler = () => {
   const [searchParams] = useSearchParams();
   const eventId = searchParams.get("eventId");
   //const [editEventDays, setEditEventDays] = useState();
-  console.log(eventId);
   //const [eventData, setEventData] = useState([] as any);
   //let eventData;
   useEffect(() => {
@@ -115,7 +113,6 @@ const EventScheduler = () => {
       const editEventdata = await axiosInstance.get(
         `/events/event-data/${eventId}`
       );
-      console.log(editEventdata);
       setEventName(editEventdata.data.data.eventName);
       setEventDuration(editEventdata.data.data.eventDuration);
       setDescription(editEventdata.data.data.eventDescription);
@@ -316,7 +313,6 @@ const EventScheduler = () => {
     }
 
     // Validate Event Duration
-    console.log(eventDuration, "eve");
 
     if (!eventDuration) {
       newErrors.eventDuration = "Event Duration is required";
@@ -494,8 +490,6 @@ const EventScheduler = () => {
 
   // Utility function to convert time to total minutes
   const timeToMinutes = (time: any) => {
-    console.log(time, "+++++++");
-
     if (time) {
       const [_, hours, minutes, meridian] = time.match(
         /(\d{1,2}):(\d{2})(am|pm)/
@@ -513,8 +507,6 @@ const EventScheduler = () => {
   const [validationErrors, setValidationErrors] = useState([]);
 
   const handleValidation = () => {
-    console.log("handlevaliation");
-
     const { isValid, errors }: any = validateEventData(
       eventDatas,
       eventDuration
@@ -556,19 +548,10 @@ const EventScheduler = () => {
     clickedDate?: any,
     dataSubmit?: boolean
   ) => {
-    console.log("handle submit");
     const index: any = 0;
     if (validateForm()) {
       if (globalErrors.length === 0 && otherErrors.length === 0) {
         if (handleValidation()) {
-          console.log("Form submitted", {
-            eventName,
-            eventDuration,
-            description,
-            eventDatas,
-            eventId,
-          });
-
           try {
             let response;
             if (dataSubmit) {
@@ -583,8 +566,6 @@ const EventScheduler = () => {
                 eventCategory: eventCategory,
               });
             } else {
-              console.log("previewwwwwww tryeeeee");
-
               response = await axiosInstance.post("/events?preview=true", {
                 eventName,
                 eventDuration,
@@ -597,8 +578,6 @@ const EventScheduler = () => {
             }
 
             if (response.data.success) {
-              console.log(response.data);
-
               if (edit) {
                 setSlotIsLoading(true);
                 setOrgSelectedDate(clickedDate as any);
@@ -645,8 +624,8 @@ const EventScheduler = () => {
   }, [eventDuration, bookingGap]);
 
   const isRestricted = [
-    "Litmus Test Review",
-    "Application Test Review",
+    "Litmus Test Interview",
+    "Application Test Interview",
   ].includes(restrictedCategory);
 
   return (
@@ -694,60 +673,6 @@ const EventScheduler = () => {
                 <p className="text-red-500 text-sm">{errors.eventName}</p>
               )}
             </div>
-
-            {/* Event Duration */}
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Duration
-              </label>
-              <input
-                type="text"
-                value={eventDuration}
-                onChange={(e) => setEventDuration(e.target.value)}
-                className="w-full p-2 border rounded-md"
-                placeholder="Enter event duration in minutes"
-              />
-              {errors.eventDuration && (
-                <p className="text-red-500 text-sm">{errors.eventDuration}</p>
-              )}
-            </div> */}
-
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Category
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={eventCategory}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  onFocus={() => setCatDropdownVisible(true)}
-                  onBlur={() => {
-                    setTimeout(() => setCatDropdownVisible(false), 200); // Delay to handle selection
-                  }}
-                  placeholder="Enter or select a category"
-                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-
-                {isCatDropdownVisible && (
-                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
-                    {uniquePredefinedCategories?.map((category) => (
-                      <li
-                        key={category}
-                        onClick={() => handleSelectCategory(category)}
-                        className="p-2 cursor-pointer hover:bg-blue-100"
-                      >
-                        {category}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {errors.eventCategory && (
-                <p className="text-red-500 text-sm">{errors.eventCategory}</p>
-              )}
-            </div> */}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1007,8 +932,6 @@ const EventScheduler = () => {
                     if (!date) return;
                     setSelectedDate(date); // Update the selected date
                     if (!isPreview) {
-                      console.log("callleeeddddd");
-
                       setSlotIsLoading(true);
                       handleSubmit(true, date, false); // Pass the clicked date to handleSubmit
                     } else {

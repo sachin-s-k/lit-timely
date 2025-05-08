@@ -38,8 +38,6 @@ const MeetingCard = ({ events }: any) => {
   // const [showDeleteButton, setShowDeleteButton] = useState(false ); // State for delete button visibility
 
   const handleModalOpen = (eventData: any) => {
-    console.log("event");
-
     setSelectedEvent(eventData);
     setIsModalOpen(true);
   };
@@ -50,8 +48,6 @@ const MeetingCard = ({ events }: any) => {
   };
 
   const handleCheckboxChange = (eventId: any, checked: any) => {
-    console.log("called");
-
     if (checked) {
       dispatch(addDeleteEventIds(eventId)); // Add to selected events
     } else {

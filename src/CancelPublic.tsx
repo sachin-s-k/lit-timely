@@ -13,7 +13,6 @@ const BookingPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  console.log(searchParams, "searchParms");
   const { bookingId } = useParams();
 
   const [eventData, setEventData] = useState({} as any);
@@ -25,7 +24,6 @@ const BookingPage = () => {
         const response = await axios.get(
           `https://dev.cal.litschool.in/api/events/meetings/booking/${bookingId}`
         );
-        console.log(response, "response");
         if (!response.data.success) {
           navigate("/cancel-page/link-expired");
         }

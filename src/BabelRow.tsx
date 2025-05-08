@@ -77,7 +77,6 @@ const BabelRow = ({ event, categorizeMeetings }: any) => {
         }
       );
 
-      console.log(updatedMeetingData, "Cancellation Response");
       dispatch(addCancelData(updatedMeetingData.data.data));
       categorizeMeetings();
       setIsSubmitting(false);
@@ -85,8 +84,6 @@ const BabelRow = ({ event, categorizeMeetings }: any) => {
       window.location.reload();
       // Switch to Cancelled tab
     } catch (error: any) {
-      console.log(error, "errr");
-
       toast.error(error.response.data.message);
     } finally {
       setIsSubmitting(false); // Stop the loader

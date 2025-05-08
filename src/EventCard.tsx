@@ -18,7 +18,6 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
   const [copied, setCopied] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentEventId, setCurrentEventId] = useState<string | null>(null);
-  console.log(currentEventId);
 
   const navigate = useNavigate();
   //const dispatch = useDispatch();

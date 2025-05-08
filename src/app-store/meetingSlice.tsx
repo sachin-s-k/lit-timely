@@ -15,8 +15,6 @@ const meetingSlice = createSlice({
         (meeting: any) => meeting._id === _id
       );
 
-      console.log("callled", meetingIndex, "meeting");
-
       if (meetingIndex !== -1) {
         state.meetingData[meetingIndex] = {
           ...state.meetingData[meetingIndex], // Spread the existing data

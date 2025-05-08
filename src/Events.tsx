@@ -37,7 +37,6 @@ const Events = () => {
     const uniqueCategories = Array.from(new Set(eventCategories));
 
     // Send the unique categories
-    console.log("Event Categories to send:", uniqueCategories);
 
     return uniqueCategories;
   };

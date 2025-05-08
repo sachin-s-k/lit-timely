@@ -11,7 +11,7 @@ import {
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { Label } from "./components/ui/label";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, EyeOff, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { addUserData } from "./app-store/registerSlice";
 import Cookies from "js-cookie";
@@ -33,6 +33,9 @@ const evaluatePasswordStrength = (password: string): number => {
 };
 
 const Landing = () => {
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -88,8 +91,6 @@ const Landing = () => {
           values
         );
 
-        console.log(response, "resp");
-
         if (response.data) {
           Cookies.set(
             `authToken${response.data.data.userData._id}`,
@@ -99,11 +100,8 @@ const Landing = () => {
           dispatch(addUserData(response.data.data.userData));
           navigate("/events/user/me");
         } else {
-          console.log(response.data, "fffff");
         }
       } catch (error: any) {
-        console.log(error, "erro");
-
         if (error.response.data.type == "INVALID_PASSWORD") {
           setErrors({
             password: "The entered password is incorrect",
@@ -303,9 +301,9 @@ const Landing = () => {
                           <Field
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
-                            className="pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                            className="pl-10 pr-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => {
@@ -315,7 +313,20 @@ const Landing = () => {
                               );
                             }}
                           />
+                          <button
+                            type="button"
+                            className="absolute right-3 text-gray-500"
+                            onClick={() => setShowPassword(!showPassword)}
+                            tabIndex={-1}
+                          >
+                            {showPassword ? (
+                              <Eye className="w-5 h-5" />
+                            ) : (
+                              <EyeOff className="w-5 h-5" />
+                            )}
+                          </button>
                         </div>
+
                         <ErrorMessage
                           name="password"
                           component="div"
@@ -341,20 +352,17 @@ const Landing = () => {
                                 width: `${(passwordStrength / 6) * 100}%`,
                               }}
                             ></div>
-                            {passwordStrength >= 1 && (
-                              <div className="text-xs text-gray-500 mt-1">
-                                {passwordStrength <= 1
-                                  ? "Weak"
-                                  : passwordStrength === 3
-                                  ? "Medium"
-                                  : passwordStrength === 4
-                                  ? "Strong"
-                                  : "Very Strong"}
-                              </div>
-                            )}
+                            <div className="text-xs text-gray-500 mt-1">
+                              {passwordStrength <= 1
+                                ? "Weak"
+                                : passwordStrength === 3
+                                ? "Medium"
+                                : passwordStrength === 4
+                                ? "Strong"
+                                : "Very Strong"}
+                            </div>
                           </div>
                         )}
-
                         {isSignUp && (
                           <>
                             <div className="relative flex items-center">
@@ -362,10 +370,24 @@ const Landing = () => {
                               <Field
                                 id="confirmPassword"
                                 name="confirmPassword"
-                                type="password"
+                                type={showConfirmPassword ? "text" : "password"}
                                 placeholder="Confirm Password"
-                                className="pl-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
+                                className="pl-10 pr-10 p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 w-full"
                               />
+                              <button
+                                type="button"
+                                className="absolute right-3 text-gray-500"
+                                onClick={() =>
+                                  setShowConfirmPassword(!showConfirmPassword)
+                                }
+                                tabIndex={-1}
+                              >
+                                {showConfirmPassword ? (
+                                  <Eye className="w-5 h-5" />
+                                ) : (
+                                  <EyeOff className="w-5 h-5" />
+                                )}
+                              </button>
                             </div>
                             <div>
                               <ErrorMessage
