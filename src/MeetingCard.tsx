@@ -28,9 +28,7 @@ const MeetingCard = ({ events }: any) => {
       setTimeout(() => {
         setCopied(false);
       }, 1000);
-    } catch (error: any) {
-      console.error("Error copying URL:", error);
-    }
+    } catch (error: any) {}
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);

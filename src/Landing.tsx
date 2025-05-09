@@ -53,7 +53,6 @@ const Landing = () => {
       );
       return response.data.isValid;
     } catch (error) {
-      console.error("Error validating email:", error);
       return false;
     }
   };

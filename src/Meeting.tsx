@@ -21,7 +21,6 @@ const Meeting = () => {
       const response = await axiosInstance.get(`/events/meetings/data`);
       dispatch(addMeetingData(response.data.data)); // Update Redux state
     } catch (error) {
-      console.error("Error fetching meeting data", error);
     } finally {
       setLoading(false);
     }

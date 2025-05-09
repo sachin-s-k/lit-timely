@@ -99,9 +99,7 @@ const SideBar = () => {
         dispatch(removeDeleteEventIds(deleteResponse.data.data));
         window.location.reload();
       }
-    } catch (error) {
-      console.error("Error deleting event:", error);
-    }
+    } catch (error) {}
   };
   const OnClose = () => {
     setModalOpen(false);

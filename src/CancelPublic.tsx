@@ -31,9 +31,7 @@ const BookingPage = () => {
         //setUserData(response.data.userData);
         setEventData(response.data.data);
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching event data", error);
-      }
+      } catch (error) {}
     };
 
     fetchEventData();

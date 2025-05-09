@@ -24,7 +24,6 @@ const UserPage = () => {
         setUserData(response.data.userData);
         setEvents(response.data.data);
       } catch (error) {
-        console.error("Error fetching events", error);
       } finally {
         setLoading(false);
       }

@@ -14,7 +14,6 @@ const DeleteModal = ({ isOpen, onClose, deleteFn }: any) => {
       //onClose(); // Close modal on success
       setIsDeleting(false);
     } catch (error) {
-      console.error("Error deleting:", error);
     } finally {
       //setIsDeleting(false); // Reset loading state
     }

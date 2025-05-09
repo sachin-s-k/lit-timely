@@ -27,9 +27,7 @@ const EventCard = ({ event, isPublicPage, handleEventPage }: any) => {
         `${window.location.origin}/${userData.personalUrl}?eventId=${event._id}`
       );
       setCopied(true);
-    } catch (error: any) {
-      console.error("Error copying URL:", error);
-    }
+    } catch (error: any) {}
   };
 
   const openDeleteModal = (id: string) => {
