@@ -602,449 +602,449 @@ const EventScheduler = () => {
             }
           } catch (error: any) {
             //           }
+          }
         }
       }
     }
-  };
-  useEffect(() => {
-    // This useEffect will monitor changes in orgData and selectedDate
-    if (orgData && orgData.length > 0) {
-      setTimeout(() => {
-        handleSlots(selectedDate as any);
-      }, 3000); // Call handleSlots once orgData and selectedDate are available
-    }
-  }, [orgData]);
+    useEffect(() => {
+      // This useEffect will monitor changes in orgData and selectedDate
+      if (orgData && orgData.length > 0) {
+        setTimeout(() => {
+          handleSlots(selectedDate as any);
+        }, 3000); // Call handleSlots once orgData and selectedDate are available
+      }
+    }, [orgData]);
 
-  useEffect(() => {
-    setOrgSelectedDate(null);
-    setSlots([]);
-    setSlotIsLoading(false);
-    setIsPreview(false);
-  }, [eventDuration, bookingGap]);
+    useEffect(() => {
+      setOrgSelectedDate(null);
+      setSlots([]);
+      setSlotIsLoading(false);
+      setIsPreview(false);
+    }, [eventDuration, bookingGap]);
 
-  const isRestricted = [
-    "Litmus Test Interview",
-    "Application Test Interview",
-  ].includes(restrictedCategory);
+    const isRestricted = [
+      "Litmus Test Interview",
+      "Application Test Interview",
+    ].includes(restrictedCategory);
 
-  return (
-    <>
-      <div
-        className={`flex bg-gray-100  ${
-          orgSelectedDate ? "" : "justify-between gap-40"
-        }`}
-      >
-        {/* Sidebar with Fixed Width */}
-        <div className="w-[680px] h-screen overflow-y-scroll bg-white shadow-md p-6 flex flex-col  justify-between">
-          {/* Form Header */}
-          <div className="mt-2 mb-1 flex cursor-pointer">
-            <ChevronLeft color="#3b82f6" size={17} className="mt-1" />
-            <span
-              className="font-semibold text-blue-500"
-              onClick={() => {
-                navigate("/events/user/me");
-              }}
-            >
-              Back
-            </span>
-          </div>
-          <div className="flex justify-between items-center border-blue-500 pt-4 pb-4">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              Create Your Event Type
-            </h2>
-          </div>
-
-          {/* Form Content */}
-          <div className="space-y-6 flex-grow">
-            {/* Event Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Name
-              </label>
-              <input
-                type="text"
-                value={eventName}
-                onChange={(e) => setEventName(e.target.value)}
-                className="w-full p-2 border rounded-md"
-                placeholder="Enter event name"
-              />
-              {errors.eventName && (
-                <p className="text-red-500 text-sm">{errors.eventName}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Category
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={eventCategory}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  onFocus={() => setCatDropdownVisible(true)}
-                  onBlur={() => {
-                    setTimeout(() => setCatDropdownVisible(false), 200); // Delay to handle selection
-                  }}
-                  placeholder="Enter or select a category"
-                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-                {/* Message below the input box */}
-                {isRestricted && (
-                  <p className="mt-1 text-sm text-red-500">
-                    This category is exclusive and cannot be changed.
-                  </p>
-                )}
-                {isCatDropdownVisible && !isRestricted && (
-                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
-                    {uniquePredefinedCategories?.map((category) => (
-                      <li
-                        key={category}
-                        onClick={() => handleSelectCategory(category)}
-                        className="p-2 cursor-pointer hover:bg-blue-100"
-                      >
-                        {category}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Event Duration
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={eventDuration}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  onFocus={() => setDropdownVisible(true)}
-                  onBlur={() => {
-                    setTimeout(() => setDropdownVisible(false), 200); // Delay to handle selection
-                  }}
-                  placeholder="Enter or select duration (minutes)"
-                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-
-                {isDropdownVisible && (
-                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
-                    {predefinedDurations.map((duration) => (
-                      <li
-                        key={duration}
-                        onClick={() => handleSelectDuration(duration)}
-                        className="p-2 cursor-pointer hover:bg-blue-100"
-                      >
-                        {duration} minutes
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-
-              {errors.eventDuration && (
-                <p className="text-red-500 text-sm">{errors.eventDuration}</p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Meeting Gap
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={bookingGap}
-                  onChange={(e) => handleGapInputChange(e.target.value)}
-                  onFocus={() => setGapDropdownVisible(true)}
-                  onBlur={() => {
-                    setTimeout(() => setGapDropdownVisible(false), 200); // Delay to handle dropdown click
-                  }}
-                  placeholder="Enter or select gap (minutes)"
-                  className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-
-                {isGapDropdownVisible && (
-                  <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
-                    {predefinedGaps.map((gap) => (
-                      <li
-                        key={gap}
-                        onClick={() => handleSelectGap(gap)}
-                        className="p-2 cursor-pointer hover:bg-blue-100"
-                      >
-                        {gap} minutes
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-              {errors.gap && (
-                <p className="text-red-500 text-sm">{errors.gap}</p>
-              )}
-            </div>
-
-            {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description
-              </label>
-              <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-2 border rounded-md"
-                rows={4}
-                placeholder="Enter event description"
-              />
-              {errors.description && (
-                <p className="text-red-500 text-sm">{errors.description}</p>
-              )}
-            </div>
-
-            {/* Weekday Selection */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                Select Weekdays
-              </h3>
-              <Testing
-                eventId={eventId}
-                update={false}
-                eventDays={eventData}
-                setEventDays={setEventDays}
-                onError={handleErrors}
-              />
-              {/* {errors.eventDays && (
-          <p className="text-red-500 text-sm">{errors.eventDays}</p>
-        )} */}
-            </div>
-          </div>
-          {/* Display only the global error for "at least one day" */}
-          {globalErrors.length > 0 && (
-            <div className="error-messages text-red-500">
-              {globalErrors.map((error, index) => (
-                <div key={index}>{error}</div>
-              ))}
-            </div>
-          )}
-          {/* Display only the global error for "at least one day" */}
-
-          {/* time and duration validation errrors */}
-          {validationErrors.length > 0 && (
-            <div className="text-red-500 text-sm mt-4">
-              {validationErrors.map((error, index) => (
-                <div key={index}>{error}</div>
-              ))}
-            </div>
-          )}
-          {/* Buttons */}
-          <div className="flex gap-5 cursor-pointer mt-6">
-            <button className="text-gray-600 py-2 rounded-full transition duration-200 w-full">
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                handleSubmit(false, "", true);
-              }}
-              className="bg-blue-600 text-white py-2 px-8 rounded-full shadow-md hover:bg-blue-700 transition duration-200 w-full"
-            >
-              Save and Close
-            </button>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex  min-h-[80vh] h-fit w-full bg-gray-100 p-4 mt-20 ">
-          {/* Preview Section */}
-          <div
-            className={`transition-all duration-300 border-gray-400  border-r-[0px]   border-t-5 ${
-              slots && slots.length > 0 ? "w-2/5" : "w-[356px]"
-            } bg-white p-6 rounded-l-md flex flex-col border-r border-gray-200`}
-          >
-            <h3 className="text-md font-semibold text-gray-500">
-              {userData.firstName + " " + userData.lastName}
-            </h3>
-            <div className="mb-4 flex items-start">
-              <h3 className="text-3xl font-semibold text-gray-700  break-words max-w-[360px]">
-                {eventName || "Event Name "}
-              </h3>
-            </div>
-            <p className="mb-2 flex items-start">
-              <div className="flex-shrink-0 mt-0.5">
-                <Clock size={20} color="gray" />
-              </div>
-              <span className="ml-2 text-gray-500 break-words max-w-[320px]">
-                {eventDuration ? `${eventDuration} min` : "Event Duration"}
-              </span>
-            </p>
-            <h3 className="mb-2 text-md text-gray-500 flex items-start break-words">
-              <div className="flex-shrink-0 mt-0.5">
-                <FileText size={20} color="gray" className="text-gray-600" />
-              </div>
-              <span className="ml-2 text-gray-500 break-words max-w-[320px]">
-                {description || "Event Description"}
-              </span>
-            </h3>
-          </div>
-
-          {/* Calendar Section */}
-          <div
-            className={`relative transition-all border-gray-400  border-l-[.5px]   border-t-5  duration-300 ${
-              slots && slots.length > 0 ? "w-3/5" : "w-fit"
-            } bg-white p-6  rounded-r-md flex flex-col border-gray-200`}
-          >
-            {loading && (
-              <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-75 flex items-center justify-center z-10">
-                <ThreeDots
-                  height="80"
-                  width="80"
-                  radius="40"
-                  color="gray"
-                  ariaLabel="three-dots-loading"
-                />
-              </div>
-            )}
-
-            <div>
-              <span className="font-bold text-xl text-gray-700">
-                Select Date and Time
+    return (
+      <>
+        <div
+          className={`flex bg-gray-100  ${
+            orgSelectedDate ? "" : "justify-between gap-40"
+          }`}
+        >
+          {/* Sidebar with Fixed Width */}
+          <div className="w-[680px] h-screen overflow-y-scroll bg-white shadow-md p-6 flex flex-col  justify-between">
+            {/* Form Header */}
+            <div className="mt-2 mb-1 flex cursor-pointer">
+              <ChevronLeft color="#3b82f6" size={17} className="mt-1" />
+              <span
+                className="font-semibold text-blue-500"
+                onClick={() => {
+                  navigate("/events/user/me");
+                }}
+              >
+                Back
               </span>
             </div>
+            <div className="flex justify-between items-center border-blue-500 pt-4 pb-4">
+              <h2 className="text-2xl font-semibold text-gray-800">
+                Create Your Event Type
+              </h2>
+            </div>
 
-            {/* Calendar Component */}
-            <div className="flex">
+            {/* Form Content */}
+            <div className="space-y-6 flex-grow">
+              {/* Event Name */}
               <div>
-                <DayPicker
-                  modifiers={modifiers}
-                  modifiersStyles={modifiersStyles}
-                  styles={styles}
-                  disabled={[
-                    { before: new Date() },
-                    (date) => {
-                      const targetDate = new Date(date).setHours(0, 0, 0, 0);
-                      return !next30AvailableDays.some(
-                        (availableDate: any) =>
-                          new Date(availableDate).setHours(0, 0, 0, 0) ===
-                          targetDate
-                      );
-                    },
-                  ]}
-                  onSelect={(date: Date | undefined) => {
-                    if (!date) return;
-                    setSelectedDate(date); // Update the selected date
-                    if (!isPreview) {
-                      setSlotIsLoading(true);
-                      handleSubmit(true, date, false); // Pass the clicked date to handleSubmit
-                    } else {
-                      handleSlots(date); // Pass the clicked date to handleSlots
-                    }
-                  }}
-                  mode="single"
-                  selected={selectedDate as any}
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Event Name
+                </label>
+                <input
+                  type="text"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                  placeholder="Enter event name"
                 />
+                {errors.eventName && (
+                  <p className="text-red-500 text-sm">{errors.eventName}</p>
+                )}
+              </div>
 
-                <div className="mt-6">
-                  <div>
-                    <span className="font-bold text-md">Time zone</span>
-                  </div>
-                  <div className="mt-1">
-                    <span className="flex gap-1">
-                      <Globe2Icon size={16} className="mt-1.5" />
-                      <span className="text-sm font-sans mt-1">
-                        Indian Standard Time ({currentISTTime})
-                      </span>
-                    </span>
-                  </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Event Category
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={eventCategory}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    onFocus={() => setCatDropdownVisible(true)}
+                    onBlur={() => {
+                      setTimeout(() => setCatDropdownVisible(false), 200); // Delay to handle selection
+                    }}
+                    placeholder="Enter or select a category"
+                    className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  {/* Message below the input box */}
+                  {isRestricted && (
+                    <p className="mt-1 text-sm text-red-500">
+                      This category is exclusive and cannot be changed.
+                    </p>
+                  )}
+                  {isCatDropdownVisible && !isRestricted && (
+                    <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                      {uniquePredefinedCategories?.map((category) => (
+                        <li
+                          key={category}
+                          onClick={() => handleSelectCategory(category)}
+                          className="p-2 cursor-pointer hover:bg-blue-100"
+                        >
+                          {category}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Event Duration
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={eventDuration}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    onFocus={() => setDropdownVisible(true)}
+                    onBlur={() => {
+                      setTimeout(() => setDropdownVisible(false), 200); // Delay to handle selection
+                    }}
+                    placeholder="Enter or select duration (minutes)"
+                    className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
 
-              {/* Slots Section */}
-              {orgSelectedDate && (
-                <div className="m-3 flex-grow overflow-y-auto max-h-[calc(100vh-12rem)]">
-                  {/* Add scroll and limit height */}
-                  <div>
-                    <span className="font-3xl font-bold text-gray-700">
-                      {orgSelectedDate.toLocaleDateString("en-US", {
-                        weekday: "long", // Full weekday name (e.g., "Thursday")
-                        month: "long", // Full month name (e.g., "January")
-                        day: "numeric", // Day of the month (e.g., "9")
-                      })}
-                    </span>
-                  </div>
+                  {isDropdownVisible && (
+                    <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                      {predefinedDurations.map((duration) => (
+                        <li
+                          key={duration}
+                          onClick={() => handleSelectDuration(duration)}
+                          className="p-2 cursor-pointer hover:bg-blue-100"
+                        >
+                          {duration} minutes
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
-                  {/* Display loader or slots */}
-                  {isSlotLoading ? (
-                    // <div className="flex justify-center items-center mt-8">
+                {errors.eventDuration && (
+                  <p className="text-red-500 text-sm">{errors.eventDuration}</p>
+                )}
+              </div>
 
-                    // </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Meeting Gap
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={bookingGap}
+                    onChange={(e) => handleGapInputChange(e.target.value)}
+                    onFocus={() => setGapDropdownVisible(true)}
+                    onBlur={() => {
+                      setTimeout(() => setGapDropdownVisible(false), 200); // Delay to handle dropdown click
+                    }}
+                    placeholder="Enter or select gap (minutes)"
+                    className="w-full p-2 border border-gray-300 bg-white text-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
 
-                    <div className="ml-1 w-44 mb-2 mr-4">
-                      {/* Slot Card */}
-                      <div className="  px-10 py-3 mt-4 flex flex-col items-center justify-center rounded-sm">
-                        <div className="text-blue-600 font-semibold">
-                          <ColorRing
-                            visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="color-ring-loading"
-                            wrapperStyle={{}}
-                            wrapperClass="color-ring-wrapper"
-                            colors={[
-                              "#3b82f6",
-                              "#3b82f6",
-                              "#3b82f6",
-                              "#3b82f6",
-                              "#3b82f6",
-                            ]}
-                          />
-                        </div>
-                      </div>
+                  {isGapDropdownVisible && (
+                    <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-md mt-1 max-h-40 overflow-y-auto">
+                      {predefinedGaps.map((gap) => (
+                        <li
+                          key={gap}
+                          onClick={() => handleSelectGap(gap)}
+                          className="p-2 cursor-pointer hover:bg-blue-100"
+                        >
+                          {gap} minutes
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                {errors.gap && (
+                  <p className="text-red-500 text-sm">{errors.gap}</p>
+                )}
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full p-2 border rounded-md"
+                  rows={4}
+                  placeholder="Enter event description"
+                />
+                {errors.description && (
+                  <p className="text-red-500 text-sm">{errors.description}</p>
+                )}
+              </div>
+
+              {/* Weekday Selection */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  Select Weekdays
+                </h3>
+                <Testing
+                  eventId={eventId}
+                  update={false}
+                  eventDays={eventData}
+                  setEventDays={setEventDays}
+                  onError={handleErrors}
+                />
+                {/* {errors.eventDays && (
+          <p className="text-red-500 text-sm">{errors.eventDays}</p>
+        )} */}
+              </div>
+            </div>
+            {/* Display only the global error for "at least one day" */}
+            {globalErrors.length > 0 && (
+              <div className="error-messages text-red-500">
+                {globalErrors.map((error, index) => (
+                  <div key={index}>{error}</div>
+                ))}
+              </div>
+            )}
+            {/* Display only the global error for "at least one day" */}
+
+            {/* time and duration validation errrors */}
+            {validationErrors.length > 0 && (
+              <div className="text-red-500 text-sm mt-4">
+                {validationErrors.map((error, index) => (
+                  <div key={index}>{error}</div>
+                ))}
+              </div>
+            )}
+            {/* Buttons */}
+            <div className="flex gap-5 cursor-pointer mt-6">
+              <button className="text-gray-600 py-2 rounded-full transition duration-200 w-full">
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  handleSubmit(false, "", true);
+                }}
+                className="bg-blue-600 text-white py-2 px-8 rounded-full shadow-md hover:bg-blue-700 transition duration-200 w-full"
+              >
+                Save and Close
+              </button>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="flex  min-h-[80vh] h-fit w-full bg-gray-100 p-4 mt-20 ">
+            {/* Preview Section */}
+            <div
+              className={`transition-all duration-300 border-gray-400  border-r-[0px]   border-t-5 ${
+                slots && slots.length > 0 ? "w-2/5" : "w-[356px]"
+              } bg-white p-6 rounded-l-md flex flex-col border-r border-gray-200`}
+            >
+              <h3 className="text-md font-semibold text-gray-500">
+                {userData.firstName + " " + userData.lastName}
+              </h3>
+              <div className="mb-4 flex items-start">
+                <h3 className="text-3xl font-semibold text-gray-700  break-words max-w-[360px]">
+                  {eventName || "Event Name "}
+                </h3>
+              </div>
+              <p className="mb-2 flex items-start">
+                <div className="flex-shrink-0 mt-0.5">
+                  <Clock size={20} color="gray" />
+                </div>
+                <span className="ml-2 text-gray-500 break-words max-w-[320px]">
+                  {eventDuration ? `${eventDuration} min` : "Event Duration"}
+                </span>
+              </p>
+              <h3 className="mb-2 text-md text-gray-500 flex items-start break-words">
+                <div className="flex-shrink-0 mt-0.5">
+                  <FileText size={20} color="gray" className="text-gray-600" />
+                </div>
+                <span className="ml-2 text-gray-500 break-words max-w-[320px]">
+                  {description || "Event Description"}
+                </span>
+              </h3>
+            </div>
+
+            {/* Calendar Section */}
+            <div
+              className={`relative transition-all border-gray-400  border-l-[.5px]   border-t-5  duration-300 ${
+                slots && slots.length > 0 ? "w-3/5" : "w-fit"
+              } bg-white p-6  rounded-r-md flex flex-col border-gray-200`}
+            >
+              {loading && (
+                <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-75 flex items-center justify-center z-10">
+                  <ThreeDots
+                    height="80"
+                    width="80"
+                    radius="40"
+                    color="gray"
+                    ariaLabel="three-dots-loading"
+                  />
+                </div>
+              )}
+
+              <div>
+                <span className="font-bold text-xl text-gray-700">
+                  Select Date and Time
+                </span>
+              </div>
+
+              {/* Calendar Component */}
+              <div className="flex">
+                <div>
+                  <DayPicker
+                    modifiers={modifiers}
+                    modifiersStyles={modifiersStyles}
+                    styles={styles}
+                    disabled={[
+                      { before: new Date() },
+                      (date) => {
+                        const targetDate = new Date(date).setHours(0, 0, 0, 0);
+                        return !next30AvailableDays.some(
+                          (availableDate: any) =>
+                            new Date(availableDate).setHours(0, 0, 0, 0) ===
+                            targetDate
+                        );
+                      },
+                    ]}
+                    onSelect={(date: Date | undefined) => {
+                      if (!date) return;
+                      setSelectedDate(date); // Update the selected date
+                      if (!isPreview) {
+                        setSlotIsLoading(true);
+                        handleSubmit(true, date, false); // Pass the clicked date to handleSubmit
+                      } else {
+                        handleSlots(date); // Pass the clicked date to handleSlots
+                      }
+                    }}
+                    mode="single"
+                    selected={selectedDate as any}
+                  />
+
+                  <div className="mt-6">
+                    <div>
+                      <span className="font-bold text-md">Time zone</span>
                     </div>
-                  ) : (
-                    slots?.map((slot: any, index: any) => (
-                      <div key={index} className="ml-1 w-44 mb-2 mr-4">
+                    <div className="mt-1">
+                      <span className="flex gap-1">
+                        <Globe2Icon size={16} className="mt-1.5" />
+                        <span className="text-sm font-sans mt-1">
+                          Indian Standard Time ({currentISTTime})
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Slots Section */}
+                {orgSelectedDate && (
+                  <div className="m-3 flex-grow overflow-y-auto max-h-[calc(100vh-12rem)]">
+                    {/* Add scroll and limit height */}
+                    <div>
+                      <span className="font-3xl font-bold text-gray-700">
+                        {orgSelectedDate.toLocaleDateString("en-US", {
+                          weekday: "long", // Full weekday name (e.g., "Thursday")
+                          month: "long", // Full month name (e.g., "January")
+                          day: "numeric", // Day of the month (e.g., "9")
+                        })}
+                      </span>
+                    </div>
+
+                    {/* Display loader or slots */}
+                    {isSlotLoading ? (
+                      // <div className="flex justify-center items-center mt-8">
+
+                      // </div>
+
+                      <div className="ml-1 w-44 mb-2 mr-4">
                         {/* Slot Card */}
-                        <div className="border border-blue-500 px-10 py-3 mt-4 flex flex-col items-center justify-center rounded-sm">
+                        <div className="  px-10 py-3 mt-4 flex flex-col items-center justify-center rounded-sm">
                           <div className="text-blue-600 font-semibold">
-                            {slot}
+                            <ColorRing
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="color-ring-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="color-ring-wrapper"
+                              colors={[
+                                "#3b82f6",
+                                "#3b82f6",
+                                "#3b82f6",
+                                "#3b82f6",
+                                "#3b82f6",
+                              ]}
+                            />
                           </div>
                         </div>
                       </div>
-                    ))
-                  )}
-                </div>
-              )}
+                    ) : (
+                      slots?.map((slot: any, index: any) => (
+                        <div key={index} className="ml-1 w-44 mb-2 mr-4">
+                          {/* Slot Card */}
+                          <div className="border border-blue-500 px-10 py-3 mt-4 flex flex-col items-center justify-center rounded-sm">
+                            <div className="text-blue-600 font-semibold">
+                              {slot}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          // Define default options
-          className: "",
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          gutter={8}
+          containerClassName=""
+          containerStyle={{}}
+          toastOptions={{
+            // Define default options
+            className: "",
 
-          style: {
-            background: "#fff",
-            color: "#3b82f6",
-            border: "",
-            borderColor: "#3b82f6",
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 3000,
-            iconTheme: {
-              primary: "green",
-              secondary: "white",
+            style: {
+              background: "#fff",
+              color: "#3b82f6",
+              border: "",
+              borderColor: "#3b82f6",
             },
-          },
-        }}
-      />
-    </>
-  );
-};
 
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: "green",
+                secondary: "white",
+              },
+            },
+          }}
+        />
+      </>
+    );
+  };
+};
 export default EventScheduler;
