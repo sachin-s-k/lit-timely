@@ -99,7 +99,7 @@ const Events = () => {
                   </h2>
                   {/* Personal URL Link */}
                   <a
-                    href={`https://dev.cal.litschool.in/${userData?.personalUrl}`}
+                    href={`https://cal.litschool.in/${userData?.personalUrl}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 block font-opensauce text-blue-500 text-sm"
