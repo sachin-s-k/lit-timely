@@ -22,7 +22,7 @@ const BookingPage = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://dev.cal.litschool.in/api/events/meetings/booking/${bookingId}`
+          `https://cal.litschool.in/api/events/meetings/booking/${bookingId}`
         );
         if (!response.data.success) {
           navigate("/cancel-page/link-expired");
