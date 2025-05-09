@@ -60,7 +60,7 @@ const BookingPage = () => {
       const handlingSlotBooking = async () => {
         try {
           const response: any = await axios.post(
-            `https://dev.cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
+            `https://cal.litschool.in/api/events/meetings/cancel/${bookingId}`,
             {
               cancelReason: values.cancelReason,
             }
