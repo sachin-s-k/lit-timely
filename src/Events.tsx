@@ -104,7 +104,7 @@ const Events = () => {
                     rel="noopener noreferrer"
                     className="mt-2 block font-opensauce text-blue-500 text-sm"
                   >
-                    {`https://dev.cal.litschool.in/${userData?.personalUrl}`}
+                    {`https://cal.litschool.in/${userData?.personalUrl}`}
                   </a>
                 </div>
 
