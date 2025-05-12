@@ -81,8 +81,8 @@ export const BookingForm = ({
 
   return (
     <div
-      className={`border rounded-r-lg overflow-y-scroll ${
-        selectedDate ? "" : "w-1/4"
+      className={`border   lg:rounded-r-md overflow-y-scroll ${
+        selectedDate ? "" : "lg-w-1/4"
       }`}
     >
       <div className="m-4 mb-2 ml-4">
@@ -159,17 +159,17 @@ export const BookingForm = ({
                   <div key={index} className="time-slot-wrapper">
                     {isSelected ? (
                       <div className="time-slot-selected">
-                        <div className="time-box border border-blue-600">
+                        <div className="time-box border h-11 border-blue-600">
                           <span className="text-center text-blue-600 text-bold">
                             {formatTime(time)}
                           </span>
                         </div>
 
-                        <div className="next-button">
+                        {/* <div className="next-button border border-blue-600 rounded-md">
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className={`px-4 py-2 border rounded-md bg-blue-600 text-white text-sm flex items-center justify-center w-full text-center ${
+                            className={`px-4 py-2 h-11  sm:py-24 border rounded-md bg-blue-600 text-white text-sm flex items-center justify-center w-full text-center ${
                               isSubmitting
                                 ? "bg-blue-500 cursor-not-allowed"
                                 : "hover:bg-blue-700"
@@ -190,6 +190,36 @@ export const BookingForm = ({
                               "Book"
                             ) : (
                               "Next"
+                            )}
+                          </button>
+                        </div> */}
+                        <div className="next-button border border-blue-600 rounded-md overflow-hidden">
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className={`px-4 w-full h-[42px] bg-blue-600 text-white text-sm flex items-center justify-center ${
+                              isSubmitting
+                                ? "bg-blue-500 cursor-not-allowed"
+                                : "hover:bg-blue-700"
+                            }`}
+                            onClick={() =>
+                              handlingTimeEvents(selectedDate, selectedTime)
+                            }
+                          >
+                            {isSubmitting ? (
+                              <div className="py-2">
+                                <ThreeDots
+                                  visible={true}
+                                  height="20"
+                                  width="32"
+                                  color="#e5e7eb"
+                                  ariaLabel="three-dots-loading"
+                                />
+                              </div>
+                            ) : litApplicationUserId && !ownerBooking ? (
+                              <span className="py-2">Book</span>
+                            ) : (
+                              <span className="py-2">Next</span>
                             )}
                           </button>
                         </div>

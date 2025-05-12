@@ -138,8 +138,16 @@ const EventDetails = () => {
           {/* Assuming ThreeDots is the loader component */}
         </div>
       ) : (
-        <div className="flex flex-col justify-center lg:flex-row px-4 py-8 mt-8 ">
-          <div className="p-10 pt-6 lg:w-1/4 border-t border-b border-l rounded-s-lg   pb-72">
+        <div className="flex flex-col justify-center lg:flex-row md:flex-row  px-4 py-8 mt-8  ">
+          <div
+            className="
+  p-10 pt-6 pb-72 border border-b-0
+  rounded-t-md                      // Mobile
+  sm:rounded-t-md                   // Small screens
+  md:w-1/4 md:border-r-0 md:border-b md:rounded-none md:rounded-l-md  // Medium
+  lg:w-1/4 lg:border-r-0 lg:border-b lg:rounded-none lg:rounded-l-md  // Large
+"
+          >
             <div className="flex w-10 h-10 hover:bg-blue-200 border rounded-full cursor-pointer items-center justify-center mb-2">
               <div onClick={handleBack}>
                 <ArrowLeft size={26} color="blue" />

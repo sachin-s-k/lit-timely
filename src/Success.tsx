@@ -19,10 +19,11 @@ const Success = () => {
 
   return (
     <>
-      <div className="lg:border h-fit mx-auto mt-16 lg:rounded-md lg:shadow-lg w-3/4">
-        <div className="">
+      <div className="border border-gray-200 mx-auto mt-8 lg:mt-16 rounded-md shadow-sm lg:shadow-lg w-full lg:w-3/4">
+        {/* Success Message */}
+        <div className="p-4 lg:p-0">
           <div className="flex justify-center lg:mr-12">
-            <div className="flex justify-center mt-16 gap-2">
+            <div className="flex justify-center mt-8 lg:mt-16 gap-2">
               <div>
                 <span className="font-extrabold text-lg">
                   <svg
@@ -40,58 +41,68 @@ const Success = () => {
                 </span>
               </div>
               <div>
-                <span className="font-bold">Your booking is complete.</span>
+                <span className="font-bold text-sm lg:text-base">
+                  Your booking is complete.
+                </span>
               </div>
             </div>
           </div>
-          <div className="text-center mt-4">
-            <span className="text-gray-600">
+
+          {/* Email Confirmation */}
+          <div className="text-center mt-2 lg:mt-4 px-4">
+            <span className="text-gray-600 text-sm lg:text-base">
               A calendar invitation has been sent to your email address.
             </span>
           </div>
+
+          {/* Booking Details Card */}
           <div className="mx-auto flex justify-center m-4 mt-6">
-            <div className="border items-center rounded-lg justify-center p-2 w-2/5">
+            <div className="border border-gray-200 items-center rounded-lg justify-center p-2 w-full md:w-4/5 lg:w-2/5">
               <div className="flex gap-2 m-3">
                 <div>
-                  <span className="font-bold">{eventName}</span>
+                  <span className="font-bold text-sm lg:text-base">
+                    {eventName}
+                  </span>
                 </div>
               </div>
               <div className="flex gap-2 m-3">
-                <User className="" color="gray" />
+                <User className="w-4 h-4 lg:w-5 lg:h-5 mt-0.5" color="gray" />
                 <div>
-                  <span className="text-gray-600">{fullname}</span>
+                  <span className="text-gray-600 text-sm lg:text-base">
+                    {fullname}
+                  </span>
                 </div>
               </div>
               <div className="flex gap-2 m-3">
-                <Calendar color="gray" />
+                <Calendar
+                  className="w-4 h-4 lg:w-5 lg:h-5 mt-0.5"
+                  color="gray"
+                />
                 <div>
-                  <span className="text-gray-600">
+                  <span className="text-gray-600 text-sm lg:text-base">
                     {startTime} - {endTime}, {formattedDate}
                   </span>
                 </div>
               </div>
               <div className="flex gap-2 m-3 text-gray-600">
-                <Globe2 color="gray" />
+                <Globe2 className="w-4 h-4 lg:w-5 lg:h-5 mt-0.5" color="gray" />
                 <div>
-                  <span>Indian Standard Time</span>
+                  <span className="text-sm lg:text-base">
+                    Indian Standard Time
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* Signup Section */}
-        {/* Signup Section */}
-        <div className="rounded-lg p-6 mx-auto mt-8 w-3/4 text-center mb-16">
+
+        {/* Signup Section (Empty in original) */}
+        <div className="rounded-lg p-4 lg:p-6 mx-auto mt-4 lg:mt-8 w-full lg:w-3/4 text-center mb-8 lg:mb-16">
           <h2 className="text-lg font-bold mb-4"></h2>
           <p className="text-gray-600 mb-4"></p>
           <div className="flex justify-center">
-            {/* Google Signup */}
-            <button className="flex items-center  border-b justify-center w-fit rounded-full p-3 text-white hover:bg-blue-50">
-              {/* // <FcGoogle className="text-lg mr-2" /> */}
-              //{" "}
-              {/* <span className="text-black font-thin text-sm">
-                // Google workspace account //{" "}
-              </span> */}
+            <button className="flex items-center border-b justify-center w-fit rounded-full p-3 text-white hover:bg-blue-50">
+              {/* Placeholder for Google signup button */}
             </button>
           </div>
         </div>
