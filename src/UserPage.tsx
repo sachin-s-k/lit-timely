@@ -5,18 +5,21 @@ import SkeletonCard from "./SkeletonCard";
 import axios from "axios";
 
 const UserPage = () => {
-  const [events, setEvents] = useState([]); // State to store events
+  interface UserData {
+    profileImageUrl?: string; // Optional (may not exist)
+    firstName?: string;
+    lastName?: string;
+  }
+  const [events, setEvents] = useState([]);
   const { id } = useParams();
-  const [userData, setUserData] = useState(null as any); // Initialize as null for better handling
-  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true); // Initialize as true (loading by default)
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
   const eventId = searchParams.get("eventId");
 
   useEffect(() => {
     const fetchEvents = async () => {
-      setLoading(true);
       try {
         const response = await axios.get(
           `https://cal.litschool.in/api/events/${id}?eventId=${eventId}&isPublic=true`
@@ -24,8 +27,9 @@ const UserPage = () => {
         setUserData(response.data.userData);
         setEvents(response.data.data);
       } catch (error) {
+        console.error("Error fetching data:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Set loading to false after fetch (success or error)
       }
     };
     fetchEvents();
@@ -53,7 +57,7 @@ const UserPage = () => {
             <div className="text-gray-800 text-2xl font-bold">
               {`${userData?.firstName?.[0]?.toUpperCase() || ""}${
                 userData?.lastName?.[0]?.toUpperCase() || ""
-              }`}{" "}
+              }`}
             </div>
           )}
         </div>
@@ -69,7 +73,7 @@ const UserPage = () => {
               ?.charAt(0)
               .toUpperCase()}${userData.lastName?.slice(1).toLowerCase()}`
           ) : (
-            "Name not available"
+            "Name not available" // Only shows if fetch failed (loading=false & userData=null)
           )}
         </h1>
 
@@ -80,14 +84,14 @@ const UserPage = () => {
           ) : userData ? (
             "Welcome to my scheduling page. Please select an event below to book a call with me."
           ) : (
-            "Description not available"
+            "Description not available" // Only shows if fetch failed
           )}
         </p>
       </div>
 
       {/* Events Section */}
       {loading ? (
-        <SkeletonCard />
+        <SkeletonCard /> // Shows skeleton while loading
       ) : events.length === 0 ? (
         <div className="flex justify-center">
           <p className="text-center text-gray-500">
@@ -97,7 +101,7 @@ const UserPage = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
           {events
-            .filter((event: any) => event.isPublic) // Only include events where isPublic is true
+            .filter((event: any) => event.isPublic)
             .map((event, index) => (
               <EventCard
                 key={index}
