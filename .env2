@@ -1,0 +1,10 @@
+NEXT_PUBLIC_BASE_URL=https://backend.app.litschool.in/v1/api
+NEXT_PUBLIC_UPLOAD_URL=https://backend.app.litschool.in/v1/api/upload/single
+NEXT_PUBLIC_NEXT_URL=https://app.litschool.in
+NEXT_PUBLIC_BACKEND_BASE_URL=https://backend.app.litschool.in/v1/api
+NEXT_PUBLIC_ENV=PROD
+NEXT_PUBLIC_PUSHER_KEY=1042a3eb12e815bef1656c
+NEXT_PUBLIC_PUSHER_CLUSTER=ap2
+NEXT_PUBLIC_LINKEDIN_CLIENT_ID=861bgtgnp0rg2r
+LINKEDIN_CLIENT_SECRET=WPL_AP0.dgUowReguIFvMuBi.NDAwNDQxMTAwOA==
+NEXT_PUBLIC_SEGMENT_KEY=kwthbC2GpPj3HvJ2jEAKoueSELW4ATh

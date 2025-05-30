@@ -279,7 +279,7 @@ const BookingPage = () => {
         //     </form>
         //   </div>
         // </div>
-        <div className="flex   justify-center flex-col md:flex-row px-4 py-8 mt-14 min-h-[40rem]">
+        <div className="flex justify-center flex-col md:flex-row px-4 py-8 mt-0 sm:mt-14 min-h-[40rem]">
           {/* Event Info */}
           <div className="w-full md:w-1/2 lg:w-1/3 p-6 md:p-8 lg:p-10 border md:border-r-0 lg:border-r-0 rounded-t-lg md:rounded-tr-none md:rounded-l-lg">
             <div className="flex w-10 h-10 hover:bg-blue-200 border rounded-full cursor-pointer items-center justify-center mb-4">
@@ -289,7 +289,7 @@ const BookingPage = () => {
             </div>
 
             {/* <h6 className="text-md md:text-3xl  mb-6">{eventData.eventName}</h6> */}
-            <div className="text-sm md:text-lg lg:text-lg font-bold mb-6">
+            <div className="text-md md:text-lg lg:text-lg font-bold mb-6">
               {eventData.eventName}
             </div>
 

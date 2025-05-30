@@ -138,10 +138,10 @@ const EventDetails = () => {
           {/* Assuming ThreeDots is the loader component */}
         </div>
       ) : (
-        <div className="flex flex-col justify-center lg:flex-row md:flex-row  px-4 py-8 mt-8  ">
+        <div className="  sm:mt-0  lg:mt-10 grid grid-cols-1 md:flex md:flex-row justify-center px-4 py-8">
           <div
             className="
-  p-10 pt-6 pb-72 border border-b-0
+  p-10 pt-6 lg:pb-72 md:pb-72 border border-b-0
   rounded-t-md                      // Mobile
   sm:rounded-t-md                   // Small screens
   md:w-1/4 md:border-r-0 md:border-b md:rounded-none md:rounded-l-md  // Medium
@@ -171,7 +171,7 @@ const EventDetails = () => {
               <Clock className="mr-2" />
               <span>{eventData.eventDuration} minutes</span>
             </div>
-            <p className="text-gray-700">{eventData.eventDescription}</p>
+            <p className="text-gray-700">{eventData.eventDescription} </p>
           </div>
 
           <BookingForm
