@@ -1143,7 +1143,7 @@ const SideBar = () => {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-30">
+      {/* <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-30">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item, index) => (
             <button
@@ -1165,6 +1165,54 @@ const SideBar = () => {
           >
             <Plus className="w-5 h-5" />
             <span className="text-xs mt-1">Create</span>
+          </button>
+        </div>
+      </div> */}
+
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-30">
+        {/* Navigation bar with bottom notch */}
+        <div className="relative h-16 bg-white border-t border-gray-200 shadow-lg">
+          {/* Bottom half-circle notch */}
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-16 h-8 overflow-hidden">
+            <div className="w-16 h-16 rounded-full bg-white border-b border-l border-r border-gray-200 rotate-180"></div>
+          </div>
+
+          {/* Navigation items */}
+          <div className="flex justify-between items-center h-full px-8">
+            {/* Events Tab */}
+            <button
+              className={`flex flex-col items-center justify-center flex-1 h-full ${
+                activeNav === 0 ? "text-blue-500" : "text-gray-600"
+              }`}
+              onClick={() => handleSideBarNavigation(0)}
+            >
+              <Folder className="w-5 h-5" />
+              <span className="text-xs mt-1">Events</span>
+            </button>
+
+            {/* Meetings Tab */}
+            <button
+              className={`flex flex-col items-center justify-center flex-1 h-full ${
+                activeNav === 1 ? "text-blue-500" : "text-gray-600"
+              }`}
+              onClick={() => handleSideBarNavigation(1)}
+            >
+              <Calendar className="w-5 h-5" />
+              <span className="text-xs mt-1">Meetings</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Floating Create Button */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <button
+            className={`flex items-center justify-center w-14 h-14 rounded-full ${
+              activeNav === 3 ? "bg-blue-500" : "bg-blue-400"
+            } text-white shadow-lg transform hover:scale-105 transition-transform`}
+            onClick={() => handleSideBarNavigation(3)}
+          >
+            <Plus className="w-6 h-6" />
           </button>
         </div>
       </div>
