@@ -1113,12 +1113,6 @@ const SideBar = () => {
 
         {/* Account Indicator and Logout (Mobile) */}
         <div className="flex items-center gap-4">
-          <button
-            onClick={handleLogOut}
-            className="text-gray-600 hover:text-red-500"
-          >
-            <LogOut size={20} />
-          </button>
           <div className="relative w-8 h-8">
             <div
               className={`absolute inset-0 rounded-full ring-2 ${
@@ -1139,6 +1133,12 @@ const SideBar = () => {
               )}
             </div>
           </div>
+          <button
+            onClick={handleLogOut}
+            className="text-gray-600 hover:text-red-500"
+          >
+            <LogOut size={20} />
+          </button>
         </div>
       </div>
 
@@ -1208,7 +1208,7 @@ const SideBar = () => {
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
           <button
             className={`flex items-center justify-center w-14 h-14 rounded-full ${
-              activeNav === 3 ? "bg-blue-500" : "bg-blue-400"
+              activeNav === 3 ? "bg-blue-400" : "bg-blue-500"
             } text-white shadow-lg transform hover:scale-105 transition-transform`}
             onClick={() => handleSideBarNavigation(3)}
           >
