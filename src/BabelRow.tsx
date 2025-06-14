@@ -130,6 +130,20 @@ const BabelRow = ({ event, categorizeMeetings }: any) => {
               Event Date: <strong>{formatDateWithYear(event.eventDate)}</strong>
             </div>
           </div>
+
+          {/* Meeting link on the right */}
+          {event.meetingStatus === "confirmed" && isUpcoming && !isExpanded && (
+            <a
+              href={event.meetingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="meeting-link hidden md:inline"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Join Meeting
+            </a>
+          )}
+
           {/* Solid Up/Down Arrow for Expand/Collapse */}
           <div className="expand-icon">
             {isExpanded ? (
@@ -155,7 +169,6 @@ const BabelRow = ({ event, categorizeMeetings }: any) => {
             )}
           </div>
         </div>
-
         {/* Expanded Row */}
         {isExpanded && (
           <div className="babel-row-expanded">

@@ -13,6 +13,10 @@
   background-color: #e5e7eb;
 }
 
+/* .row-time {
+  display: flex;
+  align-items: center;
+} */
 .row-time {
   display: flex;
   align-items: center;
@@ -23,6 +27,8 @@
   height: 10px;
   border-radius: 50%;
   margin-left: 10px;
+  background-color: rgb(130, 71, 245);
+  flex-shrink: 0;
 }
 
 .row-details {
@@ -42,4 +48,24 @@
 
 .expanded-details div {
   margin: 5px 0;
+}
+.meeting-link {
+  margin-left: auto; /* Push it to the right */
+  margin-right: 15px; /* Space before the expand icon */
+  padding: 5px 10px;
+  background-color: #3b82f6;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.meeting-link:hover {
+  background-color: #1e90ff; /* Dodger Blue */
+}
+/* Adjust the row layout */
+.babel-row-main {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
