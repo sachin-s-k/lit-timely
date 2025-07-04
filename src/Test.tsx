@@ -14,7 +14,7 @@ export const Test = () => {
     const updatedAvailability = [...availability];
     updatedAvailability[dayIndex] = {
       ...updatedAvailability[dayIndex], // Preserve the other properties of the day
-      isAvailable: !updatedAvailability[dayIndex].isAvailable, // Toggle availability for that day
+      isAvailable: !updatedAvailability[dayIndex]?.isAvailable, // Toggle availability for that day
     };
     setAvailability(updatedAvailability);
   };
@@ -100,7 +100,7 @@ export const Test = () => {
               <div className="flex items-center gap-2 w-28">
                 <input
                   type="checkbox"
-                  checked={availability[dayIndex].isAvailable}
+                  checked={availability[dayIndex]?.isAvailable}
                   onChange={() => handleCheckboxChange(dayIndex)}
                   className="w-4 h-4 accent-blue"
                 />

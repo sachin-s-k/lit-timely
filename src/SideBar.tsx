@@ -993,7 +993,7 @@ const SideBar = () => {
           {/* Logo and Company Name */}
           <div className="flex items-center justify-start ml-0 mt-12 px-4">
             <img
-              src="https://dev-application-portal.s3.eu-north-1.amazonaws.com/calendLit.png"
+              src="-application-portal.s3.eu-north-1.amazonaws.com/calendLit.png"
               alt="Company Logo"
               className="h-14 w-14"
             />

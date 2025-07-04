@@ -36,7 +36,7 @@ const BookingPage = () => {
     const fetchEventData = async () => {
       try {
         const response = await axios.get(
-          `https://cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
+          `https://dev.cal.litschool.in/api/events/booking/${id}?eventId=${eventId}`
         );
         setLoading(false);
         setUserData(response.data.userData);
@@ -76,7 +76,7 @@ const BookingPage = () => {
         setIsSubmitting(true);
         try {
           const response: any = await axios.post(
-            "https://cal.litschool.in/api/events/booking-slot",
+            "https://dev.cal.litschool.in/api/events/booking-slot",
             {
               ...values,
               eventId,

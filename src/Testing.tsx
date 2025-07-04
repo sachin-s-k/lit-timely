@@ -488,7 +488,7 @@ export const Testing = ({
   useEffect(() => {
     const otherErrors: any = [];
     availability.forEach((day: any, dayIndex: any) => {
-      if (day.isAvailable) {
+      if (day?.isAvailable) {
         day.timeSlots.forEach((slot: any, slotIndex: any) => {
           if (slot.error) {
             otherErrors.push(
@@ -641,7 +641,7 @@ export const Testing = ({
             </div>
           )} */}
 
-          {availability[dayIndex].isAvailable && (
+          {availability[dayIndex]?.isAvailable && (
             <div
               className={`flex ${
                 isMobile ? "flex-col gap-2" : "flex-col gap-4 items-start w-44"
@@ -752,7 +752,7 @@ export const Testing = ({
             </div>
           )}
 
-          {!isMobile && availability[dayIndex].isAvailable && (
+          {!isMobile && availability[dayIndex]?.isAvailable && (
             <div className="flex justify-between items-center gap-2">
               <button
                 onClick={() => addTimeSlot(dayIndex)}
